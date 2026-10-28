@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ICONS, suggestionsFor, type Suggestion } from "../suggestions";
 
 const glass = (
@@ -8,69 +8,109 @@ const glass = (
   </>
 );
 
-// ⌘T: what you type on the dark half, what ilo's bar makes of it on the light one. The bar is built
-// from its constants in app/src/command_bar.rs.
+// Words the bar types by itself, each finding a different tab of the Lisbon Space.
+const WORDS = ["wiki", "nata", "git", "alfama", "open"];
+
+// ⌘T on the Lisbon Space's colour: ilo's bar, built from its constants in app/src/command_bar.rs,
+// typing words of its own until the visitor types one.
 export function CommandBar() {
-  const [query, setQuery] = useState("wiki");
+  const section = useRef<HTMLElement>(null);
+  const [query, setQuery] = useState(WORDS[0]);
   const [selected, setSelected] = useState(0);
+  // Once the visitor reaches for the bar, it's theirs, and it stops typing for good.
+  const [yours, setYours] = useState(false);
   const rows = suggestionsFor(query);
 
+  useEffect(() => {
+    if (yours || !section.current) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer = 0;
+    let word = 0;
+    let typed = WORDS[0].length;
+    // A word is typed a key at a time, held while it's read, then cleared for the next.
+    const tick = () => {
+      const next = WORDS[word];
+      if (typed < next.length) {
+        typed++;
+        setQuery(next.slice(0, typed));
+        timer = window.setTimeout(tick, 90 + Math.random() * 70);
+      } else if (typed === next.length) {
+        typed++;
+        timer = window.setTimeout(tick, 2200);
+      } else {
+        word = (word + 1) % WORDS.length;
+        typed = 0;
+        setQuery("");
+        timer = window.setTimeout(tick, 450);
+      }
+      setSelected(0);
+    };
+    const seen = new IntersectionObserver(([entry]) => {
+      window.clearTimeout(timer);
+      if (entry?.isIntersecting) timer = window.setTimeout(tick, 1200);
+    });
+    seen.observe(section.current);
+    return () => {
+      seen.disconnect();
+      window.clearTimeout(timer);
+    };
+  }, [yours]);
+
   return (
-    <section className="bar" id="bar" aria-labelledby="bar-title">
-      <div className="field dark">
-        <div className="typing">
-          <label className="keys" htmlFor="query">
-            Press ⌘T and type
-          </label>
+    <section className="bar" id="bar" ref={section} aria-labelledby="bar-title">
+      <div className="say-bar">
+        <h2 id="bar-title">One word finds the tab.</h2>
+        <p>
+          Press ⌘T in ilo and type. The open tab your word names comes first, with search and
+          history under it, as in Arc. These are the Lisbon Space's tabs; try a word of your own.
+        </p>
+      </div>
+      <div
+        className="cmd"
+        data-ui
+        onPointerDown={() => setYours(true)}
+        onFocus={() => setYours(true)}
+      >
+        <div className="cmd-input">
+          <svg className="glass" viewBox="0 0 18 18" aria-hidden="true">
+            {glass}
+          </svg>
+          <span className="cmd-text" aria-hidden="true">
+            {query}
+          </span>
+          <span className="caret" aria-hidden="true" />
+          {/* The real field sits over the drawn text, so typing goes to it and the bar draws it. */}
           <input
-            id="query"
             className="query"
             type="text"
             value={query}
+            aria-label="Type a word into ilo's command bar"
+            aria-controls="rows"
             autoComplete="off"
             spellCheck={false}
-            aria-controls="rows"
             onChange={(event) => {
               setQuery(event.target.value);
               setSelected(0);
             }}
             onKeyDown={(event) => {
               const step = { ArrowDown: 1, ArrowUp: -1 }[event.key];
-              if (!step) return;
+              if (!step || !rows.length) return;
               event.preventDefault();
               setSelected((selected + step + rows.length) % rows.length);
             }}
           />
-          <p>
-            The open tab your word names comes first, with search and history under it, as in Arc.
-            Try another word: these are the Lisbon Space's tabs.
-          </p>
         </div>
+        <ol className="rows" id="rows" aria-label="Suggestions">
+          {rows.map((row, index) => (
+            <Row
+              key={index}
+              row={row}
+              selected={index === selected}
+              onSelect={() => setSelected(index)}
+            />
+          ))}
+        </ol>
       </div>
-      <div className="field light">
-        <div className="cmd" data-ui>
-          <div className="cmd-input">
-            <svg className="glass" viewBox="0 0 18 18" aria-hidden="true">
-              {glass}
-            </svg>
-            <span className="cmd-text">{query}</span>
-            <span className="caret" aria-hidden="true" />
-          </div>
-          <ol className="rows" id="rows" aria-label="Suggestions">
-            {rows.map((row, index) => (
-              <Row
-                key={index}
-                row={row}
-                selected={index === selected}
-                onSelect={() => setSelected(index)}
-              />
-            ))}
-          </ol>
-        </div>
-      </div>
-      <h2 id="bar-title" className="split">
-        <span className="l">One word</span> <span className="r">finds the tab.</span>
-      </h2>
     </section>
   );
 }

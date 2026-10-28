@@ -61,6 +61,10 @@ function Home() {
               <p className="figure">
                 110<span>ms</span>
               </p>
+              {/* The figure in frames of the 60 fps recordings it was timed from. */}
+              <p className="frames">
+                <span aria-hidden="true">######:</span> 6.6 frames at 60 fps
+              </p>
               <p>
                 ⌘S hides the sidebar as fast as Arc's, timed from 60 fps recordings of Arc itself.
               </p>
@@ -68,6 +72,9 @@ function Home() {
             <div className="tile blue">
               <p className="figure">
                 16<span>ms</span>
+              </p>
+              <p className="frames">
+                <span aria-hidden="true">#</span> 1 frame at 60 fps
               </p>
               <p>
                 The slowest a tab switch may be: one frame. Launch, memory and idle may cost no more
