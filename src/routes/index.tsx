@@ -10,8 +10,9 @@ import { useEntrances } from "../entrances";
 export const Route = createFileRoute("/")({ component: Home });
 
 const GITHUB = "https://github.com/MartinPTielemans/browser";
-// The signed beta's download, from the browser repo's releases.
-const DOWNLOAD = `${GITHUB}/releases/latest`;
+// The beta's disk image, from this site, at one name every release replaces, so a link shared once
+// keeps working.
+const DOWNLOAD = "/download/ilo.dmg";
 
 function Home() {
   useEntrances();
