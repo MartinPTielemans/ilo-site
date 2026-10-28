@@ -1217,6 +1217,26 @@ mark {
   max-width: 24em;
   font-size: var(--s2);
 }
+.close .get {
+  align-self: end;
+  display: grid;
+  justify-items: end;
+  gap: 14px;
+}
+.close .others {
+  max-width: none;
+  font-size: 15px;
+  color: var(--on-ink-muted);
+}
+.close .others a {
+  color: var(--paper);
+  text-decoration: underline;
+  text-decoration-color: rgb(243 240 232 / 0.4);
+  text-underline-offset: 3px;
+}
+.close .others a:hover {
+  text-decoration-color: currentColor;
+}
 .button.big {
   align-self: end;
   height: 56px;
@@ -1412,6 +1432,9 @@ mark {
     grid-template-columns: 1fr;
     row-gap: 32px;
     padding-top: 88px;
+  }
+  .close .get {
+    justify-items: stretch;
   }
   .button.big {
     width: 100%;

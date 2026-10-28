@@ -6,14 +6,7 @@ import { defineConfig } from "vite-plus";
 export default defineConfig({
   plugins: [
     // Every page is rendered to HTML at build time, so the site is static files any host can serve.
-    tanstackStart({
-      prerender: {
-        enabled: true,
-        crawlLinks: true,
-        // The download is a release file put in public/download, not a page to render.
-        filter: ({ path }) => !path.startsWith("/download/"),
-      },
-    }),
+    tanstackStart({ prerender: { enabled: true, crawlLinks: true } }),
     viteReact(),
   ],
   // The live interface is asked for only once its build is in public/demo (src/live.ts).

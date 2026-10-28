@@ -3,16 +3,15 @@ import { useEffect, useRef } from "react";
 import { startField } from "../ascii";
 import { Agents } from "../components/agents";
 import { CommandBar } from "../components/command-bar";
+import { Download } from "../components/download";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
+import { PLATFORM_LIST } from "../downloads";
 import { useEntrances } from "../entrances";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 const GITHUB = "https://github.com/MartinPTielemans/browser";
-// The beta's disk image, from this site, at one name every release replaces, so a link shared once
-// keeps working.
-const DOWNLOAD = "/download/ilo.dmg";
 
 function Home() {
   useEntrances();
@@ -34,9 +33,7 @@ function Home() {
           <a href="#speed">Speed</a>
           <a href="#agents">Agents</a>
           <a href={GITHUB}>Source</a>
-          <a className="button" href={DOWNLOAD}>
-            Download for Mac
-          </a>
+          <Download className="button" />
         </nav>
       </header>
 
@@ -97,7 +94,7 @@ function Home() {
               in shouldn't be something a company can take back.
             </p>
             <p>
-              So ilo is GPL, all of it that runs on your Mac. No ads, no selling data, no paid
+              So ilo is GPL, all of it that runs on your computer. No ads, no selling data, no paid
               features and no licence checks.{" "}
               <mark>If I ever stop, anyone can carry on from the code.</mark>
             </p>
@@ -106,7 +103,7 @@ function Home() {
               interface instead of a web page, so it can be as quick as Chrome, and every motion is
               timed against Arc's.
             </p>
-            <p>The Mac beta is out. Bring your Spaces over from Arc, and tell me what you miss.</p>
+            <p>The beta is out. Bring your Spaces over from Arc, and tell me what you miss.</p>
             <p className="sign">Martin</p>
             <p className="role">Building ilo</p>
           </div>
@@ -118,10 +115,13 @@ function Home() {
             Further than <br />
             it got.
           </h2>
-          <p>Free, and in beta for the Mac. Your Spaces and tabs come over from Arc or Chrome.</p>
-          <a className="button big" href={DOWNLOAD}>
-            Download for Mac
-          </a>
+          <p>
+            Free, and in beta for {PLATFORM_LIST}. Your Spaces and tabs come over from Arc or
+            Chrome.
+          </p>
+          <div className="get">
+            <Download className="button big" others />
+          </div>
         </section>
       </main>
 

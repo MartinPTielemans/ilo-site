@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { paint, startField } from "../ascii";
+import { PLATFORM_LIST } from "../downloads";
 import { type DemoSpaces, type Tab, startLive } from "../live";
 
 const icon = (site: string) => `/media/fav-${site}.png`;
@@ -177,7 +178,7 @@ export function Spaces() {
           <h1>The browser that keeps going.</h1>
           <p>
             Free and open source, with the Spaces, sidebar and command bar you know from Arc, on
-            Chromium. Now in beta for the Mac.
+            Chromium. Now in beta for {PLATFORM_LIST}.
           </p>
         </div>
         <div className="stage" ref={stage}>
