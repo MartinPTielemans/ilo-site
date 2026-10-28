@@ -5,7 +5,7 @@
 //   node tools/live-check.mjs <chrome> <url> [width] [height] <step>...
 //
 // Steps: state | wait:ms | size:w,h | eval:js | click:x,y | click:<selector> | clickin:dx,dy |
-// move:dx,dy | swipe:dx,dy,deltaX,n | wheels:dx,dy,d1;d2;... | key:Meta+k | type:text |
+// move:dx,dy | swipe:dx,dy,deltaX,n | wheels:dx,dy,d1;d2;... | key:Meta+k | key:Space | type:text |
 // shot:out.jpg[@x,y,w,h,scale | @selector]. Coordinates for clickin, move, swipe and wheels are offsets from
 // the demo canvas's top left.
 import { execFileSync, spawn } from "node:child_process";
@@ -165,7 +165,7 @@ async function run() {
     const r = (e) => { if (!e) return null; const b = e.getBoundingClientRect(); return [b.left, b.top, b.width, b.height].map(Math.round).join(" "); };
     const frames = p ? [...p.children].map((f) => (f.hidden ? "-" : "+") + (f.tagName === "IFRAME" ? new URL(f.src).host + new URL(f.src).pathname.slice(0, 24) : "note:" + f.textContent.slice(0, 30))) : [];
     return { live: s?.hasAttribute("data-live"), dot: getComputedStyle(document.documentElement).getPropertyValue("--dot").trim(),
-      covered: l?.hasAttribute("data-covered"), canvas: r(c), pages: r(p), radius: p?.style.borderRadius, frames, focus: document.activeElement?.tagName }; })()`;
+      covered: l?.hasAttribute("data-covered"), y: Math.round(scrollY), canvas: r(c), pages: r(p), radius: p?.style.borderRadius, frames, focus: document.activeElement?.tagName }; })()`;
 
   const live = await evaluate(
     `new Promise((r) => { const c = () => document.querySelector(".stage[data-live]") ? r(true) : setTimeout(c, 25); c(); setTimeout(() => r(false), 20000); })`,
@@ -179,6 +179,7 @@ async function run() {
     ArrowUp: ["ArrowUp", 38],
     Tab: ["Tab", 9],
     Backspace: ["Backspace", 8],
+    Space: ["Space", 32],
   };
   const wheel = (x, y, deltaX) =>
     send("Input.dispatchMouseEvent", { type: "mouseWheel", x, y, deltaX, deltaY: 0 }, sessionId);
@@ -243,13 +244,15 @@ async function run() {
       }
     } else if (kind === "key") {
       const parts = arg.split("+");
-      const key = parts.pop();
+      const name = parts.pop();
       const modifiers = parts.reduce((m, p) => m | mods[p], 0);
-      const [code, keyCode] = codes[key] ?? [
-        "Key" + key.toUpperCase(),
-        key.toUpperCase().charCodeAt(0),
+      const [code, keyCode] = codes[name] ?? [
+        "Key" + name.toUpperCase(),
+        name.toUpperCase().charCodeAt(0),
       ];
-      const text = codes[key] || modifiers & 6 ? undefined : key;
+      // Space is named in a step but types a character, and a page scrolls on that character.
+      const key = name === "Space" ? " " : name;
+      const text = name === "Space" ? " " : codes[name] || modifiers & 6 ? undefined : key;
       await send(
         "Input.dispatchKeyEvent",
         {
