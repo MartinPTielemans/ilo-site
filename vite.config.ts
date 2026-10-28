@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite-plus";
@@ -9,10 +9,13 @@ export default defineConfig({
     tanstackStart({ prerender: { enabled: true, crawlLinks: true } }),
     viteReact(),
   ],
-  // The live interface is asked for only once its build is in public/demo (src/live.ts).
+  // The live interface is the browser repo's build in public/demo. Its SOURCE file names the commit
+  // it was built from, and the hero's caption links there, as the GPL asks of a site that serves it.
   define: {
-    "import.meta.env.ILO_DEMO": JSON.stringify(
-      existsSync(new URL("./public/demo/ilo_demo.js", import.meta.url)),
+    "import.meta.env.ILO_DEMO_SOURCE": JSON.stringify(
+      readFileSync(new URL("./public/demo/SOURCE", import.meta.url), "utf8").match(
+        /https:\/\/\S+/,
+      )?.[0],
     ),
   },
   // The router plugin writes the route tree on every build, and public/demo is the browser repo's

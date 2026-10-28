@@ -221,8 +221,10 @@ export function Spaces() {
         <div className="caption">
           <p className="claim">That's ilo itself, running in WebAssembly.</p>
           <p>
-            The app's own interface, compiled from its Rust code and running in this tab, with the
-            real sites in it. Click a tab, switch Spaces with the dots at the bottom, or press{" "}
+            The app's own interface, compiled from{" "}
+            <a href={import.meta.env.ILO_DEMO_SOURCE}>its Rust code</a> and running in this tab,
+            with the real sites in it. Click a tab, switch Spaces with the dots at the bottom, or
+            press{" "}
             {live.openBar ? (
               <button
                 type="button"

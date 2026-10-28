@@ -34,6 +34,10 @@ serve.
 - `src/routeTree.gen.ts` is written by the router plugin on every `vp dev` and `vp build`.
   Commit it, or a fresh clone fails the type check before its first build.
 - Files in `public/` are served from the root, so they're referenced as `/media/…`.
+- `public/demo` is the browser repo's build of the live interface (GPL), committed as built and
+  left out of fmt and lint. A new demo step is one commit that swaps `ilo_demo.js`,
+  `ilo_demo_bg.wasm` and the licences (never the harness's `index.html` or icons) and updates the
+  commit in `public/demo/SOURCE`, which the hero's caption links to as the GPL's offer of source.
 - The download buttons link to `releases/latest/download/<file>` in the browser repo, with each
   platform's fixed file name from `src/downloads.ts`. GitHub serves whichever release is marked
   Latest, so every other release there (the engine builds) has to be made with `--latest=false`,
