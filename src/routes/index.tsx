@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { startField } from "../ascii";
-import { Agents } from "../components/agents";
 import { CommandBar } from "../components/command-bar";
 import { Download } from "../components/download";
+import { Habits } from "../components/habits";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
 import { PLATFORM_LIST } from "../downloads";
@@ -30,8 +30,8 @@ function Home() {
           <Wordmark />
         </a>
         <nav className="links" aria-label="Sections">
-          <a href="#speed">Speed</a>
-          <a href="#agents">Agents</a>
+          <a href="#arc">From Arc</a>
+          <a href="#why">Why</a>
           <a href={GITHUB}>Source</a>
           <Download className="button" />
         </nav>
@@ -41,50 +41,7 @@ function Home() {
         <Spaces />
         <CommandBar />
 
-        <section className="speed" id="speed" aria-labelledby="speed-title">
-          <h2 id="speed-title">Measured, not imitated.</h2>
-          <div className="mosaic">
-            <figure className="shot">
-              <picture>
-                <source media="(max-width: 599px)" srcSet="/media/work-s.webp 2x" />
-                <img
-                  src="/media/work-1x.webp"
-                  srcSet="/media/work-1x.webp 1x, /media/work.webp 2x"
-                  width={1280}
-                  height={800}
-                  loading="lazy"
-                  alt="The whole ilo window at its real size, in the Work Space: the sidebar with its favorites, pinned tab and Today tabs, beside the Rust book."
-                />
-              </picture>
-            </figure>
-            <div className="tile ink">
-              <p className="figure">
-                110<span>ms</span>
-              </p>
-              {/* The figure in frames of the 60 fps recordings it was timed from. */}
-              <p className="frames">
-                <span aria-hidden="true">######:</span> 6.6 frames at 60 fps
-              </p>
-              <p>
-                ⌘S hides the sidebar as fast as Arc's, timed from 60 fps recordings of Arc itself.
-              </p>
-            </div>
-            <div className="tile blue">
-              <p className="figure">
-                16<span>ms</span>
-              </p>
-              <p className="frames">
-                <span aria-hidden="true">#</span> 1 frame at 60 fps
-              </p>
-              <p>
-                The slowest a tab switch may be: one frame. Launch, memory and idle may cost no more
-                than Chrome.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <Agents />
+        <Habits />
 
         <section className="letter" id="why" aria-labelledby="why-title">
           <div className="letter-head">
@@ -105,11 +62,7 @@ function Home() {
               features and no licence checks.{" "}
               <mark>If I ever stop, anyone can carry on from the code.</mark>
             </p>
-            <p>
-              Underneath is Chromium, so your sites and extensions work. On top is a native
-              interface instead of a web page, so it can be as quick as Chrome, and every motion is
-              timed against Arc's.
-            </p>
+            <p>Underneath is Chromium, so your sites and extensions work.</p>
             <p>The beta is out. Bring your Spaces over from Arc, and tell me what you miss.</p>
             <p className="sign">Martin</p>
             <p className="role">Building ilo</p>
