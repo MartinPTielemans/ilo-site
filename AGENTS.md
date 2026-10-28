@@ -34,10 +34,10 @@ serve.
 - `src/routeTree.gen.ts` is written by the router plugin on every `vp dev` and `vp build`.
   Commit it, or a fresh clone fails the type check before its first build.
 - Files in `public/` are served from the root, so they're referenced as `/media/…`.
-- The site serves the beta itself, at `/download/ilo.dmg`. A release's files go in `public/download/`
-  before `vp build`, and they're gitignored, never committed. Until they're there, the download
-  buttons lead to a 404. A Chromium disk image runs to hundreds of MB, more than some static hosts
-  take in one file (Cloudflare Pages takes 25 MiB), so the host has to serve large files at that path.
+- The download buttons link to `releases/latest/download/<file>` in the browser repo, with each
+  platform's fixed file name from `src/downloads.ts`. GitHub serves whichever release is marked
+  Latest, so every other release there (the engine builds) has to be made with `--latest=false`,
+  or the buttons 404. The meta description in `src/routes/__root.tsx` names the platforms by hand.
 
 ## Brand
 
