@@ -6,7 +6,7 @@
 //
 // Steps: state | wait:ms | size:w,h | eval:js | click:x,y | click:<selector> | clickin:dx,dy |
 // move:dx,dy | swipe:dx,dy,deltaX,n | wheels:dx,dy,d1;d2;... | key:Meta+k | type:text |
-// shot:out.jpg[@x,y,w,h,scale]. Coordinates for clickin, move, swipe and wheels are offsets from
+// shot:out.jpg[@x,y,w,h,scale | @selector]. Coordinates for clickin, move, swipe and wheels are offsets from
 // the demo canvas's top left.
 import { execFileSync, spawn } from "node:child_process";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
@@ -273,12 +273,25 @@ async function run() {
       await send("Input.insertText", { text: arg }, sessionId);
       await sleep(400);
     } else if (kind === "shot") {
-      // The clip is in page coordinates, so a shot after scrolling names the scrolled-to y.
+      // The clip is in page coordinates, so a shot after scrolling names the scrolled-to y. A
+      // selector instead scrolls to that element and takes all of it, at half size.
       const [file, box] = arg.split("@");
-      const [x, y, w, h, scale] = box ? box.split(",").map(Number) : [0, 0, +W, +H, 0.5];
+      const [x, y, w, h, scale] =
+        box && !/^\d/.test(box)
+          ? await evaluate(
+              `new Promise((done) => { const e = document.querySelector(${JSON.stringify(box)}); scrollTo(0, e.getBoundingClientRect().top + scrollY); setTimeout(() => { const b = e.getBoundingClientRect(); done([b.left + scrollX, b.top + scrollY, b.width, b.height, 0.5]); }, 1200); })`,
+            )
+          : box
+            ? box.split(",").map(Number)
+            : [0, 0, +W, +H, 0.5];
       const shot = await send(
         "Page.captureScreenshot",
-        { format: "jpeg", quality: 70, clip: { x, y, width: w, height: h, scale } },
+        {
+          format: "jpeg",
+          quality: 70,
+          clip: { x, y, width: w, height: h, scale },
+          captureBeyondViewport: true,
+        },
         sessionId,
       );
       writeFileSync(file, Buffer.from(shot.result.data, "base64"));

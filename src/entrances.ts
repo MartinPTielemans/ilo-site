@@ -4,12 +4,9 @@ import { useEffect } from "react";
 // is left alone, so the first screen is there at once, and the classes are only added here, so
 // without script nothing is hidden. Only parts whose class React never changes are listed.
 const PARTS = [
-  ".bar .keys",
-  ".bar .query",
-  ".typing p",
+  ".bar h2",
+  ".say-bar p",
   ".cmd",
-  ".split .l",
-  ".split .r",
   ".speed h2",
   ".shot",
   ".tile",
