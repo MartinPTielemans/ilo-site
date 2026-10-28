@@ -9,7 +9,9 @@ export const PLATFORMS = [
 
 export type Platform = (typeof PLATFORMS)[number];
 
-const RELEASES = "https://github.com/MartinPTielemans/browser/releases";
+// The browser's source, where its releases are published.
+export const SOURCE = "https://github.com/MartinPTielemans/browser";
+const RELEASES = `${SOURCE}/releases`;
 
 export const downloadUrl = (platform: Platform) => `${RELEASES}/latest/download/${platform.file}`;
 
