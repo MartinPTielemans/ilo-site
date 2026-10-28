@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { ICONS } from "../suggestions";
 
 // Arc's ideas that ilo has, each one a thing the window below does.
 const MOVES = [
@@ -26,10 +25,41 @@ const MOVES = [
 ] as const;
 type Move = (typeof MOVES)[number]["id"];
 
-const CARDS = [
-  { id: "work", name: "Work" },
-  { id: "lisbon", name: "Lisbon" },
-  { id: "reading", name: "Reading" },
+const fav = (site: string) => `/media/fav-${site}.png`;
+
+// The Library's Spaces section: each Space as a card of its tabs, pinned above the line. These are
+// the hero's three Spaces.
+const SPACES = [
+  {
+    id: "work",
+    name: "Work",
+    pinned: [["github", "MartinPTielemans/browser"]],
+    today: [
+      ["ilo", "What ilo means"],
+      ["rust", "The Rust Programming Language"],
+      ["lobsters", "Lobsters"],
+    ],
+  },
+  {
+    id: "lisbon",
+    name: "Lisbon",
+    pinned: [["folder", "Trip"]],
+    today: [
+      ["wikivoyage", "Lisbon – Wikivoyage"],
+      ["wikipedia", "Alfama – Wikipedia"],
+      ["wikipedia", "Pastel de nata – Wikipedia"],
+    ],
+  },
+  {
+    id: "reading",
+    name: "Reading",
+    pinned: [],
+    today: [
+      ["gutenberg", "Project Gutenberg"],
+      ["wikipedia", "Bauhaus – Wikipedia"],
+      ["wikisource", "Wikisource"],
+    ],
+  },
 ];
 
 // What Arc taught you: ilo's window on the Lisbon Space, sized from the app's design/tokens.toml,
@@ -93,75 +123,96 @@ export function Habits() {
       </ul>
       <div className={seen ? `win ${move} on` : `win ${move}`} key={run} data-ui aria-hidden="true">
         <div className="side">
-          <div className="lights">
-            <i />
-            <i />
-            <i />
-          </div>
+          <Lights />
           <div className="url">en.wikivoyage.org</div>
           <div className="tiles">
-            {(["wikipedia", "github", "osm"] as const).map((icon) => (
-              <span key={icon}>
-                <img src={ICONS[icon]} alt="" width={16} height={16} />
+            {["wikipedia", "github", "osm"].map((site) => (
+              <span key={site}>
+                <img src={fav(site)} alt="" width={16} height={16} />
               </span>
             ))}
           </div>
-          <div className="tabs">
-            <p className="space-name">Lisbon</p>
-            <div className="folder">
-              <Row icon="folder" title="Trip" />
-              <div className="kids">
-                <Row icon="osm" title="OpenStreetMap" />
-                <Row icon="wikipedia" title="Tram 28 – Wikipedia" />
-              </div>
-            </div>
-            <div className="divider">
-              <span className="clear">Clear</span>
-            </div>
-            <Row icon="plus" title="New Tab" />
-            <div className="today">
-              <div className="r sel">
-                <span className="seg">
-                  <img src={ICONS.wikivoyage} alt="" width={16} height={16} />
-                  <span>Lisbon – Wikivoyage</span>
-                </span>
-                <span className="seg other">
-                  <img src="/media/fav-pdr.png" alt="" width={16} height={16} />
-                  <span>The Public Domain Review</span>
-                </span>
-              </div>
-              <Row icon="wikipedia" title="Alfama – Wikipedia" className="old" />
-              <Row icon="wikipedia" title="Pastel de nata – Wikipedia" className="old" />
-            </div>
+          <p className="space-name">Lisbon</p>
+          <Row icon="folder" title="Trip" />
+          <div className="kids">
+            <Row icon="osm" title="OpenStreetMap" />
+            <Row icon="wikipedia" title="Tram 28 – Wikipedia" />
           </div>
-          <div className="sections">
-            <p className="library-name">Library</p>
-            <span className="section sel">
-              <svg viewBox="0 0 20 20">
-                <rect x="2.5" y="3.5" width="6" height="13" rx="2" />
-                <rect x="11.5" y="3.5" width="6" height="13" rx="2" />
-              </svg>
-              Spaces
-            </span>
-            <span className="section">
-              <svg viewBox="0 0 20 20">
-                <rect x="2.5" y="3.5" width="15" height="4" rx="1.2" />
-                <path d="M4 7.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V7.5M8 11h4" />
-              </svg>
-              Archived Tabs
-            </span>
-            <span className="section">
-              <svg viewBox="0 0 20 20">
-                <path d="M10 3v10M5.5 8.5 10 13l4.5-4.5M4 16.5h12" />
-              </svg>
-              Downloads
-            </span>
+          <Divider />
+          <Row icon="plus" title="New Tab" />
+          <div className="today">
+            <div className="r sel">
+              <span className="seg">
+                <img src={fav("wikivoyage")} alt="" width={16} height={16} />
+                <span>Lisbon – Wikivoyage</span>
+              </span>
+              <span className="seg other">
+                <img src={fav("pdr")} alt="" width={16} height={16} />
+                <span>The Public Domain Review</span>
+              </span>
+            </div>
+            <Row icon="wikipedia" title="Alfama – Wikipedia" className="old" />
+            <Row icon="wikipedia" title="Pastel de nata – Wikipedia" className="old" />
           </div>
           <div className="dots">
-            <i className="work" />
-            <i className="lisbon" />
-            <i className="reading" />
+            <i />
+            <i className="shown" />
+            <i />
           </div>
+        </div>
+        <div className="lib">
+          <div className="column">
+            <Lights />
+            <p className="library-name">Library</p>
+            <div className="sections">
+              <span className="section">
+                <svg viewBox="0 0 20 20">
+                  <path d="M10 3v10M5.5 8.5 10 13l4.5-4.5M4 16.5h12" />
+                </svg>
+                Downloads
+              </span>
+              <span className="section sel">
+                <svg viewBox="0 0 20 20">
+                  <rect x="2.5" y="3.5" width="6" height="13" rx="2" />
+                  <rect x="11.5" y="3.5" width="6" height="13" rx="2" />
+                </svg>
+                Spaces
+              </span>
+              <span className="section">
+                <svg viewBox="0 0 20 20">
+                  <rect x="2.5" y="3.5" width="15" height="4" rx="1.2" />
+                  <path d="M4 7.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V7.5M8 11h4" />
+                </svg>
+                Archived Tabs
+              </span>
+            </div>
+            <svg className="back" viewBox="0 0 16 16">
+              <path d="M13 8H3M7 4 3 8l4 4" />
+            </svg>
+          </div>
+          {SPACES.map((space) => (
+            <div className={`space-card ${space.id}`} key={space.id}>
+              <p className="card-name">
+                <i />
+                {space.name}
+                <svg className="brush" viewBox="0 0 16 16">
+                  <path d="M10.5 2.5 13.5 5.5 8 11 5 8zM5 8l-1.5 1.5c-1 1-1 3-2 4 2 0 3.5-.5 4.5-1.5L7.5 10.5" />
+                </svg>
+              </p>
+              {space.pinned.map(([icon, title]) => (
+                <Row icon={icon} title={title} key={title} />
+              ))}
+              <Divider />
+              {space.today.map(([icon, title]) => (
+                <Row icon={icon} title={title} key={title} />
+              ))}
+            </div>
+          ))}
+          <span className="add">
+            <svg viewBox="0 0 16 16">
+              <path d="M8 4v8M4 8h8" />
+            </svg>
+          </span>
         </div>
         <div className="view">
           <img className="page" src="/media/page-lisbon.webp" alt="" width={1032} height={780} />
@@ -172,29 +223,31 @@ export function Habits() {
             width={1032}
             height={780}
           />
-          <div className="cards">
-            {CARDS.map((card) => (
-              <span className={`card ${card.id}`} key={card.id}>
-                <img src={`/media/space-${card.id}-s.webp`} alt="" width={520} height={390} />
-                {card.name}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Row({
-  icon,
-  title,
-  className,
-}: {
-  icon: keyof typeof ICONS | "folder" | "plus";
-  title: string;
-  className?: string;
-}) {
+function Lights() {
+  return (
+    <div className="lights">
+      <i />
+      <i />
+      <i />
+    </div>
+  );
+}
+
+function Divider() {
+  return (
+    <div className="divider">
+      <span className="clear">Clear</span>
+    </div>
+  );
+}
+
+function Row({ icon, title, className }: { icon: string; title: string; className?: string }) {
   return (
     <div className={className ? `r ${className}` : "r"}>
       {icon === "folder" ? (
@@ -206,7 +259,7 @@ function Row({
           <path d="M8 3v10M3 8h10" />
         </svg>
       ) : (
-        <img src={ICONS[icon]} alt="" width={16} height={16} />
+        <img src={fav(icon)} alt="" width={16} height={16} />
       )}
       <span>{title}</span>
     </div>

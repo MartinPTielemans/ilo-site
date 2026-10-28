@@ -6,12 +6,10 @@ import { Download } from "../components/download";
 import { Habits } from "../components/habits";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
-import { PLATFORM_LIST } from "../downloads";
+import { PLATFORM_LIST, SOURCE as GITHUB } from "../downloads";
 import { useEntrances } from "../entrances";
 
 export const Route = createFileRoute("/")({ component: Home });
-
-const GITHUB = "https://github.com/MartinPTielemans/browser";
 
 function Home() {
   useEntrances();
@@ -32,7 +30,13 @@ function Home() {
         <nav className="links" aria-label="Sections">
           <a href="#arc">From Arc</a>
           <a href="#why">Why</a>
-          <a href={GITHUB}>Source</a>
+          {/* The source is the proof that ilo is open, so it gets a button, not a word. */}
+          <a className="button quiet" href={GITHUB} aria-label="ilo on GitHub">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+            </svg>
+            <span>GitHub</span>
+          </a>
           <Download className="button" />
         </nav>
       </header>
@@ -58,8 +62,9 @@ function Home() {
               in shouldn't be something a company can take back.
             </p>
             <p>
-              So ilo is GPL, all of it that runs on your computer. No ads, no selling data, no paid
-              features and no licence checks.{" "}
+              So ilo is GPL, all of it that runs on your computer, with no ads, no selling data and
+              no licence checks. Paid features will come later: I'll host them for a price, and you
+              can host every one of them yourself.{" "}
               <mark>If I ever stop, anyone can carry on from the code.</mark>
             </p>
             <p>Underneath is Chromium, so your sites and extensions work.</p>
@@ -76,8 +81,8 @@ function Home() {
             it got.
           </h2>
           <p>
-            Free, and in beta for {PLATFORM_LIST}. Your Spaces and tabs come over from Arc or
-            Chrome.
+            Free, <a href={GITHUB}>open source</a>, and in beta for {PLATFORM_LIST}. Your Spaces and
+            tabs come over from Arc or Chrome.
           </p>
           <div className="get">
             <Download className="button big" others />
