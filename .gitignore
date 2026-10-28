@@ -4,6 +4,3 @@ dist
 .output
 .DS_Store
 .taste-skill/
-# The live demo is the browser repo's build (GPL), copied in to try it; whether the site
-# commits it or fetches it from a release at build time is still open.
-public/demo/

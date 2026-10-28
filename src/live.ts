@@ -65,7 +65,6 @@ export function startLive(
   on: { space(index: number): void; ready(openBar?: () => void): void },
 ): () => void {
   const wanted =
-    import.meta.env.ILO_DEMO &&
     matchMedia("(min-width: 1024px) and (pointer: fine)").matches &&
     !(navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData &&
     ("gpu" in navigator || !!document.createElement("canvas").getContext("webgl2"));
