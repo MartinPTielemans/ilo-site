@@ -13,14 +13,14 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "ilo is a free, open-source browser with the Spaces, sidebar and command bar you know from Arc, on Chromium. In beta for Mac, Windows and Linux.",
+          "ilo is a free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command, on Chromium. In beta for Mac, Windows and Linux.",
       },
-      { name: "theme-color", content: "#F3F0E8" },
+      { name: "theme-color", content: "#16140F" },
       { property: "og:title", content: title },
       {
         property: "og:description",
         content:
-          "A free, open-source browser with the Spaces, sidebar and command bar you know from Arc, on Chromium.",
+          "A free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command.",
       },
       { property: "og:image", content: "/media/og.jpg" },
       { name: "twitter:card", content: "summary_large_image" },

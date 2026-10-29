@@ -1,25 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
-import { startField } from "../ascii";
+import { type RefObject, useEffect, useRef } from "react";
+import { type FieldOptions, startField } from "../ascii";
 import { CommandBar } from "../components/command-bar";
-import { Download } from "../components/download";
+import { Download, GetIlo } from "../components/download";
 import { Habits } from "../components/habits";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
-import { PLATFORM_LIST, SOURCE as GITHUB } from "../downloads";
+import { SOURCE as GITHUB } from "../downloads";
 import { useEntrances } from "../entrances";
 
 export const Route = createFileRoute("/")({ component: Home });
 
+/** Starts a character field on `canvas` once the page has its colours. */
+function useField(
+  canvas: RefObject<HTMLCanvasElement | null>,
+  options: (style: CSSStyleDeclaration) => FieldOptions,
+) {
+  useEffect(() => {
+    if (!canvas.current) return;
+    return startField(canvas.current, options(getComputedStyle(document.documentElement)));
+    // The options are read once, when the field starts.
+  }, []);
+}
+
 function Home() {
   useEntrances();
-  // The close's land: the hero's, still going, in the colour of the Space last shown.
+  // The close's land: the hero's, still going, under the stars.
   const land = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    if (!land.current) return;
-    const ink = getComputedStyle(document.documentElement).getPropertyValue("--ink");
-    return startField(land.current, { ground: ink, horizon: 0.3, strength: 0.7 });
-  }, []);
+  useField(land, (style) => ({
+    ground: style.getPropertyValue("--ink"),
+    hot: style.getPropertyValue("--paper"),
+    stars: true,
+    lamp: true,
+    // The land begins just under the button and the line beneath it.
+    scene: (_, height) => {
+      const get = land.current?.parentElement?.querySelector<HTMLElement>(".get");
+      return { horizon: get ? (get.offsetTop + get.offsetHeight + 40) / height : 0.5 };
+    },
+  }));
 
   return (
     <>
@@ -28,7 +46,7 @@ function Home() {
           <Wordmark />
         </a>
         <nav className="links" aria-label="Sections">
-          <a href="#arc">From Arc</a>
+          <a href="#features">Features</a>
           <a href="#why">Why</a>
           {/* The source is the proof that ilo is open, so it gets a button, not a word. */}
           <a className="button quiet" href={GITHUB} aria-label="ilo on GitHub">
@@ -44,66 +62,77 @@ function Home() {
       <main>
         <Spaces />
         <CommandBar />
-
         <Habits />
 
-        <section className="letter" id="why" aria-labelledby="why-title">
-          <div className="letter-head">
-            <span className="portrait" aria-hidden="true" />
-            <h2 id="why-title">Why ilo</h2>
+        {/* What it costs, what's open and where it runs, on tiles that step down. */}
+        <section className="figures" aria-labelledby="figures-title">
+          <h2 id="figures-title">Yours to keep.</h2>
+          <div className="tile free">
+            <p className="figure">$0</p>
+            <p>For the whole browser, on every computer it runs on.</p>
           </div>
-          <div className="letter-body">
+          <div className="tile open">
+            <p className="figure">100%</p>
             <p>
-              Arc changed how I use a computer. Spaces, the sidebar and ⌘T turned a mess of tabs
-              into something I could hold in my head.
+              Of what runs on your computer is <a href={`${GITHUB}/blob/main/LICENSE`}>GPL-3.0</a>.
             </p>
-            <p>
-              On December 22 it stops, and everyone who lives in it has to move. A browser you live
-              in shouldn't be something a company can take back.
-            </p>
-            <p>
-              So ilo is GPL, all of it that runs on your computer, with no ads, no selling data and
-              no licence checks. Paid features will come later: I'll host them for a price, and you
-              can host every one of them yourself.{" "}
-              <mark>If I ever stop, anyone can carry on from the code.</mark>
-            </p>
-            <p>Underneath is Chromium, so your sites and extensions work.</p>
-            <p>The beta is out. Bring your Spaces over from Arc, and tell me what you miss.</p>
-            <p className="sign">Martin</p>
-            <p className="role">Building ilo</p>
+          </div>
+          <div className="tile where">
+            <p className="figure">3</p>
+            <p>Mac, Windows and Linux, on Chromium, so your sites and extensions work.</p>
           </div>
         </section>
 
-        <section className="close" aria-labelledby="close-title">
-          <canvas className="land" ref={land} aria-hidden="true" />
-          <h2 id="close-title">
-            Further than <br />
-            it got.
+        {/* Why ilo is open, in the first person. */}
+        <section className="letter" id="why" aria-labelledby="why-title">
+          <h2 id="why-title">
+            Nobody can <br />
+            take it back.
           </h2>
-          <p>
-            Free, <a href={GITHUB}>open source</a>, and in beta for {PLATFORM_LIST}. Your Spaces and
-            tabs come over from Arc or Chrome.
-          </p>
-          <div className="get">
-            <Download className="button big" others />
+          <div className="letter-body">
+            <div>
+              <h3>Why it's open</h3>
+              <p>
+                A browser you live in shouldn't be something a company can take back. So ilo is GPL,
+                all of it that runs on your computer, with no ads, no selling your data and no
+                licence checks.
+              </p>
+            </div>
+            <div>
+              <h3>How it pays</h3>
+              <p>
+                Paid features will come later. I'll host them for a price, and you can host every
+                one of them yourself.{" "}
+                <mark>If I ever stop, anyone can carry on from the code.</mark>
+              </p>
+            </div>
+            <p className="sign">
+              Martin <span>Building ilo</span>
+            </p>
           </div>
+        </section>
+
+        <section className="close" aria-labelledby="get-title">
+          <canvas className="land" ref={land} aria-hidden="true" />
+          <GetIlo />
         </section>
       </main>
 
       <footer className="foot">
-        <p className="what">
-          <a href="/ilo">ilo, a good tool.</a>
-        </p>
-        <p className="where">
+        <a className="mark" href="/ilo" aria-label="What ilo means">
+          <Wordmark />
+          <span>a good tool.</span>
+        </a>
+        <nav className="where" aria-label="Elsewhere">
           <a href={GITHUB}>GitHub</a>
           <a href={`${GITHUB}/blob/main/LICENSE`}>GPL-3.0</a>
           <a href="https://github.com/MartinPTielemans/ilo-site">This site's code</a>
-        </p>
+          <a href="/ilo">What ilo means</a>
+        </nav>
         <p className="when">2026 · No cookies, no tracking</p>
         <p className="fine">
-          Arc is a trademark of The Browser Company, and ilo isn't affiliated with it. The captures
-          show Wikivoyage and Wikipedia (CC BY-SA), the Rust book (MIT or Apache 2.0) and The Public
-          Domain Review.
+          The captures show Wikivoyage and Wikipedia (CC BY-SA), the Rust book (MIT or Apache 2.0)
+          and The Public Domain Review.
         </p>
       </footer>
     </>

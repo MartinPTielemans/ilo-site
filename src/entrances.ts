@@ -4,19 +4,20 @@ import { useEffect } from "react";
 // is left alone, so the first screen is there at once, and the classes are only added here, so
 // without script nothing is hidden. Only parts whose class React never changes are listed.
 const PARTS = [
-  ".bar h2",
+  ".say-bar h2",
   ".say-bar p",
-  ".cmd",
-  ".say-habits h2",
-  ".say-habits .lead",
+  ".bar .cmd",
+  ".try",
+  ".habits h2",
+  ".shot",
   ".moves li",
-  ".win",
-  ".portrait",
+  ".figures h2",
+  ".tile",
   ".letter h2",
-  ".letter p",
-  ".close h2",
-  ".close p",
-  ".close .button",
+  ".letter-body > *",
+  ".get-line",
+  ".close .get",
+  ".foot .mark",
 ];
 
 export function useEntrances() {

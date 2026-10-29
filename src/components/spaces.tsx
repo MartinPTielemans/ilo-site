@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { paint, startField } from "../ascii";
 import { PLATFORM_LIST, SOURCE } from "../downloads";
+import { Download } from "./download";
 import { type DemoSpaces, type Tab, startLive } from "../live";
 
 const icon = (site: string) => `/media/fav-${site}.png`;
@@ -123,8 +124,9 @@ function demoSpaces(): DemoSpaces {
   };
 }
 
-// The first screen: the claim, then ilo's whole window over a land drawn in characters that keeps
-// going, in the colour of the Space it shows, open first at what the word ilo means. The frame
+// The first screen: the claim and the download beside a globe drawn in characters, then ilo's whole
+// window standing on a land that keeps going, all in the colour of the Space the window shows, open
+// first at what the word ilo means. The frame
 // scrolls sideways between three Spaces, as ilo's do under two fingers. Without script the frame
 // still scrolls and the dots still jump. Once the live interface has drawn, it takes the stills'
 // place and the land follows its Spaces.
@@ -147,10 +149,31 @@ export function Spaces() {
     before.current = shown;
   }, [shown]);
 
+  // The hills meet the sky at the window's top edge, so the window stands on them, and the dot of
+  // the wordmark rises as a globe beside the headline, cropped by the screen's right edge.
   useEffect(() => {
     if (!land.current) return;
-    const paper = getComputedStyle(document.documentElement).getPropertyValue("--paper");
-    return startField(land.current, { ground: paper, horizon: 0.4 });
+    const style = getComputedStyle(document.documentElement);
+    return startField(land.current, {
+      ground: style.getPropertyValue("--ink"),
+      hot: style.getPropertyValue("--paper"),
+      stars: true,
+      lamp: true,
+      scene: (width, height) => {
+        const top = stage.current?.offsetTop ?? height * 0.4;
+        const screen = Math.min(innerHeight, height);
+        // Below the desktop's width the words take the whole screen, so the globe rises behind the
+        // window's right shoulder instead.
+        if (width < 900) {
+          const r = width * 0.3;
+          return { horizon: (top - 48) / height, globe: { x: width * 0.76, y: top + r * 0.3, r } };
+        }
+        return {
+          horizon: (top - 112) / height,
+          globe: { x: width * 0.8, y: screen * 0.5, r: Math.min(screen * 0.4, width * 0.27) },
+        };
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -175,16 +198,24 @@ export function Spaces() {
       <div className="scene">
         <canvas className="land" ref={land} aria-hidden="true" />
         <div className="intro">
-          <h1>The browser that keeps going.</h1>
-          <p>
-            Free and <a href={SOURCE}>open source</a>, with the Spaces, sidebar and command bar you
-            know from Arc, on Chromium. Now in beta for {PLATFORM_LIST}.
+          <h1>
+            The browser <br />
+            that keeps going.
+          </h1>
+          <p className="lede">
+            Every part of your life in its own Space, a sidebar that tidies itself, and one bar for
+            every command. Free and <a href={SOURCE}>open source</a>, on Chromium.
           </p>
+          <div className="act">
+            <Download className="button big" />
+            <p className="note">Now in beta for {PLATFORM_LIST}.</p>
+          </div>
         </div>
         <div className="stage" ref={stage}>
           <div
             ref={reel}
             className="reel"
+            data-ui
             tabIndex={0}
             role="region"
             aria-roledescription="carousel"
@@ -219,12 +250,11 @@ export function Spaces() {
       {live ? (
         // A window that looks like a picture has to say it isn't one, or nobody clicks it.
         <div className="caption">
-          <p className="claim">That's ilo itself, running in WebAssembly.</p>
+          <p className="claim">That's ilo itself, running in this tab.</p>
           <p>
-            The app's own interface, compiled from{" "}
-            <a href={import.meta.env.ILO_DEMO_SOURCE}>its Rust code</a> and running in this tab,
-            with the real sites in it. Click a tab, switch Spaces with the dots at the bottom, or
-            press{" "}
+            Its own interface, compiled from{" "}
+            <a href={import.meta.env.ILO_DEMO_SOURCE}>its Rust code</a> to WebAssembly, with real
+            sites inside. Click a tab, switch Spaces with the dots at the bottom, or press{" "}
             {live.openBar ? (
               <button
                 type="button"

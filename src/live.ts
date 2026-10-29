@@ -72,6 +72,8 @@ export function startLive(
 
   const layer = document.createElement("div");
   layer.className = "live";
+  // ilo's window, drawn by ilo, with the edge macOS gives a dark window.
+  layer.setAttribute("data-ui", "");
   const pages = document.createElement("div");
   pages.className = "pages";
   const canvas = document.createElement("canvas");
@@ -196,7 +198,8 @@ export function startLive(
   async function begin() {
     if (stopped) return;
     try {
-      const demo = await import(/* @vite-ignore */ DEMO);
+      // A whole URL, so the dev server fetches the file as it is instead of transforming it.
+      const demo = await import(/* @vite-ignore */ new URL(DEMO, location.origin).href);
       await demo.default();
       if (stopped) return;
       stage.append(layer);

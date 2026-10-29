@@ -11,8 +11,8 @@ const glass = (
 // Words the bar types by itself, each finding a different tab of the Lisbon Space.
 const WORDS = ["wiki", "nata", "git", "alfama", "open"];
 
-// ⌘T on the Lisbon Space's colour: ilo's bar, built from its constants in app/src/command_bar.rs,
-// typing words of its own until the visitor types one.
+// ⌘T on a panel of the Lisbon Space's colour: ilo's bar, built from its constants in
+// app/src/command_bar.rs, typing words of its own until the visitor types one or picks one to try.
 export function CommandBar() {
   const section = useRef<HTMLElement>(null);
   const [query, setQuery] = useState(WORDS[0]);
@@ -56,60 +56,86 @@ export function CommandBar() {
     };
   }, [yours]);
 
+  // A word picked to try is typed at once, and the bar is the visitor's from then on.
+  function tryWord(word: string) {
+    setYours(true);
+    setQuery(word);
+    setSelected(0);
+  }
+
   return (
     <section className="bar" id="bar" ref={section} aria-labelledby="bar-title">
-      <div className="say-bar">
-        <h2 id="bar-title">One word finds the tab.</h2>
-        <p>
-          Press ⌘T in ilo and type. The open tab your word names comes first, with search and
-          history under it, as in Arc. These are the Lisbon Space's tabs; try a word of your own.
-        </p>
-      </div>
-      <div
-        className="cmd"
-        data-ui
-        onPointerDown={() => setYours(true)}
-        onFocus={() => setYours(true)}
-      >
-        <div className="cmd-input">
-          <svg className="glass" viewBox="0 0 18 18" aria-hidden="true">
-            {glass}
-          </svg>
-          <span className="cmd-text" aria-hidden="true">
-            {query}
-          </span>
-          <span className="caret" aria-hidden="true" />
-          {/* The real field sits over the drawn text, so typing goes to it and the bar draws it. */}
-          <input
-            className="query"
-            type="text"
-            value={query}
-            aria-label="Type a word into ilo's command bar"
-            aria-controls="rows"
-            autoComplete="off"
-            spellCheck={false}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setSelected(0);
-            }}
-            onKeyDown={(event) => {
-              const step = { ArrowDown: 1, ArrowUp: -1 }[event.key];
-              if (!step || !rows.length) return;
-              event.preventDefault();
-              setSelected((selected + step + rows.length) % rows.length);
-            }}
-          />
+      {/* One panel of the Lisbon Space's colour: what ⌘T does, ilo's bar, and words to try in it. */}
+      <div className="plate">
+        <div className="say-bar">
+          <h2 id="bar-title">One word finds the tab.</h2>
+          <p>
+            Press ⌘T anywhere in ilo and type. The tab you meant comes first, then search and
+            history. Try a word of your own.
+          </p>
         </div>
-        <ol className="rows" id="rows" aria-label="Suggestions">
-          {rows.map((row, index) => (
-            <Row
-              key={index}
-              row={row}
-              selected={index === selected}
-              onSelect={() => setSelected(index)}
+        <div
+          className="cmd"
+          data-ui
+          onPointerDown={() => setYours(true)}
+          onFocus={() => setYours(true)}
+        >
+          <div className="cmd-input">
+            <svg className="glass" viewBox="0 0 18 18" aria-hidden="true">
+              {glass}
+            </svg>
+            <span className="cmd-text" aria-hidden="true">
+              {query}
+            </span>
+            <span className="caret" aria-hidden="true" />
+            {/* The real field sits over the drawn text, so typing goes to it and the bar draws it. */}
+            <input
+              className="query"
+              type="text"
+              value={query}
+              aria-label="Type a word into ilo's command bar"
+              aria-controls="rows"
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setSelected(0);
+              }}
+              onKeyDown={(event) => {
+                const step = { ArrowDown: 1, ArrowUp: -1 }[event.key];
+                if (!step || !rows.length) return;
+                event.preventDefault();
+                setSelected((selected + step + rows.length) % rows.length);
+              }}
             />
-          ))}
-        </ol>
+          </div>
+          <ol className="rows" id="rows" aria-label="Suggestions">
+            {rows.map((row, index) => (
+              <Row
+                key={index}
+                row={row}
+                selected={index === selected}
+                onSelect={() => setSelected(index)}
+              />
+            ))}
+          </ol>
+        </div>
+        <div className="try">
+          <ul className="words" aria-label="Words to try">
+            {WORDS.map((word) => (
+              <li key={word}>
+                <button
+                  type="button"
+                  aria-pressed={query.trim().toLowerCase() === word}
+                  onClick={() => tryWord(word)}
+                >
+                  {word}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <p className="aside">These are the tabs of a Space for a trip to Lisbon.</p>
+        </div>
       </div>
     </section>
   );

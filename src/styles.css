@@ -11,11 +11,14 @@
 :root {
   --paper: #f3f0e8;
   --paper-2: #e6e1d3;
-  --paper-hi: #fbfaf6;
   --ink: #16140f;
+  /* Steps up from the ink, for a surface that sits on it. */
+  --ink-2: #221f19;
+  --ink-3: #2e2a22;
   --muted: #5f5a50;
-  --on-ink-muted: #a8a296;
+  --soft: #aaa498;
   --signal: #0e9f55;
+  --signal-hi: #12b262;
   /* The three Spaces in the captures, and the dot, which takes the colour of the one shown. */
   --lisbon: #bf8355;
   --work: #0e9f55;
@@ -27,17 +30,19 @@
   --ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   --s1: 16px;
   --s2: 19px;
-  --s3: clamp(26px, 2.2vw, 34px);
-  --s4: clamp(40px, 3.6vw, 60px);
-  --s5: clamp(64px, 9vw, 150px);
+  --s3: clamp(24px, 2.2vw, 34px);
+  --s4: clamp(44px, 4.6vw, 76px);
+  --s5: clamp(56px, 6vw, 104px);
 
   --m: 32px;
-  --gap: 144px;
-  --r: 12px;
+  /* The page's sides: as far in as the hero's window, which is 1280px at most, so every section
+     lines up with it on any screen. */
+  --inset: max(calc(var(--m) + 48px), calc((100% - 1280px) / 2));
+  --gap: 176px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  /* A macOS window's shadow, the one thing on the page that floats over another. */
-  --lift: 0 2px 6px rgb(22 20 15 / 0.18), 0 24px 64px -8px rgb(22 20 15 / 0.32);
-  color-scheme: light;
+  /* The edge macOS gives a window in dark mode, on the fragments of ilo's. */
+  --edge: 0 0 0 1px rgb(255 255 255 / 0.12);
+  color-scheme: dark;
 }
 
 *,
@@ -48,12 +53,10 @@
 * {
   margin: 0;
 }
-/* The page is paper at the top and ink at the foot, so a rubber-band scroll past either end would
-   show the wrong one; it stops at the edge instead. */
 html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: 24px;
-  overscroll-behavior-y: none;
+  background: var(--ink);
 }
 @media (prefers-reduced-motion: no-preference) {
   html {
@@ -61,8 +64,8 @@ html {
   }
 }
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
   font: 400 var(--s2)/1.5 var(--display);
   -webkit-font-smoothing: antialiased;
   font-kerning: normal;
@@ -80,15 +83,16 @@ a {
 h1,
 h2 {
   font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 1;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
   text-wrap: balance;
 }
 ::selection {
-  background: color-mix(in srgb, var(--dot) 35%, var(--paper));
+  background: color-mix(in srgb, var(--dot) 55%, var(--ink));
+  color: var(--paper);
 }
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid currentColor;
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -101,13 +105,14 @@ h2 {
   white-space: nowrap;
 }
 
-/* The one action, wherever it is. */
+/* The one action, wherever it is, in the round shape of the wordmark's dot. */
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   height: 44px;
-  padding: 0 18px;
-  border-radius: var(--r);
+  padding: 0 20px;
+  border-radius: 999px;
   background: var(--signal);
   color: var(--ink);
   font-weight: 600;
@@ -118,23 +123,28 @@ h2 {
     background-color 0.15s;
 }
 .button:hover {
-  background: #12b262;
+  background: var(--signal-hi);
 }
 .button:active {
   transform: scale(0.97);
 }
 .button.quiet {
   gap: 8px;
-  background: none;
-  box-shadow: inset 0 0 0 1.5px var(--ink);
+  background: rgb(255 255 255 / 0.09);
+  color: var(--paper);
 }
 .button.quiet:hover {
-  background: rgb(22 20 15 / 0.06);
+  background: rgb(255 255 255 / 0.16);
 }
 .button.quiet svg {
   width: 18px;
   height: 18px;
   fill: currentColor;
+}
+.button.big {
+  height: 56px;
+  padding: 0 28px;
+  font-size: var(--s2);
 }
 
 /* Top: the wordmark, whose dot is the Space switcher's, and the links. */
@@ -145,7 +155,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px var(--m);
+  padding: 22px var(--inset);
   font-size: var(--s1);
 }
 .brand {
@@ -156,7 +166,6 @@ h2 {
   display: block;
   height: 30px;
   width: auto;
-  color: var(--ink);
   overflow: visible;
 }
 .wm .d {
@@ -179,24 +188,24 @@ h2 {
 .links a:not(.button) {
   text-decoration: none;
   padding: 8px 0;
+  color: var(--soft);
+  transition: color 0.15s;
 }
 .links a:not(.button):hover {
-  text-decoration: underline;
+  color: var(--paper);
 }
 
-/* Hero: the claim, then ilo's whole window over a land drawn in characters, in the colour of the
-   Space it shows. The window is sized so all of it, down to the Space dots at the sidebar's foot,
-   and the line under it fit on the first screen. */
+/* Hero: the claim and the download beside the wordmark's dot as a globe in characters, then ilo's
+   whole window standing on the land that keeps going, all in the colour of the Space it shows. */
 .hero {
-  --wide: min(1520px, 100% - 2 * var(--m));
-  --window: min(var(--wide), max(880px, (100svh - 360px) * 1.6));
+  --window: min(1280px, 100% - 2 * var(--m) - 96px);
 }
 .scene {
   position: relative;
   isolation: isolate;
-  padding: 104px 0 64px;
+  padding: clamp(148px, 21svh, 216px) 0 0;
 }
-/* The land fills whatever holds it, under everything else there. */
+/* A field of characters fills whatever holds it, under everything else there. */
 .land {
   position: absolute;
   inset: 0;
@@ -205,28 +214,37 @@ h2 {
   height: 100%;
 }
 .intro {
-  display: grid;
-  justify-items: center;
-  row-gap: 14px;
-  width: var(--wide);
+  width: var(--window);
   margin: 0 auto;
-  text-align: center;
 }
 .intro h1 {
-  font-size: clamp(48px, 4.6vw, 84px);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  white-space: nowrap;
+  font-size: var(--s5);
+  letter-spacing: -0.04em;
 }
-.intro p {
-  max-width: 34em;
-  font-size: clamp(19px, 1.3vw, 22px);
-  line-height: 1.4;
-  text-wrap: balance;
+.lede {
+  max-width: 29em;
+  margin-top: 32px;
+  color: var(--soft);
+  font-size: clamp(19px, 1.4vw, 22px);
+  line-height: 1.45;
+}
+.lede a {
+  color: var(--paper);
+}
+.act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  margin-top: 40px;
+}
+.note {
+  color: var(--soft);
+  font-size: var(--s1);
 }
 .stage {
   position: relative;
-  margin-top: 36px;
+  margin-top: clamp(72px, 10svh, 112px);
 }
 .reel {
   position: relative;
@@ -240,7 +258,7 @@ h2 {
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   border-radius: 12px;
-  box-shadow: var(--lift);
+  box-shadow: var(--edge); /* taste-skill-ignore: ilo's window, at the edge macOS gives it */
 }
 .reel::-webkit-scrollbar {
   display: none;
@@ -261,8 +279,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 16px;
-  color: var(--ink);
+  margin-top: 20px;
   font-size: var(--s1);
   font-weight: 500;
 }
@@ -278,7 +295,7 @@ h2 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgb(22 20 15 / 0.35);
+  background: rgb(243 240 232 / 0.35);
   transition:
     transform 0.25s var(--ease),
     background-color 0.25s;
@@ -287,7 +304,7 @@ h2 {
   transform: scale(1.35);
 }
 .switch a[aria-current="true"]::before {
-  background: var(--ink);
+  background: var(--dot);
   transform: scale(1.5);
 }
 .switch .name {
@@ -299,10 +316,9 @@ h2 {
   position: relative;
   display: grid;
   justify-items: center;
-  row-gap: 2px;
+  row-gap: 4px;
   width: var(--window);
-  margin: 16px auto 0;
-  color: var(--ink);
+  margin: 24px auto 0;
   text-align: center;
 }
 .caption .claim {
@@ -310,24 +326,31 @@ h2 {
   font-weight: 600;
 }
 .caption p:last-child {
-  max-width: 50em;
+  max-width: 46em;
+  color: var(--soft);
   font-size: var(--s1);
   line-height: 1.5;
+}
+.caption a {
+  color: var(--paper);
 }
 .caption kbd,
 .caption .key {
   display: inline-block;
-  padding: 0 7px;
+  padding: 0 8px;
   border: 0;
   border-radius: 6px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   font: inherit;
   font-weight: 600;
 }
 .caption .key {
   cursor: pointer;
   transition: transform 0.15s var(--ease);
+}
+.caption .key:hover {
+  background: #fff;
 }
 .caption .key:active {
   transform: scale(0.95);
@@ -345,7 +368,7 @@ h2 {
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: var(--lift);
+  box-shadow: var(--edge); /* taste-skill-ignore: ilo's window, at the edge macOS gives it */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s var(--ease);
@@ -399,7 +422,7 @@ h2 {
 .refused img {
   box-sizing: content-box;
   padding: 12px;
-  border-radius: var(--r);
+  border-radius: 12px;
   background: var(--ink);
 }
 .refused .title {
@@ -420,8 +443,14 @@ h2 {
 
 /* What ilo means: the word's entry, the page the hero's window has open. It's set for that
    window's page, about 1010 by 785 points, and for any other screen. */
+/* The panel is paper, as the page in ilo's window is, and so is the page when it's opened alone. */
+html:has(.meaning) {
+  background: var(--paper);
+}
 .meaning {
   display: grid;
+  background: var(--paper);
+  color: var(--ink);
   align-content: center;
   min-height: 100svh;
   padding: 56px clamp(24px, 7vw, 96px);
@@ -483,32 +512,92 @@ h2 {
   color: var(--ink);
 }
 
-/* ⌘T on the Lisbon Space's colour: what it says on one side, ilo's bar typing on the other. */
+/* ⌘T: one panel of the Lisbon Space's colour, with what the bar does across its top, ilo's bar in
+   the middle, and words to try under it. */
 .bar {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  align-items: center;
-  column-gap: clamp(40px, 5vw, 96px);
-  min-height: min(90svh, 860px);
   margin-top: var(--gap);
-  padding: 120px var(--m);
+  padding: 0 var(--inset);
+}
+.plate {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 5vw, 72px) clamp(32px, 4vw, 56px);
   background: var(--lisbon);
   color: var(--ink);
 }
+/* A heading and its words side by side, the words on the heading's last line. */
+.say-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 25em);
+  align-items: end;
+  gap: 24px 64px;
+  justify-self: stretch;
+}
 .say-bar h2 {
-  /* The hero h1's size: the page's second headline doesn't need a size of its own. */
-  font-size: clamp(48px, 4.6vw, 84px);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  font-size: var(--s4);
 }
 .say-bar p {
-  max-width: 26em;
-  margin-top: 36px;
-  font-size: var(--s2);
+  color: color-mix(in srgb, var(--ink) 88%, var(--lisbon));
 }
 .bar .cmd {
-  justify-self: end;
+  margin-top: clamp(56px, 6vw, 88px);
 }
+.bar .cmd:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+.try {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  text-align: center;
+}
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  font-size: var(--s2);
+}
+.words::before {
+  content: "Try";
+  margin-right: 8px;
+}
+.words button {
+  height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(22 20 15 / 0.12);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    transform 0.15s var(--ease);
+}
+.words button:hover {
+  background: rgb(22 20 15 / 0.2);
+}
+.words button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.words button:active {
+  transform: scale(0.96);
+}
+.aside {
+  color: color-mix(in srgb, var(--ink) 80%, var(--lisbon));
+  font-size: var(--s1);
+}
+
 /* The real field lies over the drawn text and caret, invisible, so the bar draws what it holds. */
 .query {
   position: absolute;
@@ -516,10 +605,6 @@ h2 {
   width: 100%;
   opacity: 0;
   cursor: text;
-}
-.bar .cmd:focus-within {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
 }
 
 /* ilo's command bar, built from its constants in app/src/command_bar.rs. */
@@ -694,90 +779,119 @@ h2 {
   background: #c08558;
 }
 
-/* What Arc taught you: the sentence and the ideas over ilo's window, at the size of the app's. */
+/* Order without the effort: a sheet of paper with the moves down one side, the one playing filling
+   its line, and ilo's window doing it on the other, larger than life and running off the sheet. */
 .habits {
+  --turn: 5.2s;
+  margin-top: var(--gap);
+  padding: 0 var(--inset);
+}
+.sheet {
+  --pad: clamp(48px, 5vw, 72px);
+  --zoom: 1.25;
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  grid-template-areas: "say moves" "win win";
-  align-items: end;
-  column-gap: clamp(40px, 5vw, 96px);
-  row-gap: 56px;
-  margin-top: var(--gap);
-  padding: 0 var(--m);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "say shot"
+    "moves shot";
+  column-gap: clamp(40px, 5vw, 80px);
+  overflow: hidden;
+  padding: var(--pad) 0 var(--pad) var(--pad);
+  background: var(--paper);
+  color: var(--ink);
 }
-.say-habits {
+.habits h2 {
   grid-area: say;
-}
-.say-habits h2 {
   font-size: var(--s4);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-.say-habits .lead {
-  max-width: 24em;
-  margin-top: 24px;
-  font-size: var(--s2);
 }
 .moves {
   grid-area: moves;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 32px;
+  align-content: end;
+  gap: 4px;
   list-style: none;
-  margin: 0;
+  margin: 48px 0 0;
   padding: 0;
 }
-/* The move the window shows has the Lisbon Space's dot. */
 .moves button {
   position: relative;
-  display: block;
+  display: grid;
+  gap: 6px;
   width: 100%;
-  height: 100%;
-  padding: 12px 0 12px 28px;
+  padding: 14px 0 14px 28px;
   border: 0;
-  border-radius: 6px;
   background: none;
   color: var(--muted);
   font: inherit;
-  line-height: 1.45;
   text-align: left;
   cursor: pointer;
   transition: color 0.2s;
 }
-.moves button::before {
+/* Each move's line, and how much of it the window has played. */
+.moves button::before,
+.moves button::after {
   content: "";
   position: absolute;
-  left: 4px;
-  top: calc(12px + 0.725em - 5px);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--lisbon);
-  transform: scale(0);
-  transition: transform 0.25s var(--ease);
+  top: 14px;
+  bottom: 14px;
+  left: 0;
+  width: 2px; /* taste-skill-ignore: a progress line, not a rule */
+  border-radius: 1px;
+  background: rgb(22 20 15 / 0.12);
+}
+.moves button::after {
+  background: var(--ink);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s var(--ease);
+}
+.moves button[aria-pressed="true"]::after {
+  transform: none;
+}
+.moves[data-playing] button[aria-pressed="true"]::after {
+  animation: turn var(--turn) linear both;
+}
+@keyframes turn {
+  from {
+    transform: scaleY(0);
+  }
+}
+.moves strong {
+  font-size: var(--s3);
+  font-weight: 500;
+  line-height: 1.15;
+}
+.moves span {
+  max-width: 30em;
+  font-size: var(--s1);
+  line-height: 1.45;
 }
 .moves button:hover,
 .moves button[aria-pressed="true"] {
   color: var(--ink);
 }
-.moves button[aria-pressed="true"]::before {
-  transform: none;
-}
 .moves button:active {
   transform: translateY(1px);
 }
-.moves button:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+.shot {
+  grid-area: shot;
+  position: relative;
 }
-.moves strong {
-  color: var(--ink);
-  font-weight: 600;
+/* A quarter larger than life, from the heading's top past the sheet's right and bottom edges, so the
+   sidebar is what's seen and the page is its edge. */
+.shot .win {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc((100% + 48px) / var(--zoom));
+  height: calc((100% + var(--pad) + 48px) / var(--zoom));
+  transform: scale(var(--zoom));
+  transform-origin: 0 0;
 }
 
 /* ilo's window on the Lisbon Space: the sidebar, or the Library over it, then the page's card. */
 .win {
-  grid-area: win;
   display: grid;
   grid-template-columns: 228px minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
@@ -785,7 +899,10 @@ h2 {
   border-radius: 12px;
   overflow: hidden;
   background: #453d36;
-  box-shadow: var(--lift);
+  /* The edge macOS gives a dark window on a light desktop, and the lift under it. */
+  box-shadow: /* taste-skill-ignore */
+    0 0 0 1px rgb(22 20 15 / 0.5),
+    0 12px 32px -12px rgb(22 20 15 / 0.35);
   color: rgb(255 255 255 / 0.85);
   font: 400 13px/1 var(--ui);
   user-select: none;
@@ -898,7 +1015,7 @@ h2 {
   left: 10px;
   right: 58px;
   top: 7px;
-  height: 1px;
+  height: 1px; /* taste-skill-ignore: the app's own line */
   background: rgb(255 255 255 / 0.15);
 }
 .clear {
@@ -1152,9 +1269,9 @@ h2 {
     opacity: 0;
   }
 }
-/* The Library widens with its Spaces and pushes the page over, leaving the page's edge in view. */
+/* The Library widens with its Spaces over the whole window, pushing the page to its edge. */
 .win.library {
-  grid-template-columns: min(1008px, calc(100% - 160px)) minmax(0, 1fr);
+  grid-template-columns: calc(100% - 24px) minmax(0, 1fr);
 }
 .win.library .lib {
   opacity: 1;
@@ -1172,127 +1289,302 @@ h2 {
   }
 }
 
-/* The letter: why ilo exists, in the first person, beside the dot. */
-.letter {
+/* Yours to keep: three figures on tiles that step down, each with a quarter of the dot for a corner. */
+.figures {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  column-gap: clamp(40px, 5vw, 96px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  column-gap: 8px;
   align-items: start;
   margin-top: var(--gap);
-  padding: 0 var(--m);
+  padding: 0 var(--inset);
 }
-.letter-head {
-  position: sticky;
-  top: 120px;
-}
-.letter h2 {
+.figures h2 {
+  grid-column: 7 / -1;
+  grid-row: 1;
+  min-height: 14svh;
+  padding-left: 28px;
   font-size: var(--s4);
 }
-.portrait {
-  display: block;
-  width: clamp(72px, 8vw, 136px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--dot);
-  transition: background-color 0.35s var(--ease);
-  margin-bottom: 32px;
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  font-size: var(--s2);
+  line-height: 1.4;
+}
+.tile p:last-child {
+  max-width: 19em;
+}
+.figure {
+  font-size: var(--s5);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.tile.free {
+  grid-column: 1 / 7;
+  grid-row: 1 / 3;
+  height: max(70svh, 520px);
+  background: var(--signal);
+  color: var(--ink);
+  border-top-right-radius: min(42vw, 70svh) 100%;
+}
+.tile.open {
+  grid-column: 7 / 10;
+  grid-row: 2;
+  height: max(44svh, 340px);
+  background: var(--paper);
+  color: var(--ink);
+  border-top-right-radius: 64% 52%;
+}
+.tile.where {
+  grid-column: 10 / -1;
+  grid-row: 2;
+  height: max(34svh, 280px);
+  margin-top: 12svh;
+  background: var(--ink-3);
+  border-top-right-radius: 100% 55%;
+}
+
+/* The letter: why ilo is open, in the first person, on a paper panel. */
+.letter {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  align-items: start;
+  margin: var(--gap) 20px 0;
+  /* The panel runs nearly edge to edge; what it says stays inside the frame. */
+  padding: clamp(64px, 8vw, 128px) max(clamp(32px, 4.5vw, 72px), calc(var(--inset) - 20px));
+  background: var(--paper);
+  color: var(--ink);
+}
+.letter h2 {
+  font-size: var(--s5);
 }
 .letter-body {
-  max-width: 30em;
-  font-size: clamp(21px, 1.75vw, 30px);
-  line-height: 1.45;
-  letter-spacing: -0.005em;
+  display: grid;
+  gap: 48px;
+  max-width: 24em;
 }
-.letter p + p {
-  margin-top: 0.9em;
+.letter h3 {
+  margin-bottom: 10px;
+  font-size: var(--s2);
+  font-weight: 600;
+}
+.letter-body p {
+  line-height: 1.55;
 }
 mark {
-  background: color-mix(in srgb, var(--dot) 26%, var(--paper));
+  background: color-mix(in srgb, var(--dot) 30%, var(--paper));
   color: inherit;
   padding: 0 0.12em;
   border-radius: 3px;
   transition: background-color 0.35s var(--ease);
 }
-.letter .sign {
-  margin-top: 1.4em;
+.sign {
   font-weight: 600;
 }
-.letter .role {
-  margin-top: 0;
+.sign span {
+  display: block;
   color: var(--muted);
   font-size: var(--s1);
+  font-weight: 400;
 }
 
-/* The close and the footer share one dark field; the close's land is the hero's, still going. */
+/* The close: one sentence whose blank is your computer, and the button that fetches it, with the
+   land starting just under them and running to the foot. */
 .close {
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-content: space-between;
+  align-content: start;
   row-gap: 48px;
-  min-height: max(640px, 92svh);
   margin-top: var(--gap);
-  padding: 136px var(--m) 48px;
-  background: var(--ink);
-  color: var(--paper);
+  padding: clamp(96px, 9vw, 144px) var(--inset) clamp(300px, 30vw, 460px);
 }
-.close h2 {
-  grid-column: 1 / -1;
-  font-size: clamp(64px, 13vw, 260px);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+/* Over the land and the button, so the list of computers opens over them. */
+.ask {
+  position: relative;
+  z-index: 1;
 }
-.close p {
-  align-self: end;
-  max-width: 24em;
-  font-size: var(--s2);
+.get-line {
+  font-size: var(--s5);
 }
-.close .get {
-  align-self: end;
+/* The blank: the computer, in a pill, opening a list of the three at reading size under it. */
+.pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.16em;
+  height: 1.1em;
+  padding: 0 0.26em 0 0.3em;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(243 240 232 / 0.12);
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    transform 0.15s var(--ease);
+}
+.pick:hover,
+.pick[aria-expanded="true"] {
+  background: rgb(243 240 232 / 0.2);
+}
+.pick:active {
+  transform: scale(0.98);
+}
+.pick svg {
+  width: 0.4em;
+  height: 0.4em;
+  margin-top: 0.06em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: rotate 0.2s var(--ease);
+}
+.pick[aria-expanded="true"] svg {
+  rotate: 180deg;
+}
+.menu {
+  position: absolute;
+  top: calc(100% + 10px);
   display: grid;
-  justify-items: end;
-  gap: 14px;
+  min-width: 240px;
+  padding: 6px;
+  border-radius: 20px;
+  background: var(--ink-2);
+  /* A real overlay, lifted off the land under it. */
+  box-shadow: /* taste-skill-ignore */
+    var(--edge),
+    0 24px 60px rgb(0 0 0 / 0.45);
+  font-size: var(--s2);
+  letter-spacing: 0;
+  line-height: 1.2;
+  transform-origin: top left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px) scale(0.97);
+  transition:
+    opacity 0.15s,
+    transform 0.15s var(--ease),
+    visibility 0s 0.15s;
 }
-.close .others {
-  max-width: none;
-  font-size: 15px;
-  color: var(--on-ink-muted);
+.menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.15s,
+    transform 0.2s var(--ease);
 }
-.close .others a {
+/* Each computer with its build, the one chosen marked with the wordmark's dot. */
+.menu button {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  padding: 12px 16px 12px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--soft);
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.menu button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.menu button:hover,
+.menu button:focus-visible {
+  background: rgb(243 240 232 / 0.08);
   color: var(--paper);
-  text-decoration: underline;
+}
+.menu button[aria-pressed="true"] {
+  color: var(--paper);
+}
+.menu button[aria-pressed="true"]::before {
+  background: var(--signal);
+}
+.menu small {
+  margin-left: 24px;
+  color: var(--soft);
+  font-size: var(--s1);
+  font-weight: 400;
+}
+.get {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+}
+.others {
+  color: var(--soft);
+  font-size: var(--s1);
+}
+.others a {
+  color: var(--paper);
   text-decoration-color: rgb(243 240 232 / 0.4);
   text-underline-offset: 3px;
 }
-.close .others a:hover {
+.others a:hover {
   text-decoration-color: currentColor;
 }
-.button.big {
-  align-self: end;
-  height: 56px;
-  padding: 0 26px;
-  font-size: var(--s2);
-}
+
+/* The foot: the wordmark, built large, and the tagline beside it. */
 .foot {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: baseline;
-  row-gap: 24px;
-  padding: 136px var(--m) 30px;
-  background: var(--ink);
-  color: var(--on-ink-muted);
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  row-gap: 56px;
+  padding: 96px var(--inset) 32px;
+  color: var(--soft);
   font-size: var(--s1);
 }
-.foot .where {
+.mark {
+  grid-column: 1 / -1;
   display: flex;
-  gap: 24px;
-}
-.foot a {
+  align-items: flex-end;
+  gap: clamp(20px, 3vw, 48px);
   color: var(--paper);
   text-decoration: none;
 }
-.foot a:hover {
+.mark .wm {
+  height: clamp(112px, 19vw, 300px);
+}
+.mark span {
+  font-size: var(--s5);
+  font-weight: 500;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+}
+.foot .where {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+.foot a {
+  color: var(--paper);
+}
+.where a {
+  text-decoration: none;
+}
+.where a:hover {
   text-decoration: underline;
 }
 .foot .when {
@@ -1300,18 +1592,17 @@ mark {
 }
 .foot .fine {
   grid-column: 1 / -1;
-  grid-row: 1;
   max-width: 62ch;
 }
 
 /* Entrances: the script marks the parts of each section and lifts them in, once. */
 .rise {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(28px);
   transition:
-    opacity 0.7s var(--ease),
-    transform 0.7s var(--ease);
-  transition-delay: calc(var(--i, 0) * 75ms);
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+  transition-delay: calc(var(--i, 0) * 80ms);
 }
 .in .rise,
 .rise.in {
@@ -1331,87 +1622,112 @@ mark {
   }
 }
 
-/* Tablets: the sentence stacks around the frame. */
+/* Tablets: each section stacks, the picture under its words. */
 @media (max-width: 899px) {
   :root {
     --m: 20px;
-    --gap: 136px;
+    --gap: 128px;
     --s2: 17px;
     --s3: 22px;
-    --s4: min(9vw, 64px);
-    --s5: 15vw;
+    --s4: min(10vw, 60px);
+    --s5: min(11vw, 84px);
+    --inset: var(--m);
   }
-  .links a:not(.button):not(:first-child) {
+  .hero {
+    --window: calc(100% - 2 * var(--m));
+  }
+  .links a:not(.button) {
     display: none;
   }
   .links {
-    gap: 18px;
+    gap: 12px;
   }
-  .intro {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 20px;
-  }
-  .intro h1 {
-    white-space: normal;
-  }
-  .intro p {
-    font-size: var(--s3);
-  }
-  .stage {
-    margin-top: 48px;
+  .lede {
+    font-size: var(--s2);
   }
 
-  .bar {
+  .say-bar {
     grid-template-columns: minmax(0, 1fr);
-    row-gap: 56px;
-    padding: 88px var(--m);
   }
   .bar .cmd {
-    justify-self: stretch;
+    margin-top: 40px;
   }
 
-  .habits {
+  /* The sheet stacks the heading, the window and the moves, the window still running off its edge. */
+  .sheet {
+    --pad: 28px;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "say" "win" "moves";
-    row-gap: 40px;
+    grid-template-rows: none;
+    grid-template-areas: "say" "shot" "moves";
+    padding: 40px 0 32px var(--pad);
+  }
+  .habits h2,
+  .moves {
+    padding-right: var(--pad);
   }
   .moves {
-    grid-template-columns: minmax(0, 1fr);
+    margin-top: 32px;
   }
-  .win {
+  .shot {
+    margin-top: 32px;
+  }
+  .shot .win {
+    position: static;
+    width: calc(100% + 40px);
     height: 560px;
+    transform: none;
+  }
+
+  .figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: 6px;
+  }
+  .figures h2 {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: 0;
+    padding: 0 0 24px;
+  }
+  .tile.free {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    height: max(56vw, 300px);
+    border-top-right-radius: 56vw 100%;
+  }
+  .tile.open,
+  .tile.where {
+    grid-row: auto;
+    height: auto;
+    min-height: 260px;
+  }
+  .tile.open {
+    grid-column: 1;
+  }
+  .tile.where {
+    grid-column: 2;
+    margin-top: 32px;
   }
 
   .letter {
     grid-template-columns: minmax(0, 1fr);
+    row-gap: 40px;
+    margin-inline: 10px;
+    padding: 48px 24px 56px;
   }
-  .letter-head {
-    position: static;
-    margin-bottom: 32px;
-  }
-  .close {
-    grid-template-columns: 1fr;
-    row-gap: 32px;
-    padding-top: 88px;
-  }
-  .close .get {
+
+  .get,
+  .get .button {
     justify-items: stretch;
-  }
-  .button.big {
     width: 100%;
-    justify-content: center;
   }
   .foot {
     grid-template-columns: 1fr;
-    row-gap: 8px;
+    row-gap: 24px;
     padding-top: 96px;
-    padding-bottom: 24px;
   }
   .foot .when {
     justify-self: start;
-  }
-  .foot .fine {
-    margin-bottom: 16px;
   }
 }
 
@@ -1425,17 +1741,26 @@ mark {
     display: none;
   }
   /* A phone has room for the GitHub mark and the download, not the words around them. */
-  .links a:not(.button) {
-    display: none;
-  }
   .button.quiet {
     padding: 0 13px;
   }
   .button.quiet span {
     display: none;
   }
-  /* The Library takes the phone's window, leaving the page's edge. */
-  .win.library {
-    grid-template-columns: calc(100% - 24px) minmax(0, 1fr);
+  .act .button {
+    width: 100%;
+  }
+  .tile {
+    padding: 20px;
+  }
+  .tile.open,
+  .tile.where {
+    font-size: var(--s1);
+  }
+  .tile .figure {
+    font-size: 11vw;
+  }
+  .tile.free .figure {
+    font-size: 15vw;
   }
 }

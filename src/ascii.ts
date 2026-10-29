@@ -1,31 +1,52 @@
-// A landscape drawn in characters that keeps going: hills coming toward the viewer under a sky of
-// a few stars, in one colour on one ground. The GPU works out one brightness per character cell,
-// then draws each cell as the character for that brightness, so the page's main thread, which the
-// live demo shares, only sets a few numbers a frame. A field draws only while it's on screen, at
-// 30 frames a second, and holds still for reduced motion. Its place on the land comes from the
-// clock, so it has moved on between visits.
+// A world drawn in characters: the dot of ilo's wordmark as a globe that turns, rising over hills
+// that keep coming toward the viewer under a sky of a few stars, in one colour on one ground. The GPU
+// works out one brightness per character cell, then draws each cell as the character for that
+// brightness, so the page's main thread, which the live demo shares, only sets a few numbers a
+// frame. A field draws only while it's on screen, at 30 frames a second, and holds still for reduced
+// motion. Its place on the land comes from the clock, so it has moved on between visits. Where a
+// mouse is, a little light falls on the characters under it.
+
+export type Scene = {
+  /** Where the horizon sits, from the top, as a share of the field's height; none for no land. */
+  horizon?: number;
+  /** The globe's centre and radius, in CSS pixels from the field's top left; none for no globe. */
+  globe?: { x: number; y: number; r: number };
+};
 
 export type FieldOptions = {
   /** The page colour under the characters. */
   ground: string;
-  /** Where the horizon sits, from the top, as a share of the field's height. */
-  horizon: number;
+  /** What the field holds, worked out again whenever its size changes, in CSS pixels. */
+  scene: (width: number, height: number) => Scene;
   /** How strong the brightest characters are, from 0 to 1. */
   strength?: number;
+  /** The colour the brightest characters lean toward, as lit things do on a dark ground. */
+  hot?: string;
+  /** Whether the sky has stars. */
+  stars?: boolean;
+  /** Whether a light follows the mouse. */
+  lamp?: boolean;
 };
 
 // From empty to full; the first is the sky.
 const RAMP = " .:-=+*#%@";
 // A character cell, in CSS pixels.
-const CELL = [9, 16];
-const FONT = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+const CELL = [8, 14];
+// The glyphs fill fixed cells, so they have to be one width.
+const FONT = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"; // taste-skill-ignore
+// How far the mouse's light reaches, in CSS pixels.
+const LAMP = 150;
 
 const VALUE = `#version 300 es
 precision highp float;
 uniform vec2 grid;
+uniform vec2 cellpx;
 uniform float time;
 uniform float horizon;
 uniform float aspect;
+uniform float stars;
+uniform vec3 globe;
+uniform vec4 lamp;
 out vec4 o;
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -43,36 +64,81 @@ float land(vec2 p) {
     p = p * 2.03 + vec2(1.7, 9.2);
     a *= .5;
   }
-  return h * h * 3.4;
+  return h * h * 2.3;
+}
+float hash3(vec3 p) {
+  return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453);
+}
+float noise3(vec3 p) {
+  vec3 i = floor(p), f = fract(p), u = f * f * (3. - 2. * f);
+  return mix(
+    mix(mix(hash3(i), hash3(i + vec3(1, 0, 0)), u.x), mix(hash3(i + vec3(0, 1, 0)), hash3(i + vec3(1, 1, 0)), u.x), u.y),
+    mix(mix(hash3(i + vec3(0, 0, 1)), hash3(i + vec3(1, 0, 1)), u.x), mix(hash3(i + vec3(0, 1, 1)), hash3(i + vec3(1, 1, 1)), u.x), u.y),
+    u.z);
+}
+// The globe's land and sea, turning slowly under a light from the upper left, with a lit rim.
+float world(vec2 px) {
+  if (globe.z <= 0.) return -1.;
+  vec2 d = (px - globe.xy) / globe.z;
+  float rr = dot(d, d);
+  if (rr >= 1.) return -1.;
+  vec3 n = vec3(d, sqrt(1. - rr));
+  float a = time * .045;
+  vec3 q = vec3(n.x * cos(a) - n.z * sin(a), n.y, n.x * sin(a) + n.z * cos(a));
+  float f = 0., w = .5;
+  vec3 s = q * 2.1 + 4.;
+  for (int i = 0; i < 4; i++) {
+    f += w * noise3(s);
+    s = s * 2.07 + 1.3;
+    w *= .5;
+  }
+  float ground = smoothstep(.47, .53, f);
+  float lit = clamp(dot(n, normalize(vec3(-.55, .5, .67))), 0., 1.);
+  float rim = smoothstep(.82, 1., rr) * (.35 + .65 * lit);
+  return clamp((.06 + .94 * lit) * mix(.34, 1., ground) + rim * .35, 0., 1.);
 }
 void main() {
   vec2 uv = gl_FragCoord.xy / grid;
+  vec2 px = gl_FragCoord.xy * cellpx;
   float down = 1. - uv.y;
-  vec3 ro = vec3(0., 1.6, time * .35);
-  vec3 rd = normalize(vec3((uv.x - .5) * aspect, horizon - down, 1.));
-  float d = .1;
-  bool hit = false;
-  vec3 p;
-  for (int i = 0; i < 72; i++) {
-    p = ro + rd * d;
-    float gap = p.y - land(p.xz * .35);
-    if (gap < .002 * d) { hit = true; break; }
-    d += max(gap * .45, .02 + d * .006);
-    if (d > 40.) break;
-  }
   float v = 0.;
-  if (hit) {
-    vec2 q = p.xz * .35;
-    float e = .02;
-    float k = .35 / (2. * e);
-    vec3 n = normalize(vec3(-(land(q + vec2(e, 0)) - land(q - vec2(e, 0))) * k, 1., -(land(q + vec2(0, e)) - land(q - vec2(0, e))) * k));
-    float lit = clamp(dot(n, normalize(vec3(-.6, .7, .4))), 0., 1.);
-    v = (.12 + .88 * lit) * exp(-d * .085);
-  } else if (down < horizon) {
-    float s = hash(floor(gl_FragCoord.xy));
-    v = step(.993, s) * (.12 + .1 * sin(time * 1.7 + s * 60.));
+  bool hit = false;
+  if (horizon >= 0.) {
+    // The eye rides above the highest hill (h stays under .97), so no hill rises past the horizon
+    // into the words over it.
+    vec3 ro = vec3(0., 2.3, time * .35);
+    vec3 rd = normalize(vec3((uv.x - .5) * aspect, horizon - down, 1.));
+    float d = .1;
+    vec3 p;
+    for (int i = 0; i < 96; i++) {
+      p = ro + rd * d;
+      float gap = p.y - land(p.xz * .35);
+      if (gap < .002 * d) { hit = true; break; }
+      d += max(gap * .45, .02 + d * .006);
+      if (d > 64.) break;
+    }
+    if (hit) {
+      vec2 q = p.xz * .35;
+      float e = .02;
+      float k = .35 / (2. * e);
+      vec3 n = normalize(vec3(-(land(q + vec2(e, 0)) - land(q - vec2(e, 0))) * k, 1., -(land(q + vec2(0, e)) - land(q - vec2(0, e))) * k));
+      float lit = clamp(dot(n, normalize(vec3(-.6, .7, .4))), 0., 1.);
+      v = (.16 + .84 * lit) * exp(-d * .045);
+    }
   }
-  o = vec4(v, 0., 0., 1.);
+  if (!hit) {
+    float w = world(px);
+    if (w >= 0.) v = w;
+    else if (stars > 0. && (horizon < 0. || down < horizon)) {
+      float s = hash(floor(gl_FragCoord.xy));
+      v = step(.993, s) * (.12 + .1 * sin(time * 1.7 + s * 60.));
+    }
+  }
+  if (lamp.w > 0.) {
+    float l = length(px - lamp.xy) / lamp.z;
+    v += lamp.w * .42 * exp(-l * l * 3.);
+  }
+  o = vec4(min(v, 1.), 0., 0., 1.);
 }`;
 
 const DRAW = `#version 300 es
@@ -82,8 +148,8 @@ uniform sampler2D atlas;
 uniform ivec2 cell;
 uniform int glyphs;
 uniform float cols;
-uniform vec3 ground, from, to;
-uniform float wipe, dir, frame, strength;
+uniform vec3 ground, from, to, hot;
+uniform float wipe, dir, frame, strength, heat;
 out vec4 o;
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -100,6 +166,7 @@ void main() {
   float edge = dir > 0. ? x : 1. - x;
   float front = wipe * 1.12 - .06;
   vec3 ink = edge < front ? to : from;
+  ink = mix(ink, hot, smoothstep(.62, 1., v) * heat);
   float near = (wipe > 0. && wipe < 1.) ? 1. - smoothstep(0., .06, abs(edge - front)) : 0.;
   float r = hash(vec2(c) + frame);
   if (r < near) g = 1 + int(r * 997.) % (glyphs - 1);
@@ -126,7 +193,7 @@ const rgb = (hex: string) => {
   return [(n >> 16) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 };
 
-/** Draws the land on `canvas`, in the colour last painted. Returns a stop. */
+/** Draws the field's scene on `canvas`, in the colour last painted. Returns a stop. */
 export function startField(canvas: HTMLCanvasElement, options: FieldOptions): () => void {
   const gl = canvas.getContext("webgl2", { antialias: false, alpha: false });
   if (!gl) return () => {};
@@ -158,6 +225,8 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
     draw = program(DRAW);
   } catch (error) {
     console.warn("The character field didn't start.", error);
+    // A canvas that can't draw would cover the ground with white.
+    canvas.hidden = true;
     return () => {};
   }
 
@@ -182,12 +251,14 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
   const values = texture();
   const target = gl.createFramebuffer();
 
+  let scale = 1;
   let cw = 0;
   let ch = 0;
   let cols = 0;
   let rows = 0;
+  let scene: Scene = {};
   function size() {
-    const scale = Math.min(devicePixelRatio || 1, 2);
+    scale = Math.min(devicePixelRatio || 1, 2);
     const width = Math.round(canvas.clientWidth * scale);
     const height = Math.round(canvas.clientHeight * scale);
     if (!width || !height) return false;
@@ -197,12 +268,13 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
     ch = Math.round(CELL[1] * scale);
     cols = Math.ceil(width / cw);
     rows = Math.ceil(height / ch);
+    scene = options.scene(canvas.clientWidth, canvas.clientHeight);
 
     const glyphs = document.createElement("canvas");
     glyphs.width = cw * RAMP.length;
     glyphs.height = ch;
     const g = glyphs.getContext("2d")!;
-    g.font = `${Math.round(13 * scale)}px ${FONT}`;
+    g.font = `${Math.round(12 * scale)}px ${FONT}`;
     g.textAlign = "center";
     g.textBaseline = "middle";
     g.fillStyle = "#fff";
@@ -219,12 +291,16 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
   }
 
   const ground = rgb(options.ground);
+  const hot = rgb(options.hot ?? options.ground);
   let from = rgb(current.ink);
   let to = from;
   let dir = 1;
   let wipeStart = -1;
   const WIPE = 700;
   let frame = 0;
+
+  // The mouse's light, in CSS pixels from the field's top left, eased toward where the mouse is.
+  const lamp = { x: 0, y: 0, on: 0, toX: 0, toY: 0, toOn: 0 };
 
   function render(now: number) {
     if (!cols) return;
@@ -233,9 +309,29 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
     gl!.viewport(0, 0, cols, rows);
     gl!.useProgram(value.p);
     gl!.uniform2f(value.u.grid, cols, rows);
+    // The value pass draws a pixel per cell; a cell's centre in the field's own pixels.
+    gl!.uniform2f(value.u.cellpx, cw, ch);
     gl!.uniform1f(value.u.time, time);
-    gl!.uniform1f(value.u.horizon, options.horizon);
+    gl!.uniform1f(value.u.horizon, scene.horizon ?? -1);
     gl!.uniform1f(value.u.aspect, (cols * cw) / (rows * ch));
+    gl!.uniform1f(value.u.stars, options.stars ? 1 : 0);
+    const globe = scene.globe;
+    gl!.uniform3f(
+      value.u.globe,
+      globe ? globe.x * scale : 0,
+      globe ? canvas.height - globe.y * scale : 0,
+      globe ? globe.r * scale : 0,
+    );
+    lamp.x += (lamp.toX - lamp.x) * 0.2;
+    lamp.y += (lamp.toY - lamp.y) * 0.2;
+    lamp.on += (lamp.toOn - lamp.on) * 0.12;
+    gl!.uniform4f(
+      value.u.lamp,
+      lamp.x * scale,
+      canvas.height - lamp.y * scale,
+      LAMP * scale,
+      lamp.on < 0.01 ? 0 : lamp.on,
+    );
     gl!.drawArrays(gl!.TRIANGLES, 0, 3);
 
     let wipe = 0;
@@ -262,6 +358,8 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
     gl!.uniform3fv(draw.u.ground, ground);
     gl!.uniform3fv(draw.u.from, from);
     gl!.uniform3fv(draw.u.to, to);
+    gl!.uniform3fv(draw.u.hot, hot);
+    gl!.uniform1f(draw.u.heat, options.hot ? 0.6 : 0);
     gl!.uniform1f(draw.u.wipe, wipe);
     gl!.uniform1f(draw.u.dir, dir);
     gl!.uniform1f(draw.u.frame, frame++ % 97);
@@ -297,6 +395,29 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
   };
   fields.add(live);
 
+  // Only a mouse lights the field, and only while it moves over it; reduced motion has no light.
+  function point(event: PointerEvent) {
+    if (event.pointerType !== "mouse" || still.matches || !shown) return;
+    const box = canvas.getBoundingClientRect();
+    const x = event.clientX - box.left;
+    const y = event.clientY - box.top;
+    const inside = x >= 0 && y >= 0 && x <= box.width && y <= box.height;
+    if (inside && !lamp.toOn) {
+      lamp.x = x;
+      lamp.y = y;
+    }
+    lamp.toX = x;
+    lamp.toY = y;
+    lamp.toOn = inside ? 1 : 0;
+  }
+  const dark = () => {
+    lamp.toOn = 0;
+  };
+  if (options.lamp) {
+    addEventListener("pointermove", point, { passive: true });
+    document.documentElement.addEventListener("pointerleave", dark);
+  }
+
   const seen = new IntersectionObserver(([entry]) => {
     shown = !!entry?.isIntersecting;
     wake();
@@ -315,8 +436,11 @@ export function startField(canvas: HTMLCanvasElement, options: FieldOptions): ()
     fields.delete(live);
     seen.disconnect();
     resized.disconnect();
+    removeEventListener("pointermove", point);
+    document.documentElement.removeEventListener("pointerleave", dark);
     document.removeEventListener("visibilitychange", wake);
     cancelAnimationFrame(raf);
-    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    // The context stays: React can start a field again on the same canvas, and a lost context
+    // can't draw. It goes with the canvas.
   };
 }
