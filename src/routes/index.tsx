@@ -3,6 +3,7 @@ import { type RefObject, useEffect, useRef } from "react";
 import { type FieldOptions, startField } from "../ascii";
 import { CommandBar } from "../components/command-bar";
 import { Download, GetIlo } from "../components/download";
+import { Foot } from "../components/foot";
 import { Habits } from "../components/habits";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
@@ -118,23 +119,10 @@ function Home() {
         </section>
       </main>
 
-      <footer className="foot">
-        <a className="mark" href="/ilo" aria-label="What ilo means">
-          <Wordmark />
-          <span>a good tool.</span>
-        </a>
-        <nav className="where" aria-label="Elsewhere">
-          <a href={GITHUB}>GitHub</a>
-          <a href={`${GITHUB}/blob/main/LICENSE`}>GPL-3.0</a>
-          <a href="https://github.com/MartinPTielemans/ilo-site">This site's code</a>
-          <a href="/ilo">What ilo means</a>
-        </nav>
-        <p className="when">2026 · No cookies, no tracking</p>
-        <p className="fine">
-          The captures show Wikivoyage and Wikipedia (CC BY-SA), the Rust book (MIT or Apache 2.0)
-          and The Public Domain Review.
-        </p>
-      </footer>
+      <Foot>
+        The captures show Wikivoyage and Wikipedia (CC BY-SA), the Rust book (MIT or Apache 2.0) and
+        The Public Domain Review.
+      </Foot>
     </>
   );
 }
