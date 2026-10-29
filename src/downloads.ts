@@ -1,10 +1,11 @@
 // What ilo is offered for, in the order the site names them. Each platform's file has one name in
-// every release, so GitHub always serves the newest release's at the same address. Taking a
-// platform out of this list takes it out of the buttons and the copy.
+// every release (the browser repo's release.yml names them), so GitHub always serves the newest
+// release's at the same address. Taking a platform out of this list takes it out of the buttons and
+// the copy.
 export const PLATFORMS = [
   { id: "mac", name: "Mac", file: "ilo-mac-arm64.dmg", note: "Apple silicon" },
-  { id: "windows", name: "Windows", file: "ilo-windows-x64.exe", note: "64-bit" },
-  { id: "linux", name: "Linux", file: "ilo-linux-x64.AppImage", note: "x64" },
+  { id: "windows", name: "Windows", file: "ilo-windows-x64-setup.exe", note: "64-bit" },
+  { id: "linux", name: "Linux", file: "ilo-linux-x86_64.flatpak", note: "x64" },
 ] as const;
 
 export type Platform = (typeof PLATFORMS)[number];

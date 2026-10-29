@@ -35,13 +35,17 @@ serve.
   Commit it, or a fresh clone fails the type check before its first build.
 - Files in `public/` are served from the root, so they're referenced as `/media/…`.
 - `public/demo` is the browser repo's build of the live interface (GPL), committed as built and
-  left out of fmt and lint. A new demo step is one commit that swaps `ilo_demo.js`,
-  `ilo_demo_bg.wasm` and the licences (never the harness's `index.html` or icons) and updates the
-  commit in `public/demo/SOURCE`, which the hero's caption links to as the GPL's offer of source.
+  left out of fmt and lint. Publishing a release in the browser repo replaces it:
+  `.github/workflows/release.yml` takes the release's `ilo-demo.tar.gz`, points
+  `public/demo/SOURCE` at the tag's commit, which the hero's caption links to as the GPL's offer of
+  source, commits that to main as github-actions and deploys. Swap it by hand only in the same
+  shape: the files, the licences and SOURCE's commit in one commit.
+- Every push to main deploys to Cloudflare (`.github/workflows/deploy.yml`, `wrangler.jsonc`) once
+  `vp check`, `vp test` and `vp build` pass, so main is always what ilobrowser.com serves.
 - The download buttons link to `releases/latest/download/<file>` in the browser repo, with each
   platform's fixed file name from `src/downloads.ts`. GitHub serves whichever release is marked
   Latest, so every other release there (the engine builds) has to be made with `--latest=false`,
-  or the buttons 404. The meta description in `src/routes/__root.tsx` names the platforms by hand.
+  or the buttons 404. The file names are the browser's `release.yml`'s. The meta description in `src/routes/__root.tsx` names the platforms by hand.
 
 ## Brand
 

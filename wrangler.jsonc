@@ -1,0 +1,13 @@
+// ilobrowser.com: a Worker with no script, serving the prerendered pages in dist/client.
+// Deploy with `vp build && wrangler deploy`.
+{
+  "name": "ilo-site",
+  "compatibility_date": "2026-10-29",
+  "assets": {
+    "directory": "./dist/client",
+    // /ilo is served from ilo/index.html, and /ilo/ redirects to /ilo.
+    "html_handling": "drop-trailing-slash",
+  },
+  "routes": [{ "pattern": "ilobrowser.com", "custom_domain": true }],
+  "workers_dev": false,
+}

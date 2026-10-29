@@ -1,0 +1,104 @@
+# A release of ilo, published in the browser repo, on the site. Its release.yml sends `ilo-release`
+# with the tag when the owner publishes the draft, given a SITE_DISPATCH_TOKEN; without one, the
+# check every half hour finds the newest release with a demo the site doesn't have yet. By hand,
+# `gh workflow run release.yml -f tag=v…`.
+# The release's ilo-demo.tar.gz, when it has one, replaces the demo in public/demo, and SOURCE
+# names the tag's commit, which the hero's caption links to as the GPL's offer of source. That's
+# committed to main by github-actions, without a sign-off, as the build is the browser repo's, and
+# the site is deployed. The download buttons need no change: they link the newest release.
+name: Release
+
+on:
+  repository_dispatch:
+    types: [ilo-release]
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The browser's release, v<version>
+        required: true
+
+permissions:
+  contents: read
+
+concurrency: release
+
+jobs:
+  demo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      ref: ${{ steps.commit.outputs.ref }}
+      skip: ${{ steps.release.outputs.skip }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BROWSER: MartinPTielemans/browser
+      TAG: ${{ github.event.client_payload.tag || inputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Release
+        id: release
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = schedule ]; then
+            TAG=$(gh release list -R "$BROWSER" --exclude-drafts --exclude-pre-releases -L 100 \
+              --json tagName,createdAt -q '[.[] | select(.tagName | test("^v[0-9]"))] | sort_by(.createdAt) | last | .tagName // ""')
+            if [ -z "$TAG" ] || grep -qF "(release $TAG)" public/demo/SOURCE ||
+              ! gh release view "$TAG" -R "$BROWSER" --json assets -q '.assets[].name' | grep -qx ilo-demo.tar.gz; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "TAG=$TAG" >> "$GITHUB_ENV"
+          fi
+          case $TAG in
+            v[0-9]*) ;;
+            *) echo "::error::\"$TAG\" isn't a release of ilo, v<version>."; exit 1 ;;
+          esac
+          if [ "$(gh release view "$TAG" -R "$BROWSER" --json isDraft -q .isDraft)" != false ]; then
+            echo "::error::$TAG isn't a published release in $BROWSER."
+            exit 1
+          fi
+
+      - name: Demo
+        if: ${{ steps.release.outputs.skip != 'true' }}
+        run: |
+          if ! gh release download "$TAG" -R "$BROWSER" -p ilo-demo.tar.gz -D "$RUNNER_TEMP"; then
+            echo "::notice::$TAG has no ilo-demo.tar.gz, so the site keeps its demo."
+            exit 0
+          fi
+          commit=$(gh api "repos/$BROWSER/commits/$TAG" -q .sha)
+          cd public/demo
+          rm -rf ilo_demo.js ilo_demo_bg.wasm snippets
+          tar xzf "$RUNNER_TEMP/ilo-demo.tar.gz"
+          cat > SOURCE <<EOF
+          ilo_demo.js and ilo_demo_bg.wasm are ilo's interface built for the web from the browser repo,
+          under the GPL in LICENSE, at this commit (release $TAG):
+
+          https://github.com/$BROWSER/tree/$commit
+
+          The fonts in it are Outfit (OFL.txt) and Inter (Inter-OFL.txt), under the SIL Open Font License.
+          EOF
+
+      - id: commit
+        if: ${{ steps.release.outputs.skip != 'true' }}
+        run: |
+          git add -A public/demo
+          if ! git diff --cached --quiet; then
+            git -c user.name=github-actions[bot] -c user.email=41898282+github-actions[bot]@users.noreply.github.com \
+              commit -q -m "feat: the live demo is ilo $TAG's"
+            git push origin HEAD:main
+          fi
+          echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: demo
+    if: ${{ needs.demo.outputs.skip != 'true' }}
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: ${{ needs.demo.outputs.ref }}
+    secrets: inherit
