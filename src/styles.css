@@ -1595,6 +1595,94 @@ mark {
   max-width: 62ch;
 }
 
+/* A page of reading (Help, What's new, Privacy): one column at a reading width, under the top. */
+.text {
+  max-width: calc(68ch + 2 * var(--inset));
+  padding: 152px var(--inset) 0;
+  font-size: var(--s1);
+  line-height: 1.6;
+}
+.text h1 {
+  font-size: var(--s4);
+}
+.text .lead {
+  margin-top: 28px;
+  font-size: var(--s2);
+  line-height: 1.5;
+}
+.text section {
+  margin-top: 64px;
+}
+.text h2 {
+  font-size: var(--s3);
+  line-height: 1.1;
+}
+.text h2 + *,
+.text p + p,
+.text p + ul {
+  margin-top: 16px;
+}
+.text p,
+.text li,
+.text dd {
+  color: color-mix(in srgb, var(--paper) 86%, var(--ink));
+}
+.text a {
+  color: var(--paper);
+}
+.text code,
+.text kbd {
+  font:
+    0.92em/1 ui-monospace,
+    "SF Mono",
+    Menlo,
+    Consolas,
+    monospace;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--ink-2);
+  color: var(--paper);
+  overflow-wrap: anywhere;
+}
+.text ul {
+  padding-left: 1.2em;
+}
+.text li + li {
+  margin-top: 8px;
+}
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 40px;
+}
+.toc a {
+  color: var(--soft);
+}
+.toc a:hover {
+  color: var(--paper);
+}
+.services dt {
+  margin-top: 40px;
+  font-weight: 600;
+}
+.services dd + dt {
+  margin-top: 40px;
+}
+.services dd p {
+  margin-top: 8px;
+}
+.services .hosts {
+  line-height: 2;
+}
+.release h2 span {
+  margin-left: 0.4em;
+  color: var(--soft);
+  font-size: var(--s1);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
 /* Entrances: the script marks the parts of each section and lifts them in, once. */
 .rise {
   opacity: 0;
@@ -1624,6 +1712,9 @@ mark {
 
 /* Tablets: each section stacks, the picture under its words. */
 @media (max-width: 899px) {
+  .text {
+    padding-top: 120px;
+  }
   :root {
     --m: 20px;
     --gap: 128px;

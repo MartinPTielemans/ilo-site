@@ -25,7 +25,7 @@ function Others({ platform }: { platform: Platform }) {
   const rest = PLATFORMS.filter((other) => other !== platform);
   return (
     <p className="others">
-      {platform.note}
+      {platform.needs}
       {rest.length > 0 && ". Also for "}
       {rest.map((other, index) => (
         <Fragment key={other.id}>
