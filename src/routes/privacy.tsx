@@ -17,10 +17,10 @@ export const Route = createFileRoute("/privacy")({
 });
 
 // The services, each with the hosts it reaches, as the browser's code on main names them: the
-// branding files (update feed, crash collector), core/search.cc and core/suggest.h, engine/README.md
-// › What reaches Google, core/widevine.cc, and uBlock Origin's own assets.json for the lists.
-// Settings › Privacy's "What leaves this device" names the same ones; a change to either changes
-// both. It says no more than the code does.
+// branding files (app/branding/update-feed, app/branding/crash-reports), core/crash_reports.cc's
+// traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
+// core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
+// assets.json for the lists. It says no more than the code does.
 function Privacy() {
   return (
     <TextPage
@@ -123,16 +123,31 @@ function Privacy() {
             </p>
             <p>
               On Linux, only the Flatpak updates, through Flatpak's own remote, as your other
-              Flatpak apps do.
+              Flatpak apps do. Installing it fetches the runtime it runs on from Flathub, if you
+              don't have it yet.
+            </p>
+            <p className="hosts">
+              <code>dl.flathub.org</code>
             </p>
           </dd>
 
           <dt>Crash reports, only the ones you send</dt>
           <dd>
             <p>
-              When ilo crashes it writes a report on your computer. A report leaves it only if you
-              choose to send it, and only from a build that names somewhere to send it. The current
-              builds name none, so they send no crash reports.
+              When ilo crashes it writes a report on your computer, and the report leaves it only if
+              you say so. The next time ilo opens, it asks whether to send that one. Settings ›
+              Privacy › Send crash reports, off unless you turn it on, sends each one without
+              asking, and turning it off deletes those not yet sent.
+            </p>
+            <p>
+              A report is what the crashed part of ilo was doing: its threads and their stacks,
+              which can hold bits of what it was working on, the code it had loaded, and ilo's
+              version, its switches, your graphics chip and your extensions' ids. Switches naming
+              your folders are left out. It goes to Sentry, in the EU, told to keep no IP address
+              with it, and carries no cookies.
+            </p>
+            <p className="hosts">
+              <code>o4512341293334528.ingest.de.sentry.io</code>
             </p>
           </dd>
 
@@ -179,7 +194,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 29 October 2026.
+          . Last changed 31 October 2026.
         </p>
       </section>
     </TextPage>

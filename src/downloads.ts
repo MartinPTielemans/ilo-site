@@ -16,9 +16,15 @@ export const PLATFORMS = [
     name: "Windows",
     file: "ilo-windows-x64-setup.exe",
     note: "64-bit",
-    needs: "64-bit",
+    needs: "64-bit Windows 10 or later",
   },
-  { id: "linux", name: "Linux", file: "ilo-linux-x86_64.flatpak", note: "x64", needs: "x64" },
+  {
+    id: "linux",
+    name: "Linux",
+    file: "ilo-linux-x86_64.flatpak",
+    note: "x64",
+    needs: "A Flatpak, for x64",
+  },
 ] as const;
 
 export type Platform = (typeof PLATFORMS)[number];
