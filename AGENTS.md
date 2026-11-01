@@ -1,6 +1,6 @@
 # ilo-site
 
-The website for ilo, the open-source Arc-style browser. The browser itself is
+The website for ilo, the open-source browser. The browser itself is
 [MartinPTielemans/browser](https://github.com/MartinPTielemans/browser); its `AGENTS.md`
 doesn't apply here, and nothing here is built into the browser.
 
@@ -22,7 +22,7 @@ serve.
 3. **One goal per page.** The home page exists to get people to download ilo. Every section
    leads there or one layer deeper, and nothing competes with the download button.
 4. **Show the real product.** Real captures of ilo, never mockups passed off as the app, and
-   never Arc's or Dia's icons, fonts, images or names.
+   never another browser's icons, fonts, images or names.
 
 ## Traps
 
