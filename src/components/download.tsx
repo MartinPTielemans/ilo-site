@@ -22,28 +22,53 @@ export function Download({ className, others }: { className: string; others?: bo
   );
 }
 
-// What the download needs, the other computers, and the notes of the release it fetches, the newest.
+/** A line to paste into a terminal, and a button that copies it. */
+function Command({ line }: { line: string }) {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const done = setTimeout(() => setCopied(false), 1500);
+    return () => clearTimeout(done);
+  }, [copied]);
+  return (
+    <p className="command">
+      <code>{line}</code>
+      <button
+        type="button"
+        onClick={() => navigator.clipboard.writeText(line).then(() => setCopied(true))}
+      >
+        {copied ? "Copied" : "Copy"}
+      </button>
+    </p>
+  );
+}
+
+// The terminal's way in, what the download needs, the other computers, and the notes of the
+// release it fetches, the newest.
 function Others({ platform }: { platform: Platform }) {
   const rest = PLATFORMS.filter((other) => other !== platform);
   const newest = releases[0];
   return (
-    <p className="others">
-      {platform.needs}
-      {rest.length > 0 && ". Also for "}
-      {rest.map((other, index) => (
-        <Fragment key={other.id}>
-          {index === 0 ? "" : index === rest.length - 1 ? " and " : ", "}
-          <a href={downloadUrl(other)}>{other.name}</a>
-        </Fragment>
-      ))}
-      .
-      {newest && (
-        <>
-          {" "}
-          <a href={`/releases#${newest.version}`}>What's new in {newest.version}</a>.
-        </>
-      )}
-    </p>
+    <>
+      {platform.command && <Command key={platform.id} line={platform.command} />}
+      <p className="others">
+        {platform.needs}
+        {rest.length > 0 && ". Also for "}
+        {rest.map((other, index) => (
+          <Fragment key={other.id}>
+            {index === 0 ? "" : index === rest.length - 1 ? " and " : ", "}
+            <a href={downloadUrl(other)}>{other.name}</a>
+          </Fragment>
+        ))}
+        .
+        {newest && (
+          <>
+            {" "}
+            <a href={`/releases#${newest.version}`}>What's new in {newest.version}</a>.
+          </>
+        )}
+      </p>
+    </>
   );
 }
 

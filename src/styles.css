@@ -1546,6 +1546,39 @@ mark {
   text-decoration-color: currentColor;
 }
 
+/* A line to paste into a terminal, under the download button, with its copy button at its end. */
+.command {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  margin: 0;
+  padding: 6px 6px 6px 14px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.07);
+  color: var(--paper);
+  font-size: var(--s1);
+}
+.command code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.command button {
+  flex: none;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.12);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.command button:hover {
+  background: rgb(255 255 255 / 0.2);
+}
+
 /* The foot: the wordmark, built large, and the tagline beside it. */
 .foot {
   display: grid;

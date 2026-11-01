@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TextPage } from "../components/text-page";
-import { SOURCE } from "../downloads";
+import { PLATFORMS, SOURCE } from "../downloads";
+
+// Linux's install line, as the download area and the browser's README give it.
+const LINUX = PLATFORMS[2];
 
 export const Route = createFileRoute("/help")({
   head: () => ({
@@ -43,18 +46,19 @@ function Help() {
       <section id="install">
         <h2>Installing</h2>
         <p>
-          On a Mac, ilo needs macOS 15 Sequoia or later on Apple silicon. Open the download and drag
-          ilo into Applications.
+          On a Mac, ilo needs macOS 15 (Sequoia) or later, on Apple silicon. Open the download and
+          drag ilo into Applications.
         </p>
         <p>
-          On Windows, ilo needs 64-bit Windows 10 or later. Run the installer, which installs ilo
-          for you alone and asks for no administrator. The beta's installer isn't signed yet, so
+          On Windows, ilo needs Windows 10 (1809) or later, on x64. Run{" "}
+          <code>winget install ilo.ilo</code>, or the installer from the download, which installs
+          ilo for you alone and asks for no administrator. The beta's installer isn't signed yet, so
           Windows may say it protected your PC: choose More info, then Run anyway.
         </p>
         <p>
-          On Linux, ilo is a Flatpak for x64. Open the download with your software centre, or run{" "}
-          <code>flatpak install --user ilo-linux-x86_64.flatpak</code> where you saved it. Flatpak
-          fetches the runtime ilo runs on from Flathub if you don't have it.
+          On Linux, ilo is a Flatpak for x86-64. Open the download with your software centre, or run{" "}
+          <code>{LINUX.command}</code>. Then start ilo from your apps. It updates with your other
+          Flatpaks, and Flatpak fetches the runtime ilo runs on from Flathub if you don't have it.
         </p>
         <p>
           To bring your tabs, bookmarks and history from another browser, choose Import from Other

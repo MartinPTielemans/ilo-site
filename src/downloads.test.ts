@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { PLATFORM_LIST, platformFor } from "./downloads";
+import { PLATFORMS, PLATFORM_LIST, downloadUrl, platformFor } from "./downloads";
 
 const offered = (agent: string) => platformFor(agent).id;
 
@@ -42,5 +42,26 @@ describe("platformFor", () => {
 describe("PLATFORM_LIST", () => {
   it("names the platforms as a sentence does", () => {
     expect(PLATFORM_LIST).toBe("Mac, Windows and Linux");
+  });
+});
+
+// The files the browser's .github/workflows/release.yml uploads to every release, by the names in
+// its header. A download not among them would 404.
+const RELEASED = [
+  "ilo-mac-arm64.dmg",
+  "ilo-windows-x64.msix",
+  "ilo-windows-x64-setup.exe",
+  "ilo-linux-x86_64.flatpak",
+  "ilo.flatpakref",
+];
+
+describe("PLATFORMS", () => {
+  it("offers only files every release has", () => {
+    for (const platform of PLATFORMS) expect(RELEASED).toContain(platform.file);
+  });
+
+  it("installs Linux from the same release file the button fetches", () => {
+    const linux = PLATFORMS.find((platform) => platform.id === "linux")!;
+    expect(linux.command).toBe(`flatpak install --user ${downloadUrl(linux)}`);
   });
 });
