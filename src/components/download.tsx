@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
+import releases from "virtual:releases";
 import { PLATFORMS, type Platform, downloadUrl, platformFor } from "../downloads";
 
 /** The platform the visitor's computer runs; the prerendered page offers the first. */
@@ -21,8 +22,10 @@ export function Download({ className, others }: { className: string; others?: bo
   );
 }
 
+// What the download needs, the other computers, and the notes of the release it fetches, the newest.
 function Others({ platform }: { platform: Platform }) {
   const rest = PLATFORMS.filter((other) => other !== platform);
+  const newest = releases[0];
   return (
     <p className="others">
       {platform.needs}
@@ -34,6 +37,12 @@ function Others({ platform }: { platform: Platform }) {
         </Fragment>
       ))}
       .
+      {newest && (
+        <>
+          {" "}
+          <a href={`/releases#${newest.version}`}>What's new in {newest.version}</a>.
+        </>
+      )}
     </p>
   );
 }

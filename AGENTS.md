@@ -40,6 +40,11 @@ serve.
   `public/demo/SOURCE` at the tag's commit, which the hero's caption links to as the GPL's offer of
   source, commits that to main as github-actions and deploys. Swap it by hand only in the same
   shape: the files, the licences and SOURCE's commit in one commit.
+- `/releases` is every release's notes as GitHub has them when the site is built
+  (`tools/releases.ts`): each is its version's section of the browser's `CHANGELOG.md`. Never copy
+  notes into the site; fix them in the browser repo's release, and the next deploy takes them. A
+  build that can't read them fails. The app's What's New opens `/whats-new`, which
+  `public/_redirects` sends here.
 - Every push to main deploys to Cloudflare (`.github/workflows/deploy.yml`, `wrangler.jsonc`) once
   `vp check`, `vp test` and `vp build` pass, so main is always what ilobrowser.com serves.
 - The download buttons link to `releases/latest/download/<file>` in the browser repo, with each

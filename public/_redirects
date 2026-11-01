@@ -1,0 +1,3 @@
+# Cloudflare reads this at deploy. The app's What's New opens /whats-new (build_info.rs in the
+# browser repo), where the release notes were before /releases.
+/whats-new /releases 301

@@ -42,7 +42,11 @@ jobs:
 
       - run: vp check
       - run: vp test
+      # The build reads the release notes from GitHub's API (tools/releases.ts), which allows few
+      # requests without a token.
       - run: vp build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Deploy
         env:

@@ -2,12 +2,15 @@ import { readFileSync } from "node:fs";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite-plus";
+import { releases } from "./tools/releases";
 
 export default defineConfig({
   plugins: [
     // Every page is rendered to HTML at build time, so the site is static files any host can serve.
     tanstackStart({ prerender: { enabled: true, crawlLinks: true } }),
     viteReact(),
+    // The release notes on /releases, from GitHub's releases of the browser.
+    releases(),
   ],
   // The live interface is the browser repo's build in public/demo. Its SOURCE file names the commit
   // it was built from, and the hero's caption links there, as the GPL asks of a site that serves it.

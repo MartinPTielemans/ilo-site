@@ -12,7 +12,7 @@ export function Foot({ children }: { children?: ReactNode }) {
       </a>
       <nav className="where" aria-label="Elsewhere">
         <a href="/help">Help</a>
-        <a href="/whats-new">What's new</a>
+        <a href="/releases">What's new</a>
         <a href="/privacy">Privacy</a>
         <a href={GITHUB}>GitHub</a>
         <a href={`${GITHUB}/blob/main/LICENSE`}>GPL-3.0</a>

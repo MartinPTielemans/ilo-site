@@ -1675,6 +1675,11 @@ mark {
 .services .hosts {
   line-height: 2;
 }
+.release h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .release h2 span {
   margin-left: 0.4em;
   color: var(--soft);

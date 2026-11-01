@@ -13,7 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as IloRouteImport } from './routes/ilo'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as WhatsNewRouteImport } from './routes/whats-new'
+import { Route as ReleasesRouteImport } from './routes/releases'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +35,9 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WhatsNewRoute = WhatsNewRouteImport.update({
-  id: '/whats-new',
-  path: '/whats-new',
+const ReleasesRoute = ReleasesRouteImport.update({
+  id: '/releases',
+  path: '/releases',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -46,14 +46,14 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/ilo': typeof IloRoute
   '/privacy': typeof PrivacyRoute
-  '/whats-new': typeof WhatsNewRoute
+  '/releases': typeof ReleasesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/help': typeof HelpRoute
   '/ilo': typeof IloRoute
   '/privacy': typeof PrivacyRoute
-  '/whats-new': typeof WhatsNewRoute
+  '/releases': typeof ReleasesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +61,14 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/ilo': typeof IloRoute
   '/privacy': typeof PrivacyRoute
-  '/whats-new': typeof WhatsNewRoute
+  '/releases': typeof ReleasesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/help' | '/ilo' | '/privacy' | '/whats-new'
+  fullPaths: '/' | '/help' | '/ilo' | '/privacy' | '/releases'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/help' | '/ilo' | '/privacy' | '/whats-new'
-  id: '__root__' | '/' | '/help' | '/ilo' | '/privacy' | '/whats-new'
+  to: '/' | '/help' | '/ilo' | '/privacy' | '/releases'
+  id: '__root__' | '/' | '/help' | '/ilo' | '/privacy' | '/releases'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,7 +76,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   IloRoute: typeof IloRoute
   PrivacyRoute: typeof PrivacyRoute
-  WhatsNewRoute: typeof WhatsNewRoute
+  ReleasesRoute: typeof ReleasesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,11 +109,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/whats-new': {
-      id: '/whats-new'
-      path: '/whats-new'
-      fullPath: '/whats-new'
-      preLoaderRoute: typeof WhatsNewRouteImport
+    '/releases': {
+      id: '/releases'
+      path: '/releases'
+      fullPath: '/releases'
+      preLoaderRoute: typeof ReleasesRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -124,7 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   IloRoute: IloRoute,
   PrivacyRoute: PrivacyRoute,
-  WhatsNewRoute: WhatsNewRoute,
+  ReleasesRoute: ReleasesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

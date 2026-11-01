@@ -125,7 +125,7 @@ function Help() {
         <p>
           ilo updates itself. To look now, choose Check for Updates… in the ilo menu, or type
           "update" in the command bar. On Linux, Flatpak updates it with your other Flatpak apps.
-          What changed is on <a href="/whats-new">What's new</a>.
+          What changed is on <a href="/releases">What's new</a>.
         </p>
       </section>
 

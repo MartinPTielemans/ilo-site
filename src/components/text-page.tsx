@@ -24,7 +24,7 @@ export function TextPage({
         </a>
         <nav className="links" aria-label="Pages">
           <a href="/help">Help</a>
-          <a href="/whats-new">What's new</a>
+          <a href="/releases">What's new</a>
           <a href="/privacy">Privacy</a>
           <Download className="button" />
         </nav>
