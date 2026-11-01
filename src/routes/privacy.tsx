@@ -19,17 +19,18 @@ export const Route = createFileRoute("/privacy")({
 // The services, each with the hosts it reaches, as the browser's code on main names them: the
 // branding files (app/branding/update-feed, app/branding/crash-reports), core/crash_reports.cc's
 // traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
-// core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
-// assets.json for the lists. It says no more than the code does.
+// core/widevine.cc, app/platform/windows/updates.cc, app/src/agents/server.rs, tools/flatpak-repo.sh's
+// runtime repository, uBlock Origin's own assets.json for the lists, and for sync, ilo-server's
+// README › What the server can see and app/branding/sync-server. It says no more than the code does.
 function Privacy() {
   return (
     <TextPage
       title="Privacy"
       lead={
         <>
-          ilo has no account, no analytics and no ads, and sells nothing about you. It sends no
-          record of how you use it. What leaves your computer is the pages you open and the few
-          checks below, each with where it goes.
+          ilo has no analytics and no ads, and sells nothing about you. It sends no record of how
+          you use it, and nothing beyond what's below: the pages you open, a few checks, and crash
+          reports and sync only if you turn them on.
         </>
       }
     >
@@ -114,9 +115,10 @@ function Privacy() {
           <dt>ilo's updates</dt>
           <dd>
             <p>
-              Only a copy that updates itself checks. On a Mac and on Windows, ilo reads its update
-              feed every 8 hours, sending no profile of your system, and downloads an update from
-              ilo's releases on GitHub.
+              On a Mac, and on Windows when installed with winget or the installer, ilo reads its
+              update feed every 8 hours, sending no profile of your system, and downloads an update
+              from ilo's releases on GitHub. A copy from the Microsoft Store doesn't: the Store
+              updates it.
             </p>
             <p className="hosts">
               <code>github.com/MartinPTielemans/browser/releases/download/updates/appcast.xml</code>
@@ -151,11 +153,35 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt>Sync, once it ships</dt>
+          <dt>Sync, only if you sign in</dt>
           <dd>
             <p>
-              ilo has no sync yet. Once it does, it will talk to <code>sync.ilobrowser.com</code>{" "}
-              only while you're signed in to it.
+              ilo works fully without an account. If you sign in to sync, ilo encrypts what it syncs
+              on your computer, with a key the server never sees, so the server keeps only encrypted
+              data. It goes to <code>sync.ilobrowser.com</code>, or to your own server if you run
+              one (<a href="https://github.com/MartinPTielemans/ilo-server">ilo-server</a>
+              ). Under that encryption, history isn't synced at all.
+            </p>
+            <p>
+              The server does see your email address, which it sends your sign-in codes to, your
+              devices' names, systems and ilo versions and when they were last active, which kinds
+              of data you sync, how many items and how large, and when they change. It doesn't see
+              what they are. Signing out stops sync, and deleting your account deletes everything
+              the server holds for it.
+            </p>
+            <p className="hosts">
+              <code>sync.ilobrowser.com</code>
+            </p>
+          </dd>
+
+          <dt>Agents, only if you turn them on</dt>
+          <dd>
+            <p>
+              Agents are off until you turn them on. An agent such as Claude Code reaches ilo
+              through a connection on your computer that only your user account can open, never over
+              the network. What it then opens is a page like any other. ilo never gives an agent
+              your passwords or cookies; what the agent's own maker does with what it sees is up to
+              them.
             </p>
           </dd>
         </dl>
@@ -170,12 +196,23 @@ function Privacy() {
       </section>
 
       <section>
+        <h2>Turning things off</h2>
+        <p>
+          Crash reports and sync are off until you turn them on: Settings › Privacy › Send crash
+          reports, and signing out of your account. Ad blocking turns off with Settings › General ›
+          Block ads and trackers. Store extensions check for updates only while you have one
+          installed, and Widevine only once you've allowed protected video. The security updates
+          above stay on, as they keep ilo from trusting certificates known to be bad.
+        </p>
+      </section>
+
+      <section>
         <h2>Someone else's build of ilo</h2>
         <p>
           ilo is open source, so anyone can build their own. Official builds differ from such a fork
           only in their name and logo, their signing keys and a few addresses: the update feed,
-          where crash reports go, where ad block lists come from and this site. A fork chooses its
-          own. What a fork sends is up to whoever makes it, so read theirs.
+          where crash reports go, the sync server, where ad block lists come from and this site. A
+          fork chooses its own. What a fork sends is up to whoever makes it, so read theirs.
         </p>
       </section>
 
@@ -194,7 +231,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 31 October 2026.
+          . Last changed 1 November 2026.
         </p>
       </section>
     </TextPage>
