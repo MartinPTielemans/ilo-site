@@ -35,7 +35,7 @@ jobs:
       skip: ${{ steps.release.outputs.skip }}
     env:
       GH_TOKEN: ${{ github.token }}
-      BROWSER: MartinPTielemans/browser
+      BROWSER: MartinPTielemans/ilo
       TAG: ${{ github.event.client_payload.tag || inputs.tag }}
     steps:
       - uses: actions/checkout@v4

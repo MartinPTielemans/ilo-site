@@ -36,7 +36,7 @@ const SPACES = [
   {
     id: "work",
     name: "Work",
-    pinned: [["github", "MartinPTielemans/browser"]],
+    pinned: [["github", "MartinPTielemans/ilo"]],
     today: [
       ["ilo", "What ilo means"],
       ["rust", "The Rust Programming Language"],

@@ -26,8 +26,8 @@ const SPACES: {
     alt: "ilo in a Space called Work: a green sidebar with ilo's own repository pinned, and this site's page on what the word ilo means open: Esperanto for a tool, and the browser that keeps going.",
     pinned: [
       {
-        title: "MartinPTielemans/browser",
-        url: "https://github.com/MartinPTielemans/browser",
+        title: "MartinPTielemans/ilo",
+        url: "https://github.com/MartinPTielemans/ilo",
         icon: icon("github"),
       },
     ],

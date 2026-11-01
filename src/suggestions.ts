@@ -57,7 +57,7 @@ const HISTORY: Page[] = [
   { title: "OpenStreetMap", url: "www.openstreetmap.org/#map=15/38.7115/-9.1340" },
   { title: "Bauhaus - Wikipedia", url: "en.wikipedia.org/wiki/Bauhaus" },
   { title: "The Rust Programming Language", url: "doc.rust-lang.org/book/" },
-  { title: "GitHub - MartinPTielemans/browser", url: "github.com/MartinPTielemans/browser" },
+  { title: "GitHub - MartinPTielemans/ilo", url: "github.com/MartinPTielemans/ilo" },
   { title: "GitHub - zed-industries/zed", url: "github.com/zed-industries/zed" },
   { title: "The Public Domain Review", url: "publicdomainreview.org" },
   { title: "Hacker News", url: "news.ycombinator.com" },

@@ -11,7 +11,7 @@ test("the site's own pages and the sites that allow it are framed", () => {
 });
 
 test("a page that refuses frames gets the note instead", () => {
-  expect(framable("https://github.com/MartinPTielemans/browser", ORIGIN)).toBe(false);
+  expect(framable("https://github.com/MartinPTielemans/ilo", ORIGIN)).toBe(false);
   expect(framable("https://duckduckgo.com/?q=rust", ORIGIN)).toBe(false);
   // A name that only ends like an allowed one isn't it.
   expect(framable("https://notwikipedia.org/", ORIGIN)).toBe(false);

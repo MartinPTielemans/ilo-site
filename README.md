@@ -1,6 +1,6 @@
 # ilo-site
 
-The website for [ilo](https://github.com/MartinPTielemans/browser), an open-source browser.
+The website for [ilo](https://github.com/MartinPTielemans/ilo), an open-source browser.
 
 It's [TanStack Start](https://tanstack.com/start) on [Vite+](https://viteplus.dev/guide), with
 every page prerendered to static HTML. With Vite+'s `vp` installed:

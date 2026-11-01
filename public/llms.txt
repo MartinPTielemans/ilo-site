@@ -20,5 +20,5 @@ The name is written lowercase, "ilo", and is Esperanto for "a tool".
 
 ## Source
 
-- [The browser's source](https://github.com/MartinPTielemans/browser)
-- [Releases](https://github.com/MartinPTielemans/browser/releases)
+- [The browser's source](https://github.com/MartinPTielemans/ilo)
+- [Releases](https://github.com/MartinPTielemans/ilo/releases)

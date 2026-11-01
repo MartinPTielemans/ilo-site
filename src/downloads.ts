@@ -30,7 +30,7 @@ export const PLATFORMS = [
 export type Platform = (typeof PLATFORMS)[number];
 
 // The browser's source, where its releases are published.
-export const SOURCE = "https://github.com/MartinPTielemans/browser";
+export const SOURCE = "https://github.com/MartinPTielemans/ilo";
 const RELEASES = `${SOURCE}/releases`;
 
 export const downloadUrl = (platform: Platform) => `${RELEASES}/latest/download/${platform.file}`;

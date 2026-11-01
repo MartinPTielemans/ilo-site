@@ -17,7 +17,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: "Is ilo open source?",
     answer:
-      "Yes. All of ilo that runs on your computer is under the GPL-3.0, and its source is on GitHub at github.com/MartinPTielemans/browser.",
+      "Yes. All of ilo that runs on your computer is under the GPL-3.0, and its source is on GitHub at github.com/MartinPTielemans/ilo.",
   },
   {
     question: "What is ilo built on?",

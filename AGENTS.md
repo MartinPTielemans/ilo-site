@@ -1,7 +1,7 @@
 # ilo-site
 
 The website for ilo, the open-source Arc-style browser. The browser itself is
-[MartinPTielemans/browser](https://github.com/MartinPTielemans/browser); its `AGENTS.md`
+[MartinPTielemans/ilo](https://github.com/MartinPTielemans/ilo); its `AGENTS.md`
 doesn't apply here, and nothing here is built into the browser.
 
 The site is [TanStack Start](https://tanstack.com/start) (React) on

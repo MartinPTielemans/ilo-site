@@ -44,7 +44,7 @@ const SPACES: Space[] = [
   {
     name: "Work",
     color: 0x0e9f55,
-    pinned: ["https://github.com/MartinPTielemans/browser"],
+    pinned: ["https://github.com/MartinPTielemans/ilo"],
     today: [
       `http://${HOST}/ilo`,
       "https://doc.rust-lang.org/book/",

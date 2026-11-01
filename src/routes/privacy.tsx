@@ -195,7 +195,7 @@ function Privacy() {
             </p>
             <p className="hosts">
               <code className="path">
-                github.com/MartinPTielemans/browser/releases/download/updates/appcast.xml
+                github.com/MartinPTielemans/ilo/releases/download/updates/appcast.xml
               </code>
             </p>
             <p>
