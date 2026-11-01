@@ -1675,6 +1675,64 @@ mark {
 .services .hosts {
   line-height: 2;
 }
+/* A host is one word, kept whole on its line; only a long address with a path (.path) may wrap. */
+.services .hosts code:not(.path) {
+  white-space: nowrap;
+}
+/* A deep link lands with room above it, under the header. */
+.text [id] {
+  scroll-margin-top: 96px;
+}
+.glance {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.glance th,
+.glance td {
+  padding: 12px 16px 12px 0;
+  border-top: 1px solid var(--ink-2);
+  vertical-align: top;
+}
+.glance thead th {
+  border-top: 0;
+  padding-top: 0;
+  color: var(--soft);
+  font-weight: 400;
+}
+.glance tbody th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.glance td {
+  color: color-mix(in srgb, var(--paper) 86%, var(--ink));
+}
+.glance a {
+  text-decoration: none;
+}
+.glance a:hover {
+  text-decoration: underline;
+}
+/* On a phone each row stacks: the service, then when and where under it. */
+@media (max-width: 560px) {
+  .glance thead {
+    display: none;
+  }
+  .glance tr {
+    display: block;
+    padding: 12px 0;
+    border-top: 1px solid var(--ink-2);
+  }
+  .glance th,
+  .glance td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .glance td + td {
+    color: var(--soft);
+  }
+}
 .release h2 span {
   margin-left: 0.4em;
   color: var(--soft);

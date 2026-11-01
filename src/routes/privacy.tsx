@@ -19,6 +19,59 @@ export const Route = createFileRoute("/privacy")({
 // traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
 // core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
 // assets.json for the lists. It says no more than the code does.
+
+// The services below in a line each, as the page tells them: what, when and to whom. A change to a
+// service changes its row too.
+const GLANCE = [
+  {
+    id: "pages",
+    what: "The pages you open",
+    when: "As you browse and search",
+    to: "Each site, and your search engine",
+  },
+  {
+    id: "chrome-web-store",
+    what: "Extensions",
+    when: "When you use the store, and about every five hours with one installed",
+    to: "Google",
+  },
+  {
+    id: "security-updates",
+    what: "Security updates",
+    when: "A minute after launch, then every five hours",
+    to: "Google",
+  },
+  {
+    id: "widevine",
+    what: "Protected video",
+    when: "On Linux, once you allow it",
+    to: "Google",
+  },
+  {
+    id: "ad-block-lists",
+    what: "Ad block lists",
+    when: "About once a week",
+    to: "The lists' hosts",
+  },
+  {
+    id: "updates",
+    what: "ilo's updates",
+    when: "Every 8 hours on a Mac and Windows; with Flatpak on Linux",
+    to: "GitHub, or your Flatpak remote",
+  },
+  {
+    id: "crash-reports",
+    what: "Crash reports",
+    when: "Only those you send",
+    to: "Sentry, in the EU",
+  },
+  {
+    id: "sync",
+    what: "Sync",
+    when: "Not yet: only while you're signed in",
+    to: "sync.ilobrowser.com",
+  },
+];
 function Privacy() {
   return (
     <TextPage
@@ -31,7 +84,31 @@ function Privacy() {
         </>
       }
     >
-      <section>
+      <section id="at-a-glance">
+        <h2>At a glance</h2>
+        <table className="glance">
+          <thead>
+            <tr>
+              <th scope="col">What</th>
+              <th scope="col">When</th>
+              <th scope="col">To</th>
+            </tr>
+          </thead>
+          <tbody>
+            {GLANCE.map((row) => (
+              <tr key={row.id}>
+                <th scope="row">
+                  <a href={`#${row.id}`}>{row.what}</a>
+                </th>
+                <td>{row.when}</td>
+                <td>{row.to}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section id="pages">
         <h2>The pages you open</h2>
         <p>
           A page you open, or preview with Peek, gets what any browser sends it: your IP address,
@@ -48,7 +125,7 @@ function Privacy() {
       <section>
         <h2>Every service ilo talks to</h2>
         <dl className="services">
-          <dt>The Chrome Web Store, from Google</dt>
+          <dt id="chrome-web-store">The Chrome Web Store, from Google</dt>
           <dd>
             <p>
               Extensions come from the Chrome Web Store. When you visit the store, it sees which
@@ -66,7 +143,7 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt>Chromium's security updates, from Google</dt>
+          <dt id="security-updates">Chromium's security updates, from Google</dt>
           <dd>
             <p>
               ilo is built on ungoogled-chromium, which cuts Chromium's calls to Google. ilo brings
@@ -76,13 +153,13 @@ function Privacy() {
               error helper. It runs a minute after launch, then every five hours.
             </p>
             <p className="hosts">
-              <code>update.googleapis.com/service/update2/json</code>, with downloads only from{" "}
-              <code>dl.google.com</code>, <code>*.gvt1.com</code> and{" "}
+              <code className="path">update.googleapis.com/service/update2/json</code>, with
+              downloads only from <code>dl.google.com</code>, <code>*.gvt1.com</code> and{" "}
               <code>www.google.com/dl/</code>
             </p>
           </dd>
 
-          <dt>Widevine, for protected video on Linux</dt>
+          <dt id="widevine">Widevine, for protected video on Linux</dt>
           <dd>
             <p>
               On Linux, Netflix and other protected video need Google's Widevine module, which ilo
@@ -93,7 +170,7 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt>Ad block lists</dt>
+          <dt id="ad-block-lists">Ad block lists</dt>
           <dd>
             <p>
               ilo blocks ads with uBlock Origin, built in. It ships with its lists, so it blocks
@@ -109,7 +186,7 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt>ilo's updates</dt>
+          <dt id="updates">ilo's updates</dt>
           <dd>
             <p>
               Only a copy that updates itself checks. On a Mac and on Windows, ilo reads its update
@@ -117,7 +194,9 @@ function Privacy() {
               ilo's releases on GitHub.
             </p>
             <p className="hosts">
-              <code>github.com/MartinPTielemans/browser/releases/download/updates/appcast.xml</code>
+              <code className="path">
+                github.com/MartinPTielemans/browser/releases/download/updates/appcast.xml
+              </code>
             </p>
             <p>
               On Linux, only the Flatpak updates, through Flatpak's own remote, as your other
@@ -129,7 +208,7 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt>Crash reports, only the ones you send</dt>
+          <dt id="crash-reports">Crash reports, only the ones you send</dt>
           <dd>
             <p>
               When ilo crashes it writes a report on your computer, and the report leaves it only if
@@ -149,7 +228,7 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt>Sync, once it ships</dt>
+          <dt id="sync">Sync, once it ships</dt>
           <dd>
             <p>
               ilo has no sync yet. Once it does, it will talk to <code>sync.ilobrowser.com</code>{" "}
@@ -192,7 +271,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 31 October 2026.
+          . Last changed 2 November 2026.
         </p>
       </section>
     </TextPage>
