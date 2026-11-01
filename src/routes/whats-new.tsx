@@ -1,14 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "../seo";
 import { TextPage } from "../components/text-page";
 import { SOURCE } from "../downloads";
 
 export const Route = createFileRoute("/whats-new")({
-  head: () => ({
-    meta: [
-      { title: "What's new · ilo" },
-      { name: "description", content: "What changed in each version of ilo." },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      path: "/whats-new",
+      title: "What's new · ilo",
+      description:
+        "Release notes for ilo, the free, open-source browser: what changed in each version.",
+    }),
   component: WhatsNew,
 });
 

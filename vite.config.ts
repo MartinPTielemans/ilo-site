@@ -6,7 +6,11 @@ import { defineConfig } from "vite-plus";
 export default defineConfig({
   plugins: [
     // Every page is rendered to HTML at build time, so the site is static files any host can serve.
-    tanstackStart({ prerender: { enabled: true, crawlLinks: true } }),
+    tanstackStart({
+      prerender: { enabled: true, crawlLinks: true },
+      // Lists every prerendered page in dist/client/sitemap.xml, which robots.txt points to.
+      sitemap: { enabled: true, host: "https://ilobrowser.com" },
+    }),
     viteReact(),
   ],
   // The live interface is the browser repo's build in public/demo. Its SOURCE file names the commit

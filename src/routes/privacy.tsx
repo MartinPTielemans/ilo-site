@@ -1,18 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "../seo";
 import { TextPage } from "../components/text-page";
 import { SOURCE } from "../downloads";
 
 export const Route = createFileRoute("/privacy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy · ilo" },
-      {
-        name: "description",
-        content:
-          "What leaves your computer when you use ilo, and every service and address it talks to.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      path: "/privacy",
+      title: "Privacy · ilo",
+      description:
+        "What leaves your computer when you use ilo, and every service and address it talks to.",
+    }),
   component: Privacy,
 });
 

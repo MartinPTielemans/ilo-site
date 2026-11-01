@@ -34,6 +34,10 @@ serve.
 - `src/routeTree.gen.ts` is written by the router plugin on every `vp dev` and `vp build`.
   Commit it, or a fresh clone fails the type check before its first build.
 - Files in `public/` are served from the root, so they're referenced as `/media/…`.
+- Every page's head comes from `pageHead` in `src/seo.ts`: its title, description, canonical
+  address and link preview. A new page that skips it shows the home page's preview when shared, and
+  link scrapers take only absolute URLs, so the share image is named with the site's origin.
+  `vp build` writes `sitemap.xml` from the pages it prerenders.
 - `public/demo` is the browser repo's build of the live interface (GPL), committed as built and
   left out of fmt and lint. Publishing a release in the browser repo replaces it:
   `.github/workflows/release.yml` takes the release's `ilo-demo.tar.gz`, points
@@ -45,7 +49,7 @@ serve.
 - The download buttons link to `releases/latest/download/<file>` in the browser repo, with each
   platform's fixed file name from `src/downloads.ts`. GitHub serves whichever release is marked
   Latest, so every other release there (the engine builds) has to be made with `--latest=false`,
-  or the buttons 404. The file names are the browser's `release.yml`'s. The meta description in `src/routes/__root.tsx` names the platforms by hand.
+  or the buttons 404. The file names are the browser's `release.yml`'s.
 
 ## Brand
 

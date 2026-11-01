@@ -1,8 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "../seo";
 import { Wordmark } from "../components/wordmark";
 
 export const Route = createFileRoute("/ilo")({
-  head: () => ({ meta: [{ title: "What ilo means" }] }),
+  head: () =>
+    pageHead({
+      path: "/ilo",
+      title: "What ilo means",
+      description: "ilo is Esperanto for a tool, and the name of a free, open-source web browser.",
+    }),
   component: Meaning,
 });
 

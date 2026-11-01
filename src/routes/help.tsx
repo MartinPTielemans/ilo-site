@@ -1,17 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "../seo";
 import { TextPage } from "../components/text-page";
 import { SOURCE } from "../downloads";
 
 export const Route = createFileRoute("/help")({
-  head: () => ({
-    meta: [
-      { title: "Help · ilo" },
-      {
-        name: "description",
-        content: "How ilo works: Spaces, the sidebar, the command bar and more.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      path: "/help",
+      title: "Help · ilo",
+      description:
+        "How to use ilo: installing it on Mac, Windows and Linux, Spaces and profiles, tabs, the command bar, split view, extensions, ad blocking and updates.",
+    }),
   component: Help,
 });
 

@@ -1,32 +1,20 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { SITE_META } from "../seo";
 import css from "../styles.css?url";
 
-const title = "ilo: the browser that keeps going";
-
 export const Route = createRootRoute({
+  // Each page adds its own title, description and canonical address with pageHead (src/seo.ts).
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title },
-      {
-        name: "description",
-        content:
-          "ilo is a free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command, on Chromium. In beta for Mac, Windows and Linux.",
-      },
       { name: "theme-color", content: "#16140F" },
-      { property: "og:title", content: title },
-      {
-        property: "og:description",
-        content:
-          "A free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command.",
-      },
-      { property: "og:image", content: "/media/og.jpg" },
-      { name: "twitter:card", content: "summary_large_image" },
+      ...SITE_META,
     ],
     links: [
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       {
         rel: "preload",
         href: "/fonts/outfit.woff2",

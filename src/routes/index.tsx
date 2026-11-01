@@ -7,10 +7,21 @@ import { Foot } from "../components/foot";
 import { Habits } from "../components/habits";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
-import { SOURCE as GITHUB } from "../downloads";
+import { SOURCE as GITHUB, PLATFORM_LIST } from "../downloads";
 import { useEntrances } from "../entrances";
+import { pageHead, structuredData } from "../seo";
 
-export const Route = createFileRoute("/")({ component: Home });
+const description = `ilo is a free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command, on Chromium. In beta for ${PLATFORM_LIST}.`;
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    ...pageHead({ path: "/", title: "ilo: the browser that keeps going", description }),
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(structuredData(description)) },
+    ],
+  }),
+  component: Home,
+});
 
 /** Starts a character field on `canvas` once the page has its colours. */
 function useField(
