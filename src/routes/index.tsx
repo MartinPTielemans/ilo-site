@@ -15,7 +15,11 @@ const description = `ilo is a free, open-source browser: every part of your life
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    ...pageHead({ path: "/", title: "ilo: the browser that keeps going", description }),
+    ...pageHead({
+      path: "/",
+      title: "ilo: the free, open-source browser that keeps going",
+      description,
+    }),
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(structuredData(description)) },
     ],

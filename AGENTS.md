@@ -38,6 +38,9 @@ serve.
   address and link preview. A new page that skips it shows the home page's preview when shared, and
   link scrapers take only absolute URLs, so the share image is named with the site's origin.
   `vp build` writes `sitemap.xml` from the pages it prerenders.
+- `public/llms.txt` is the site's summary for AI answer engines, written by hand: a new page, a new
+  platform or a change in what ilo needs goes there too. The answers in `src/faq.ts` reach search
+  engines as structured data, so each has to stand alone and say no more than the site does.
 - `public/demo` is the browser repo's build of the live interface (GPL), committed as built and
   left out of fmt and lint. Publishing a release in the browser repo replaces it:
   `.github/workflows/release.yml` takes the release's `ilo-demo.tar.gz`, points

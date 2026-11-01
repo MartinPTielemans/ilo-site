@@ -1,16 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Fragment } from "react";
 import { pageHead } from "../seo";
 import { TextPage } from "../components/text-page";
 import { SOURCE } from "../downloads";
+import { FAQ, faqData } from "../faq";
 
 export const Route = createFileRoute("/help")({
-  head: () =>
-    pageHead({
+  head: () => ({
+    ...pageHead({
       path: "/help",
       title: "Help · ilo",
       description:
-        "How to use ilo: installing it on Mac, Windows and Linux, Spaces and profiles, tabs, the command bar, split view, extensions, ad blocking and updates.",
+        "How to use ilo: installing it on Mac, Windows and Linux, Spaces and profiles, tabs, the command bar, split view, extensions, ad blocking and updates, and answers to common questions.",
     }),
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(faqData()) }],
+  }),
   component: Help,
 });
 
@@ -37,6 +41,7 @@ function Help() {
         <a href="#extensions">Extensions and ad blocking</a>
         <a href="#updates">Updates</a>
         <a href="#problem">Reporting a problem</a>
+        <a href="#questions">Questions</a>
       </nav>
 
       <section id="install">
@@ -136,6 +141,20 @@ function Help() {
           <a href={`${SOURCE}/issues`}>look through the issues</a> others have reported. What ilo
           sends and where is on <a href="/privacy">Privacy</a>.
         </p>
+      </section>
+
+      <section id="questions">
+        <h2>Questions</h2>
+        <dl className="services">
+          {FAQ.map(({ question, answer }) => (
+            <Fragment key={question}>
+              <dt>{question}</dt>
+              <dd>
+                <p>{answer}</p>
+              </dd>
+            </Fragment>
+          ))}
+        </dl>
       </section>
     </TextPage>
   );

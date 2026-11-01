@@ -27,6 +27,7 @@ type Release = {
 const RELEASES: Release[] = [
   {
     version: "0.1.0",
+    date: "1 November 2026",
     summary: "The first beta, for people ready to live in it and tell us what breaks.",
     notes: [
       "Spaces, each with its own colour and its own tabs, and profiles that keep logins apart.",

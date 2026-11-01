@@ -11,6 +11,9 @@ export function Foot({ children }: { children?: ReactNode }) {
         <span>a good tool.</span>
       </a>
       <nav className="where" aria-label="Elsewhere">
+        <a href="/mac">Mac</a>
+        <a href="/windows">Windows</a>
+        <a href="/linux">Linux</a>
         <a href="/help">Help</a>
         <a href="/whats-new">What's new</a>
         <a href="/privacy">Privacy</a>

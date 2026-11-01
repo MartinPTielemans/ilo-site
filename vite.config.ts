@@ -8,6 +8,8 @@ export default defineConfig({
     // Every page is rendered to HTML at build time, so the site is static files any host can serve.
     tanstackStart({
       prerender: { enabled: true, crawlLinks: true },
+      // Cloudflare serves 404.html for any address with no file (wrangler.jsonc).
+      pages: [{ path: "/404", prerender: { outputPath: "/404.html" }, sitemap: { exclude: true } }],
       // Lists every prerendered page in dist/client/sitemap.xml, which robots.txt points to.
       sitemap: { enabled: true, host: "https://ilobrowser.com" },
     }),
