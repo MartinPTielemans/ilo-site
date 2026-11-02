@@ -16,7 +16,7 @@ export function NotFound() {
         lead={
           <>
             There's no page at this address. ilo's site is small: try <a href="/">the home page</a>,{" "}
-            <a href="/help">Help</a> or <a href="/whats-new">What's new</a>.
+            <a href="/help">Help</a> or <a href="/changelog">Changelog</a>.
           </>
         }
       >

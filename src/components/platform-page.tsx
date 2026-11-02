@@ -108,7 +108,7 @@ export function PlatformPage({ id }: { id: Id }) {
       <section>
         <h2>Updates</h2>
         <p>
-          {updates} What changed is on <a href="/whats-new">What's new</a>.
+          {updates} What changed is in the <a href="/changelog">changelog</a>.
         </p>
       </section>
 

@@ -15,7 +15,7 @@ export function Foot({ children }: { children?: ReactNode }) {
         <a href="/windows">Windows</a>
         <a href="/linux">Linux</a>
         <a href="/help">Help</a>
-        <a href="/whats-new">What's new</a>
+        <a href="/changelog">Changelog</a>
         <a href="/privacy">Privacy</a>
         <a href={GITHUB}>GitHub</a>
         <a href={`${GITHUB}/blob/main/LICENSE`}>GPL-3.0</a>
