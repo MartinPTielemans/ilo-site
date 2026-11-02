@@ -1595,7 +1595,7 @@ mark {
   max-width: 62ch;
 }
 
-/* A page of reading (Help, What's new, Privacy): one column at a reading width, under the top. */
+/* A page of reading (Help, Changelog, Privacy): one column at a reading width, under the top. */
 .text {
   max-width: calc(68ch + 2 * var(--inset));
   padding: 152px var(--inset) 0;
@@ -1733,12 +1733,66 @@ mark {
     color: var(--soft);
   }
 }
+.release h2 a {
+  color: inherit;
+  text-decoration: none;
+}
 .release h2 span {
   margin-left: 0.4em;
   color: var(--soft);
   font-size: var(--s1);
   font-weight: 400;
   letter-spacing: 0;
+}
+/* A change with a clip: the clip at the column's width, its sentence under it. */
+.release figure {
+  margin-top: 32px;
+}
+.release figure + ul {
+  margin-top: 32px;
+}
+.release figcaption {
+  margin-top: 12px;
+  color: color-mix(in srgb, var(--paper) 86%, var(--ink));
+}
+.clip {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ink-2);
+  box-shadow: var(--edge);
+  cursor: pointer;
+}
+.clip:focus-visible {
+  outline: 2px solid var(--signal-hi);
+  outline-offset: 3px;
+}
+.clip img,
+.clip video {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The frame that shows the change, until the video first plays, and from then on the video, paused
+   or not. Before the script decides, the visitor's preference does. */
+.clip[data-still="true"] video,
+.clip[data-still="false"] img {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .clip:not([data-still]) img {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clip:not([data-still]) video {
+    display: none;
+  }
 }
 
 /* Entrances: the script marks the parts of each section and lifts them in, once. */

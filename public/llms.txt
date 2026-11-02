@@ -15,7 +15,7 @@ The name is written lowercase, "ilo", and is Esperanto for "a tool".
 - [ilo for Windows](https://ilobrowser.com/windows): 64-bit Windows 10 or later
 - [ilo for Linux](https://ilobrowser.com/linux): a Flatpak, for x64
 - [Help](https://ilobrowser.com/help): how ilo works, and answers to common questions
-- [What's new](https://ilobrowser.com/whats-new): release notes for each version
+- [Changelog](https://ilobrowser.com/changelog): what changed in each version, with clips of the new features
 - [Privacy](https://ilobrowser.com/privacy): every service ilo talks to, and what it sends
 
 ## Source

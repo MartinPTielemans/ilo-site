@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
+import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as IloRouteImport } from './routes/ilo'
 import { Route as LinuxRouteImport } from './routes/linux'
 import { Route as MacRouteImport } from './routes/mac'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as WhatsNewRouteImport } from './routes/whats-new'
 import { Route as WindowsRouteImport } from './routes/windows'
 
 const IndexRoute = IndexRouteImport.update({
@@ -27,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const SplatRoute = SplatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangelogRoute = ChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HelpRoute = HelpRouteImport.update({
@@ -54,11 +59,6 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WhatsNewRoute = WhatsNewRouteImport.update({
-  id: '/whats-new',
-  path: '/whats-new',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const WindowsRoute = WindowsRouteImport.update({
   id: '/windows',
   path: '/windows',
@@ -68,35 +68,35 @@ const WindowsRoute = WindowsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/changelog': typeof ChangelogRoute
   '/help': typeof HelpRoute
   '/ilo': typeof IloRoute
   '/linux': typeof LinuxRoute
   '/mac': typeof MacRoute
   '/privacy': typeof PrivacyRoute
-  '/whats-new': typeof WhatsNewRoute
   '/windows': typeof WindowsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/changelog': typeof ChangelogRoute
   '/help': typeof HelpRoute
   '/ilo': typeof IloRoute
   '/linux': typeof LinuxRoute
   '/mac': typeof MacRoute
   '/privacy': typeof PrivacyRoute
-  '/whats-new': typeof WhatsNewRoute
   '/windows': typeof WindowsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/changelog': typeof ChangelogRoute
   '/help': typeof HelpRoute
   '/ilo': typeof IloRoute
   '/linux': typeof LinuxRoute
   '/mac': typeof MacRoute
   '/privacy': typeof PrivacyRoute
-  '/whats-new': typeof WhatsNewRoute
   '/windows': typeof WindowsRoute
 }
 export interface FileRouteTypes {
@@ -104,46 +104,46 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/changelog'
     | '/help'
     | '/ilo'
     | '/linux'
     | '/mac'
     | '/privacy'
-    | '/whats-new'
     | '/windows'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/$'
+    | '/changelog'
     | '/help'
     | '/ilo'
     | '/linux'
     | '/mac'
     | '/privacy'
-    | '/whats-new'
     | '/windows'
   id:
     | '__root__'
     | '/'
     | '/$'
+    | '/changelog'
     | '/help'
     | '/ilo'
     | '/linux'
     | '/mac'
     | '/privacy'
-    | '/whats-new'
     | '/windows'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
+  ChangelogRoute: typeof ChangelogRoute
   HelpRoute: typeof HelpRoute
   IloRoute: typeof IloRoute
   LinuxRoute: typeof LinuxRoute
   MacRoute: typeof MacRoute
   PrivacyRoute: typeof PrivacyRoute
-  WhatsNewRoute: typeof WhatsNewRoute
   WindowsRoute: typeof WindowsRoute
 }
 
@@ -161,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/$'
       preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/changelog': {
+      id: '/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help': {
@@ -198,13 +205,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/whats-new': {
-      id: '/whats-new'
-      path: '/whats-new'
-      fullPath: '/whats-new'
-      preLoaderRoute: typeof WhatsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/windows': {
       id: '/windows'
       path: '/windows'
@@ -218,12 +218,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
+  ChangelogRoute: ChangelogRoute,
   HelpRoute: HelpRoute,
   IloRoute: IloRoute,
   LinuxRoute: LinuxRoute,
   MacRoute: MacRoute,
   PrivacyRoute: PrivacyRoute,
-  WhatsNewRoute: WhatsNewRoute,
   WindowsRoute: WindowsRoute,
 }
 export const routeTree = rootRouteImport
