@@ -31,7 +31,10 @@ export const RELEASES: Release[] = [
         text: "⇧-click a link, or choose Open Link in Peek from its menu, to open it in Peek over the page you're on. Peek's page is now the card, with its site and buttons floating over a lighter dim.",
         clip: "peek",
       },
-      "ilo keeps backups of your sidebar: Help › Restore Earlier Sidebar, or the command bar, brings one back.",
+      {
+        text: "ilo keeps backups of your sidebar: Help › Restore Earlier Sidebar, or the command bar, brings one back.",
+        clip: "sidebar-backups",
+      },
       "A pinned folder moves to another Space from its menu, the command bar or a drag.",
       "An unloaded pinned tab's row has a button that removes it from the pinned tabs.",
       "Updates download in the background and say when they're ready, on every OS. Their notes and What's New open the release's entry here.",
