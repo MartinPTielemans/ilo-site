@@ -26,6 +26,22 @@ type Release = {
 // What's New opens this page.
 const RELEASES: Release[] = [
   {
+    version: "0.1.1",
+    date: "2 November 2026",
+    summary: "Fixes for the 0.1.0 beta, most of them on Windows.",
+    notes: [
+      "Windows: ilo no longer quits when a window moves to another monitor, or is resized after its last tab closed.",
+      "Windows: no empty boxes left over the page after a window is minimized and restored.",
+      "Windows: the app, its windows and their taskbar thumbnails show ilo's icon.",
+      "Windows: Microsoft sign-ins that need a compliant device work on PCs joined to a work or school account.",
+      "A window no longer shows a leftover page after its last tab closes.",
+      "A pinned tab in a split view keeps its pin, and closing its pane only takes it out of the split.",
+      "The command bar always takes the keyboard when it opens.",
+      "Onboarding offers an ilo account, so sync is found on the first run.",
+      "A key an agent presses goes to the page only, never to ilo's shortcuts.",
+    ],
+  },
+  {
     version: "0.1.0",
     date: "1 November 2026",
     summary: "The first beta, for people ready to live in it and tell us what breaks.",
