@@ -22,9 +22,15 @@ export const RELEASES: Release[] = [
     summary:
       "Little ilo for quick pages and links from other apps, Peek for any link, sidebar backups and more fixes.",
     notes: [
-      "Little ilo: a small window for a quick page, from ⌥⌘N (Ctrl+Alt+N on Windows and Linux), ⌥⌘-click on a tab, the Dock's menu or an optional menu bar button. It opens where the pointer is, at the size the last one closed at, and its bar picks the page's profile. ⌘O moves its page to the main window, and ⇧⌘T reopens one you closed.",
+      {
+        text: "Little ilo: a small window for a quick page, from ⌥⌘N (Ctrl+Alt+N on Windows and Linux), ⌥⌘-click on a tab, the Dock's menu or an optional menu bar button. It opens where the pointer is, at the size the last one closed at, and its bar picks the page's profile. ⌘O moves its page to the main window, and ⇧⌘T reopens one you closed.",
+        clip: "little-ilo",
+      },
       "Links from other apps can open in Little ilo, chosen in Settings › Links. The same link brings back the window it opened.",
-      "⇧-click a link, or choose Open Link in Peek from its menu, to open it in Peek over the page you're on. Peek's page is now the card, with its site and buttons floating over a lighter dim.",
+      {
+        text: "⇧-click a link, or choose Open Link in Peek from its menu, to open it in Peek over the page you're on. Peek's page is now the card, with its site and buttons floating over a lighter dim.",
+        clip: "peek",
+      },
       "ilo keeps backups of your sidebar: Help › Restore Earlier Sidebar, or the command bar, brings one back.",
       "A pinned folder moves to another Space from its menu, the command bar or a drag.",
       "An unloaded pinned tab's row has a button that removes it from the pinned tabs.",
