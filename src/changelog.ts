@@ -17,6 +17,25 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.2",
+    date: "2 November 2026",
+    summary:
+      "Little ilo for quick pages and links from other apps, Peek for any link, and more fixes.",
+    notes: [
+      "Little ilo: a small window for a quick page, from ⌥⌘N or ⌥⌘-click on a tab. ⌘O moves its page to the main window.",
+      "Links from other apps can open in Little ilo, chosen in Settings › Links.",
+      "⇧-click a link, or choose Open Link in Peek from its menu, to open it in Peek over the page you're on.",
+      "ilo keeps backups of your sidebar: Help › Restore Earlier Sidebar, or the command bar, brings one back.",
+      "A pinned folder moves to another Space from its menu, the command bar or a drag.",
+      "Updates download in the background and say when they're ready.",
+      "Windows: shortcuts keep working after a window is minimized and restored.",
+      "Windows: a link from another app opens once, and opening ilo again brings its window forward.",
+      "Windows: a window closed maximized opens maximized again.",
+      "A long note at the top of the page shortens its words instead of running past the window's edge.",
+      "Connect finds Claude Code wherever it was installed.",
+    ],
+  },
+  {
     version: "0.1.1",
     date: "2 November 2026",
     summary: "Fixes for the 0.1.0 beta, most of them on Windows.",
