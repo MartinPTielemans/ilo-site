@@ -7,11 +7,11 @@ import { Foot } from "../components/foot";
 import { Habits } from "../components/habits";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
-import { SOURCE as GITHUB, PLATFORM_LIST } from "../downloads";
+import { SOURCE as GITHUB } from "../downloads";
 import { useEntrances } from "../entrances";
 import { pageHead, structuredData } from "../seo";
 
-const description = `ilo is a free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command, on Chromium. In beta for ${PLATFORM_LIST}.`;
+const description = `ilo is a free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command, on Chromium. In beta for Mac and Linux, alpha on Windows.`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -117,8 +117,8 @@ function Home() {
             <div>
               <h3>How it pays</h3>
               <p>
-                Paid features will come later. I'll host them for a price, and you can host every
-                one of them yourself.{" "}
+                It doesn't, for now. ilo is free and GPL-3.0, with no paid features and no licence
+                checks, and you can host the services that hold your data, such as sync, yourself.{" "}
                 <mark>If I ever stop, anyone can carry on from the code.</mark>
               </p>
             </div>

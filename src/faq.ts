@@ -12,7 +12,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: "Is ilo free?",
     answer:
-      "Yes. The whole browser is free on every computer it runs on, with no ads and no licence checks. Paid features will come later, hosted for a price, and anyone can host every one of them themselves.",
+      "Yes. The whole browser is free on every computer it runs on, with no ads, no licence checks and no paid features. It's GPL-3.0, and it makes no money for now.",
   },
   {
     question: "Is ilo open source?",
@@ -41,7 +41,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: "Does ilo collect my data?",
     answer:
-      "No. ilo has no account, no analytics and no ads, and sends no record of how you use it. Crash reports leave your computer only if you choose to send them. ilobrowser.com/privacy lists every service ilo talks to.",
+      "No. ilo needs no account, and has no analytics and no ads, and sends no record of how you use it. Crash reports leave your computer only if you choose to send them. ilobrowser.com/privacy lists every service ilo talks to.",
   },
   {
     question: "Can I move my tabs and bookmarks to ilo?",
@@ -50,7 +50,8 @@ export const FAQ: { question: string; answer: string }[] = [
   },
   {
     question: "Does ilo sync between computers?",
-    answer: "Not yet. Sync is coming, and will talk to ilo's servers only while you're signed in.",
+    answer:
+      "Yes, with an ilo account, end-to-end encrypted. It syncs your Spaces and your first profile's bookmarks, passwords and open tabs, encrypted with 24 recovery words only your devices have. It uses ilo's server unless you run your own, and needs no Google account.",
   },
   {
     question: "Who makes ilo?",

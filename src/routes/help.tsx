@@ -52,8 +52,8 @@ function Help() {
         </p>
         <p>
           On Windows, ilo needs 64-bit Windows 10 or later. Run the installer, which installs ilo
-          for you alone and asks for no administrator. The beta's installer isn't signed yet, so
-          Windows may say it protected your PC: choose More info, then Run anyway.
+          for you alone and asks for no administrator. The installer isn't signed yet, so Windows
+          may say it protected your PC: choose More info, then Run anyway.
         </p>
         <p>
           On Linux, ilo is a Flatpak for x64. Open the download with your software centre, or run{" "}

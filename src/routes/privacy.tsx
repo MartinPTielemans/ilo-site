@@ -18,7 +18,8 @@ export const Route = createFileRoute("/privacy")({
 // branding files (app/branding/update-feed, app/branding/crash-reports), core/crash_reports.cc's
 // traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
 // core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
-// assets.json for the lists. It says no more than the code does.
+// assets.json for the lists, and for sync core/sync.cc, core/sync_guard.h, app/src/account.rs and ilo-server's
+// README › What the server can see. It says no more than the code does.
 
 // The services below in a line each, as the page tells them: what, when and to whom. A change to a
 // service changes its row too.
@@ -68,8 +69,8 @@ const GLANCE = [
   {
     id: "sync",
     what: "Sync",
-    when: "Not yet: only while you're signed in",
-    to: "sync.ilobrowser.com",
+    when: "Only while you're signed in, end-to-end encrypted",
+    to: "ilo's sync server, or your own",
   },
 ];
 function Privacy() {
@@ -78,8 +79,8 @@ function Privacy() {
       title="Privacy"
       lead={
         <>
-          ilo has no account, no analytics and no ads, and sells nothing about you. It sends no
-          record of how you use it. What leaves your computer is the pages you open and the few
+          ilo needs no account, has no analytics and no ads, and sells nothing about you. It sends
+          no record of how you use it. What leaves your computer is the pages you open and the few
           checks below, each with where it goes.
         </>
       }
@@ -228,11 +229,38 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt id="sync">Sync, once it ships</dt>
+          <dt id="sync">Sync, only if you sign in</dt>
           <dd>
             <p>
-              ilo has no sync yet. Once it does, it will talk to <code>sync.ilobrowser.com</code>{" "}
-              only while you're signed in to it.
+              Sync is off until you sign in to an ilo account, in Settings › Sync or when ilo first
+              opens. Signing in sends your email address, then a code mailed to you or a passkey, to
+              the account's server: ilo's, unless you give ilo the address of one you run yourself
+              from <a href="https://github.com/MartinPTielemans/ilo-server">its source</a>. It needs
+              no Google account.
+            </p>
+            <p>
+              Signed in, ilo syncs your Spaces and your first profile's bookmarks, passwords and
+              open tabs. They're encrypted on your computer with your 24 recovery words, which only
+              your devices have, and the server keeps them encrypted and turns away anything that
+              arrives unencrypted. Even which site and username a password is for stays hidden.
+            </p>
+            <p>
+              What the server can see is your email address and when your account was made. It knows
+              each device by a label, such as "ilo on Mac", which can include its hardware model, as
+              in "ilo on Mac (MacBookPro18,3)", with its form factor, its operating system and when
+              it was last active. A device being added also gives its label and operating system.
+              The server also sees a few of Chromium's settings it keeps unencrypted; and, for the
+              rest, which kinds of data you sync, how many items, how large, when they change and
+              how bookmarks nest, but not their names, addresses or contents. When your devices
+              message each other through it, it sees when and how much, not what they say.
+            </p>
+            <p>
+              Like any server, it sees the IP address each request comes from. ilo-server, the
+              software it runs, doesn't log addresses, but a proxy in front of it could. Signing out
+              stops it all.
+            </p>
+            <p className="hosts">
+              <code>sync.ilobrowser.com</code>
             </p>
           </dd>
         </dl>
@@ -271,7 +299,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 2 November 2026.
+          . Last changed 3 November 2026.
         </p>
       </section>
     </TextPage>
