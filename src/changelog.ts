@@ -25,6 +25,7 @@ export const RELEASES: Release[] = [
       "Windows: agents no longer flash console windows.",
       "Windows: tasks find Claude Code and Codex however each was installed, and Claude tasks start through npm's claude.cmd.",
       "Quitting while a task runs no longer crashes.",
+      "Linux: a ⌃Tab walk that starts in the page keeps going while ⌃ is held, on Wayland.",
     ],
   },
   {
