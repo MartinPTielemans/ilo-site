@@ -18,7 +18,7 @@ export const Route = createFileRoute("/privacy")({
 // branding files (app/branding/update-feed, app/branding/crash-reports), core/crash_reports.cc's
 // traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
 // core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
-// assets.json for the lists, and for sync core/sync_guard.h, app/src/account.rs and ilo-server's
+// assets.json for the lists, and for sync core/sync.cc, core/sync_guard.h, app/src/account.rs and ilo-server's
 // README › What the server can see. It says no more than the code does.
 
 // The services below in a line each, as the page tells them: what, when and to whom. A change to a
@@ -245,12 +245,19 @@ function Privacy() {
               arrives unencrypted. Even which site and username a password is for stays hidden.
             </p>
             <p>
-              What the server can see is your email address; each device by its kind, such as "ilo
-              on Mac", with its operating system and when it was last active; a few of Chromium's
-              settings it keeps unencrypted; and, for the rest, which kinds of data you sync, how
-              many items, how large, when they change and how bookmarks nest, but not their names,
-              addresses or contents. When your devices message each other through it, it sees when
-              and how much, not what they say. Signing out stops it all.
+              What the server can see is your email address and when your account was made. It knows
+              each device by a label, such as "ilo on Mac", which can include its hardware model, as
+              in "ilo on Mac (MacBookPro18,3)", with its form factor, its operating system and when
+              it was last active. A device being added also gives its label and operating system.
+              The server also sees a few of Chromium's settings it keeps unencrypted; and, for the
+              rest, which kinds of data you sync, how many items, how large, when they change and
+              how bookmarks nest, but not their names, addresses or contents. When your devices
+              message each other through it, it sees when and how much, not what they say.
+            </p>
+            <p>
+              Like any server, it sees the IP address each request comes from. ilo-server, the
+              software it runs, doesn't log addresses, but a proxy in front of it could. Signing out
+              stops it all.
             </p>
             <p className="hosts">
               <code>sync.ilobrowser.com</code>
