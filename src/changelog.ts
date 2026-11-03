@@ -17,6 +17,17 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.4",
+    date: "3 November 2026",
+    summary:
+      "Agents on Windows: tasks start without flashing windows and find Claude Code and Codex however you installed them.",
+    notes: [
+      "Windows: agents no longer flash console windows.",
+      "Windows: tasks find Claude Code and Codex however each was installed, and Claude tasks start through npm's claude.cmd.",
+      "Quitting while a task runs no longer crashes.",
+    ],
+  },
+  {
     version: "0.1.3",
     date: "3 November 2026",
     summary:
