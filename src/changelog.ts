@@ -17,6 +17,42 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.3",
+    date: "3 November 2026",
+    summary:
+      "Hand a task to Claude or Codex from ⌘T, a reworked sidebar, text fields that move by words, and a crash fix for pages that ask for a device.",
+    notes: [
+      "⇥ in ⌘T hands Claude or Codex a task. Its card sits at the foot of the sidebar while it works.",
+      "The Space's name row lights like a tab row. Pressing it folds the pinned tabs, and its menu is reordered.",
+      "Favorites are larger tiles, at most four to a row.",
+      "With more Spaces than fit, they share the switcher, and the Library's Space cards scroll sideways.",
+      "The sidebar's list ends with room to spare and a foot line, and glides to the row you go to.",
+      "Split view: drag a tab to either side, ⌥ on a pane's ✕, add a favorite to a split, and a split's row has its own menu. ⌘W closes a pinned split whole, and ⌘Z brings a closed split back.",
+      "Text fields move, select and delete by words, and a double- or triple-click selects a word or the line.",
+      "Tooltips show after the pointer rests, and name a button's keyboard shortcut, in the find bar, the command bar and the save-password offer.",
+      "Removing a pinned tab offers Undo, and deleting a Space says its tabs go with it and that ⌘Z brings them back.",
+      "Settings: each profile can be renamed and says why it can't be deleted, the Widevine row offers to restart ilo once it's downloaded, and Settings and Site Controls work from the keyboard.",
+      "Imports count what comes in as it comes, can be cancelled, and offer favorites worked out from your history.",
+      "Under Reduce Motion nothing moves or scales; fades stay.",
+      "Pages no longer flash blank when you switch Spaces or tabs on the Mac.",
+      "Settings › About can take nightly builds.",
+      "What's New opens as a tab in the main window after an update, on every OS.",
+      "Windows: the windows over a page survive Alt+F4, keep the keyboard and move with their window.",
+      "Windows: a click on a site's notification reaches the page.",
+      "Windows: Claude Code and Codex keep working with the Microsoft Store copy, across its updates.",
+      "Linux: menus look right with no compositor, and a menu item that opens the command bar keeps it open.",
+      "Quitting no longer crashes while a window is closing.",
+      "A page that asks for a USB, HID, serial or Bluetooth device no longer crashes ilo.",
+      "Windows: a minimized window's page is hidden, as on the Mac.",
+      "Agents: back and forward say the page's title, tabs an agent closes stay out of your archive, a link to an app stops in the agent's tab, and a click in another site's frame reaches it.",
+      "The command bar puts the open tabs your typing names first, a renamed tab before the rest, and shows one row per title for web apps like Figma and Notion.",
+      "A Space swipe's detent comes while your fingers are still down.",
+      "Windows: the zoom readout sits under the find bar.",
+      "A page's full screen in a window that already fills its screen no longer leaves the page over the Library's list.",
+      "Linux: a floating call moves by its top bar and sizes from its corner, and the Cast, permission and agent cards share one ink.",
+    ],
+  },
+  {
     version: "0.1.2",
     date: "2 November 2026",
     summary:
