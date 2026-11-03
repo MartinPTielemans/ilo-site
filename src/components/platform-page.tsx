@@ -115,9 +115,9 @@ export function PlatformPage({ id }: { id: Id }) {
       <section>
         <h2>Privacy</h2>
         <p>
-          ilo blocks ads and trackers with uBlock Origin, built in, has no account and no analytics,
-          and sends crash reports only if you say so. <a href="/privacy">Privacy</a> lists every
-          service it talks to.
+          ilo blocks ads and trackers with uBlock Origin, built in, needs no account, has no
+          analytics, and sends crash reports only if you say so. <a href="/privacy">Privacy</a>{" "}
+          lists every service it talks to.
         </p>
         {copy.differs}
       </section>

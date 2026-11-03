@@ -3,8 +3,8 @@
 > ilo is a free, open-source web browser (GPL-3.0) for Mac, Windows and Linux, built on
 > ungoogled-chromium with an interface of its own in Rust. It keeps each part of your life in its own
 > Space, down a sidebar that tidies itself, with one command bar for addresses, searches, tabs and
-> commands. Chrome's extensions work, uBlock Origin is built in, and it has no account and no
-> analytics. It is in beta on Mac and Linux, and in alpha on Windows.
+> commands. Chrome's extensions work, uBlock Origin is built in, and it needs no account and has no
+> analytics. Sync is optional, with an ilo account, end-to-end encrypted. It is in beta on Mac and Linux, and in alpha on Windows.
 
 The name is written lowercase, "ilo", and is Esperanto for "a tool".
 

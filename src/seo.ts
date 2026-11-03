@@ -98,7 +98,7 @@ export function structuredData(description: string) {
           "Split view",
           "Chrome Web Store extensions",
           "uBlock Origin built in",
-          "No account and no analytics",
+          "No analytics, and no account needed",
         ],
         isAccessibleForFree: true,
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { paint, startField } from "../ascii";
-import { PLATFORM_LIST, SOURCE } from "../downloads";
+import { SOURCE } from "../downloads";
 import { Download } from "./download";
 import { type DemoSpaces, type Tab, startLive } from "../live";
 
@@ -208,7 +208,7 @@ export function Spaces() {
           </p>
           <div className="act">
             <Download className="button big" />
-            <p className="note">Now in beta for {PLATFORM_LIST}.</p>
+            <p className="note">In beta for Mac and Linux, alpha on Windows.</p>
           </div>
         </div>
         <div className="stage" ref={stage}>
