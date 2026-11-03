@@ -48,6 +48,7 @@ export const RELEASES: Release[] = [
       "The command bar puts the open tabs your typing names first, a renamed tab before the rest, and shows one row per title for web apps like Figma and Notion.",
       "A Space swipe's detent comes while your fingers are still down.",
       "Windows: the zoom readout sits under the find bar.",
+      "A page's full screen in a window that already fills its screen no longer leaves the page over the Library's list.",
       "Linux: a floating call moves by its top bar and sizes from its corner, and the Cast, permission and agent cards share one ink.",
     ],
   },
