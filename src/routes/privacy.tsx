@@ -19,7 +19,8 @@ export const Route = createFileRoute("/privacy")({
 // traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
 // core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
 // assets.json for the lists, and for sync core/sync.cc, core/sync_guard.h, app/src/account.rs and ilo-server's
-// README › What the server can see. It says no more than the code does.
+// README › What the server can see. It says no more than the code does. Every host it names is in
+// the browser's app/check/hosts.txt, whose hosts run fails on any other the browser asks (#684).
 
 // The services below in a line each, as the page tells them: what, when and to whom. A change to a
 // service changes its row too.
@@ -117,9 +118,10 @@ function Privacy() {
           site unless you turn that off.
         </p>
         <p>
-          A search goes to your search engine: DuckDuckGo (<code>duckduckgo.com</code>) unless you
-          choose another. Nothing you type in the command bar leaves your computer before you
-          search: ilo asks no search engine for suggestions, and has no setting that would.
+          A search goes to your search engine when you press return: DuckDuckGo (
+          <code>duckduckgo.com</code>) unless you choose another in Settings › General. Nothing you
+          type in the command bar leaves your computer before you search: ilo asks your search
+          engine for no suggestions as you type.
         </p>
       </section>
 
@@ -130,8 +132,8 @@ function Privacy() {
           <dd>
             <p>
               Extensions come from the Chrome Web Store. When you visit the store, it sees which
-              extensions you have, as it does in Chrome. Installing one you've confirmed fetches its
-              icon from Google's image host, and the extension from Google.
+              extensions you have. Installing one you've confirmed fetches its icon from Google's
+              image host, and the extension from Google.
             </p>
             <p>
               With a store extension installed, ilo checks for its updates soon after launch, then
@@ -152,6 +154,12 @@ function Privacy() {
               what's known to be bad. They're the list of revoked certificates (CRLSet), the
               certificate authorities and logs Chromium trusts (PKI Metadata), and the certificate
               error helper. It runs a minute after launch, then every five hours.
+            </p>
+            <p>
+              The check names ilo's engine version, your operating system and its version, and the
+              components it has. It carries no cookies and nothing that ties one check to the next,
+              but Google sees your IP address. There's no switch for it, as without it a revoked
+              certificate would stay trusted.
             </p>
             <p className="hosts">
               <code className="path">update.googleapis.com/service/update2/json</code>, with
@@ -176,7 +184,10 @@ function Privacy() {
             <p>
               ilo blocks ads with uBlock Origin, built in. It ships with its lists, so it blocks
               from the first page, and fetches new ones about once a week from the hosts the lists
-              come from. uBlock Origin may also add a list for your language.
+              come from. uBlock Origin may also add a list for your language. Those hosts see your
+              IP address and that the lists were fetched; the blocking itself happens on your
+              computer, so nothing about the pages you visit goes with it. Settings › Privacy ›
+              Block ads and trackers turns it off, and a site's own controls turn it off there.
             </p>
             <p className="hosts">
               <code>ublockorigin.github.io</code> <code>ublockorigin.pages.dev</code>{" "}
@@ -191,13 +202,18 @@ function Privacy() {
           <dd>
             <p>
               Only a copy that updates itself checks. On a Mac and on Windows, ilo reads its update
-              feed every 8 hours, sending no profile of your system, and downloads an update from
-              ilo's releases on GitHub.
+              feed every 8 hours, sending its version and no profile of your system, and downloads
+              an update from ilo's releases on GitHub, which hands the file over from its own
+              download host. Each update is signed, and ilo checks the signature before it installs.
+              A copy from the Microsoft Store leaves its updates to the Store. There's no switch to
+              stop the checks yet (
+              <a href="https://github.com/MartinPTielemans/ilo/issues/1793">#1793</a>).
             </p>
             <p className="hosts">
               <code className="path">
                 github.com/MartinPTielemans/ilo/releases/download/updates/appcast.xml
-              </code>
+              </code>{" "}
+              <code>release-assets.githubusercontent.com</code>
             </p>
             <p>
               On Linux, only the Flatpak updates, through Flatpak's own remote, as your other
@@ -266,6 +282,27 @@ function Privacy() {
         </dl>
       </section>
 
+      <section id="network">
+        <h2>Names, proxies and the rest</h2>
+        <p>
+          ilo finds the sites you visit, and the services above, through your system's DNS, as your
+          other apps do. It sends those lookups to no DNS service of its own.
+        </p>
+        <p>
+          Where your system's proxy settings say to find a proxy automatically, as Windows' do by
+          default, ilo asks your local network for one (<code>wpad</code>), as your system does.
+        </p>
+        <p>
+          When you ask an agent from ilo, ilo runs the <code>claude</code> or <code>codex</code>{" "}
+          program you installed, which talks to its own company under your account. ilo has no AI
+          service of its own and sends it nothing itself.
+        </p>
+        <p>
+          On a Windows computer joined to a work or school directory, ilo can sign you in to your
+          organisation's sites with Windows' own Microsoft sign-in, as your organisation set it up.
+        </p>
+      </section>
+
       <section>
         <h2>What ilo never sends</h2>
         <p>
@@ -292,6 +329,16 @@ function Privacy() {
         </p>
       </section>
 
+      <section id="checked">
+        <h2>How this list is checked</h2>
+        <p>
+          A check in ilo's code starts ilo on a new profile, waits through its first security check,
+          opens a page and types a search, then reads every address ilo reached. It fails if ilo
+          asked any host this page doesn't name, or one of those it names only for what you turn on.
+          It runs on a Mac, Windows and Linux.
+        </p>
+      </section>
+
       <section>
         <h2>Questions and changes</h2>
         <p>
@@ -299,7 +346,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 3 November 2026.
+          . Last changed 4 November 2026.
         </p>
       </section>
     </TextPage>
