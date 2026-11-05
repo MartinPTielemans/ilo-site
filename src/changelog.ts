@@ -17,6 +17,18 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.8",
+    date: "5 November 2026",
+    summary:
+      "A click in an agent's page takes it over, and an agent's tabs open muted. Keys typed fast after a dialog closes, or after Ctrl+F on Windows, land where you meant them.",
+    notes: [
+      'A click in the page an agent works in takes it over, and the click goes on to the page. The strip under it then reads "You\'re driving", with Hand Back. ⌘↩ still takes over and hands back.',
+      "An agent's tabs open muted. A crossed speaker shows on its tile and its strip while it plays, and a click there unmutes it. Open, which moves a finished task's page to your Space, unmutes it.",
+      "On the Mac and Windows, a key typed while a dialog is closing reaches the browser window instead of being lost with the dialog.",
+      "On Windows, the keys typed right after Ctrl+F reach the find bar, whether the page or ilo's own controls had the keyboard.",
+    ],
+  },
+  {
     version: "0.1.7",
     date: "5 November 2026",
     summary:
