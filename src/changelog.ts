@@ -24,12 +24,12 @@ export const RELEASES: Release[] = [
     notes: [
       "Little ilo opens its command bar inside its window, from ⌘L and ⌘T. Open in <Space> and its Spaces menu send its page to any Space. On the Mac it grows in from under the pointer.",
       "Little ilo's bar has your pinned extensions at its title's end, with their popups and menus, and a page's video goes full screen in the Little ilo window. Esc leaves full screen and keeps the window.",
-      "The agent surfaces say what needs you. An agent's card has one primary button, Allow Once, Show Tab or Hand Back, and says how far the agent has got: \"Step 5 · Clicking …\", \"Stopped after 6 steps\", or \"Needs you\" and why. The conversation's header counts steps and pages.",
-      "A ⌘T task's Always Allow and Never answers belong to its CLI, Claude or Codex. Settings › Agents lists them under \"What Claude may do from ⌘T\", each with Revoke. Answers an earlier version kept for a single task are cleared at launch.",
+      'The agent surfaces say what needs you. An agent\'s card has one primary button, Allow Once, Show Tab or Hand Back, and says how far the agent has got: "Step 5 · Clicking …", "Stopped after 6 steps", or "Needs you" and why. The conversation\'s header counts steps and pages.',
+      'A ⌘T task\'s Always Allow and Never answers belong to its CLI, Claude or Codex. Settings › Agents lists them under "What Claude may do from ⌘T", each with Revoke. Answers an earlier version kept for a single task are cleared at launch.',
       "The import reads at a glance, in Settings and on the first launch: one line for each kind of data with its count, fewer words at each step, and one row with the counts when it's done.",
       "Screen readers (VoiceOver, Narrator and Orca) name the controls in Settings' Sync, Links, About and import views, by what each one does.",
       "A desktop app's sign-in that opens in Little ilo hands back to the app when it's done.",
-      "The open-app dialog's \"Always allow\" line wraps inside the dialog instead of running past its edge.",
+      'The open-app dialog\'s "Always allow" line wraps inside the dialog instead of running past its edge.',
     ],
   },
   {
