@@ -17,6 +17,26 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.6",
+    date: "5 November 2026",
+    summary:
+      "Settings you can use from the keyboard alone, a media player that stacks in the sidebar, a switch for automatic update checks, and, on the Mac, scripts that can read and open ilo's windows, Spaces and tabs once you let them.",
+    notes: [
+      "Settings works from the keyboard alone. ⇥ and ⇧⇥ move through it in reading order, ↑ and ↓ move along its column, and Space or ↩ acts. Typing a letter starts a search, and ⌘F goes to the search field. ⌘W, Esc and ⌘Z still do what they did.",
+      'Settings › About has "Check for updates automatically", on the Mac and on Windows. Turned off, ilo asks for no updates until you choose Check for Updates.',
+      "The sidebar's media player is a stack. The newest player shows, with up to two older ones peeking behind it. Point at it and they all open, each with its title, a close button, and Picture in Picture where the page allows it.",
+      "Edit Theme Color… opens its picker at the window's top corner.",
+      "With one Space that has no name or icon of yours, its name row hides. Show Space Header, in the Space's menu, brings it back.",
+      "Mac: scripts can read ilo's windows, Spaces and tabs, show a Space or a tab, and open windows and tabs, once you turn on \"Let scripts control the browser\" in Settings › Agents. It's off at first. Scripts never see private windows or agents' Spaces, and nothing they can ask reads a page. Every script's request goes in the agents' activity log, and Settings shows them under \"What scripts did\".",
+      "Mac: VoiceOver names the controls in Settings' sections, including Shortcuts' keys, and the tab rows' buttons, the delete dialog, the find bar and its count, Site Controls, the icon picker and New Space.",
+      "Mac and Windows: closing a Little ilo window that's over another app's window leaves that app in front.",
+      "Linux: on Wayland, holding Esc to close the command bar no longer sends Esc on to the page.",
+      "Linux: on Wayland, a click on the page that closes the command bar gives the page the keyboard. A click outside a menu over the command bar closes both.",
+      "Linux: on Wayland, a page takes clicks as soon as what covered it goes, rather than after its next frame.",
+      "Linux: on Wayland, going in or out of full screen lays the page out again, even when the window's size stays the same.",
+    ],
+  },
+  {
     version: "0.1.5",
     date: "5 November 2026",
     summary:
