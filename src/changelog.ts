@@ -17,6 +17,43 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.5",
+    date: "5 November 2026",
+    summary:
+      "A security update to Chromium 156.0.8078.79, with Settings in a window of its own you can search, an import that shows what each browser holds, tabs you can drag to another window, and a quiet banner for updates.",
+    notes: [
+      "The engine is on Chromium 156.0.8078.79, a security point release.",
+      "Mac: ilo no longer answers Chromium's AppleScript commands, which let a script read and change tabs outside ilo's rules for agents.",
+      "Settings is a window of its own, its twelve sections in a column beside a card. Search every section from the top, or find a setting from the command bar.",
+      "Settings has new rows for Appearance, the Dock icon, the edge reveal and agent tasks.",
+      "Drag a tab's row out of its window to move it to another window, or to a window of its own.",
+      "The import reads a browser as you pick it, says how much of each thing will come, and brings Spaces in as cards in their own colours.",
+      "Agents from other apps get the same task card as ⌘T's tasks, and their Spaces stay out of every list.",
+      "A task with two pages or more opens on Pages, a grid of them, and an outside agent's session ends on a receipt.",
+      "A task that waits for you badges the Dock or the taskbar.",
+      "A ready update waits in a small banner at the sidebar's foot. Point at it to see it, click to restart into it.",
+      "A new download flies into the Library button, where the recent downloads show.",
+      "The command bar puts the commands you pick and the tabs you switch to first, learned per profile on this computer only.",
+      "The command bar has Mute All Tabs, Enter Full Screen and New Profile, and ⌘N's window opens with it.",
+      "Window › Stay On Top keeps a window over the others.",
+      "Esc in full screen goes to the page first; press it twice, or hold it, to leave.",
+      "Rest the pointer on a link and its whole address shows.",
+      "A Google Meet link from another app opens in the Space you're in.",
+      "Until a page paints, it shows black or white to match the appearance, so a dark site no longer flashes white.",
+      "Only the tabs scroll in the sidebar, under the Space's name.",
+      "With the sidebar hidden, a pointer flung to the window's edge no longer brings it out.",
+      "The mouse's back and forward buttons go to the Library and a new Space, as the swipe does.",
+      "Close and Keep Pinned shows the tab you used before, and a pinned tab that has left its site names that site.",
+      "Opening ilo with a link shows the link's page, and a two-colour Space's swatch reads as its main colour.",
+      "A shortcut pressed right after you switch windows acts on the window you switched to.",
+      'Link rules: "is equal to" compares the host and path, and "contains" ignores the scheme and www.',
+      "Mac: a display going away under a full-screen window leaves ilo the active app.",
+      "Windows: the caption no longer shows under the sidebar, ilo can quit with a file dialog open, and the sidebar's list no longer shows its edge.",
+      "Windows: Ctrl and the other modifier keys no longer seem stuck after a menu or the command bar takes the keyboard.",
+      "Linux: on Wayland, a save or open panel no longer closes ilo.",
+    ],
+  },
+  {
     version: "0.1.4",
     date: "3 November 2026",
     summary:
