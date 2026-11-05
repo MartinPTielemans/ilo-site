@@ -159,7 +159,7 @@ function Row({
       }}
     >
       {row.kind === "tab" ? (
-        <img src={ICONS[row.icon]} alt="" width={16} height={16} />
+        <img src={ICONS[row.icon]} alt="" width={16} height={16} loading="lazy" decoding="async" />
       ) : row.kind === "search" ? (
         <span className="glyph">
           <svg viewBox="0 0 18 18" aria-hidden="true">

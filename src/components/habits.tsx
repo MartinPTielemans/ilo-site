@@ -135,7 +135,14 @@ export function Habits() {
               <div className="tiles">
                 {["wikipedia", "github", "osm"].map((site) => (
                   <span key={site}>
-                    <img src={fav(site)} alt="" width={16} height={16} />
+                    <img
+                      src={fav(site)}
+                      alt=""
+                      width={16}
+                      height={16}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </span>
                 ))}
               </div>
@@ -150,11 +157,25 @@ export function Habits() {
               <div className="today">
                 <div className="r sel">
                   <span className="seg">
-                    <img src={fav("wikivoyage")} alt="" width={16} height={16} />
+                    <img
+                      src={fav("wikivoyage")}
+                      alt=""
+                      width={16}
+                      height={16}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <span>Lisbon – Wikivoyage</span>
                   </span>
                   <span className="seg other">
-                    <img src={fav("pdr")} alt="" width={16} height={16} />
+                    <img
+                      src={fav("pdr")}
+                      alt=""
+                      width={16}
+                      height={16}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <span>The Public Domain Review</span>
                   </span>
                 </div>
@@ -226,6 +247,8 @@ export function Habits() {
                 className="page"
                 src="/media/page-lisbon.webp"
                 alt=""
+                loading="lazy"
+                decoding="async"
                 width={1032}
                 height={780}
               />
@@ -233,6 +256,8 @@ export function Habits() {
                 className="page two"
                 src="/media/page-reading.webp"
                 alt=""
+                loading="lazy"
+                decoding="async"
                 width={1032}
                 height={780}
               />
@@ -295,7 +320,7 @@ function Row({ icon, title, className }: { icon: string; title: string; classNam
           <path d="M8 3v10M3 8h10" />
         </svg>
       ) : (
-        <img src={fav(icon)} alt="" width={16} height={16} />
+        <img src={fav(icon)} alt="" width={16} height={16} loading="lazy" decoding="async" />
       )}
       <span>{title}</span>
     </div>
