@@ -383,7 +383,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 6 November 2026.
+          . Last changed 7 November 2026.
         </p>
       </section>
     </TextPage>
