@@ -15,12 +15,13 @@ export const Route = createFileRoute("/privacy")({
 });
 
 // The services, each with the hosts it reaches, as the browser's code on main names them: the
-// branding files (app/branding/update-feed, app/branding/crash-reports), core/crash_reports.cc's
-// traffic annotation, core/search.cc and core/suggest.h, engine/README.md › What reaches Google,
-// core/widevine.cc, tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own
-// assets.json for the lists, and for sync core/sync.cc, core/sync_guard.h, app/src/account.rs and ilo-server's
-// README › What the server can see. It says no more than the code does. Every host it names is in
-// the browser's app/check/hosts.txt, whose hosts run fails on any other the browser asks (#684).
+// branding files (app/branding/update-feed, app/branding/crash-reports, app/branding/daily-count),
+// core/crash_reports.cc's and core/daily_count.cc's traffic annotations, core/search.cc and
+// core/suggest.h, engine/README.md › What reaches Google, core/widevine.cc, tools/flatpak-repo.sh's
+// runtime repository, and uBlock Origin's own assets.json for the lists, and for sync core/sync.cc,
+// core/sync_guard.h, app/src/account.rs and ilo-server's README › What the server can see. It says
+// no more than the code does. Every host it names is in the browser's app/check/hosts.txt, whose
+// hosts run fails on any other the browser asks (#684).
 
 // The services below in a line each, as the page tells them: what, when and to whom. A change to a
 // service changes its row too.
@@ -62,6 +63,12 @@ const GLANCE = [
     to: "GitHub, or your Flatpak remote",
   },
   {
+    id: "daily-count",
+    what: "A daily count",
+    when: "Once a day, unless you turn it off",
+    to: "ilo's server",
+  },
+  {
     id: "crash-reports",
     what: "Crash reports",
     when: "Only those you send",
@@ -80,9 +87,9 @@ function Privacy() {
       title="Privacy"
       lead={
         <>
-          ilo needs no account, has no analytics and no ads, and sells nothing about you. It sends
-          no record of how you use it. What leaves your computer is the pages you open and the few
-          checks below, each with where it goes.
+          ilo needs no account, has no ads, and sells nothing about you. Once a day it sends one
+          anonymous count, which you can turn off. What leaves your computer is the pages you open,
+          that count and the few checks below, each with where it goes.
         </>
       }
     >
@@ -225,6 +232,35 @@ function Privacy() {
             </p>
           </dd>
 
+          <dt id="daily-count">A daily count, which you can turn off</dt>
+          <dd>
+            <p>
+              Once a day, about 30 seconds after ilo opens, or when you come back to it on a new
+              day, ilo sends one count to ilo's server, so its makers know how many copies are in
+              use. It says which version of ilo you have and whether it's a release or a nightly
+              build, your operating system and its major version, and your chip. With it go four
+              yes-or-no answers: whether this is the copy's first run, and whether it's its first
+              count today, this week and this month. ilo works those out from the date of its last
+              count, the only thing it keeps for it.
+            </p>
+            <p>
+              The count has no ID, so no two counts can be tied together or to you. It carries no
+              cookies and nothing about your pages, tabs, Spaces, agents, accounts or settings. A
+              count that fails isn't sent again until ilo next opens that day, and a day ilo isn't
+              used sends nothing. The server adds it to that day's totals and keeps only the
+              numbers, not your IP address or the time. Like any server, it sees the address the
+              count comes from; ilo-server doesn't keep or log it, but a proxy in front of it could.
+            </p>
+            <p>
+              Settings › Privacy › Send a daily usage count, on unless you turn it off, stops it at
+              once. The count goes to ilo's server whichever sync server you use, and a build of ilo
+              that names no server sends none.
+            </p>
+            <p className="hosts">
+              <code className="path">sync.ilobrowser.com/v1/daily</code>
+            </p>
+          </dd>
+
           <dt id="crash-reports">Crash reports, only the ones you send</dt>
           <dd>
             <p>
@@ -306,8 +342,9 @@ function Privacy() {
       <section>
         <h2>What ilo never sends</h2>
         <p>
-          No usage data, no analytics, nothing for advertisers. Of Google's services, ilo brings
-          back only those above: no Safe Browsing, no Google sync and no Google metrics.
+          Nothing about what you do in ilo, and nothing for advertisers: the daily count above says
+          only that a copy is in use. Of Google's services, ilo brings back only those above: no
+          Safe Browsing, no Google sync and no Google metrics.
         </p>
       </section>
 
@@ -316,8 +353,8 @@ function Privacy() {
         <p>
           ilo is open source, so anyone can build their own. Official builds differ from such a fork
           only in their name and logo, their signing keys and a few addresses: the update feed,
-          where crash reports go, where ad block lists come from and this site. A fork chooses its
-          own. What a fork sends is up to whoever makes it, so read theirs.
+          where crash reports and the daily count go, where ad block lists come from and this site.
+          A fork chooses its own. What a fork sends is up to whoever makes it, so read theirs.
         </p>
       </section>
 
@@ -346,7 +383,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 4 November 2026.
+          . Last changed 7 November 2026.
         </p>
       </section>
     </TextPage>
