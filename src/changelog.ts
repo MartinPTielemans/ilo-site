@@ -17,6 +17,25 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.10",
+    date: "7 November 2026",
+    summary:
+      "ilo now sends one anonymous usage count a day, which Settings › Privacy turns off. On the Mac, an update downloads only what changed. The Mini Player keeps its place across launches, and this release fixes crashes and lost keys on Windows and Linux.",
+    notes: [
+      "Once a day ilo sends one anonymous count: its version, your operating system and chip, and whether it's this copy's first run, or its first count this week or month. It has no ID and nothing about the pages you visit or what you do in ilo. Turn it off in Settings › Privacy › Send a Daily Usage Count.",
+      "On the Mac, an update from any of the three releases before it downloads only what changed, not the whole app.",
+      "The Mini Player comes back where you left it after a restart, and a Mini Player you leave with a menu open still goes back to its tab.",
+      "A favicon that's black reads on a dark sidebar, and one that's white on a light sidebar.",
+      "A new device's first sign-in to sync waits for the connection instead of failing.",
+      "On the Mac, closing Peek is smooth again while ilo is the active app.",
+      "On Windows, quitting while a page is full screen no longer crashes.",
+      "On Windows, signing out of Windows keeps the tab you opened just before.",
+      "On Linux, a shortcut pressed before a new tab's page is ready, such as a quick second ⇧⌘T, is no longer lost.",
+      "On Wayland, the window keeps the keyboard when a tab's Mini Player opens as you switch away.",
+      "On Wayland, ilo no longer crashes when a pop-up closes under its dialog.",
+    ],
+  },
+  {
     version: "0.1.9",
     date: "6 November 2026",
     summary:
