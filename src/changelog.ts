@@ -28,6 +28,8 @@ export const RELEASES: Release[] = [
       "On Linux and Windows, when a Bluetooth device asks for a PIN, or to confirm a passkey, the page's card asks you. An agent's tab is never asked: its pairing is cancelled.",
       "On Windows, Battery Saver reads the battery when Windows says it changed, not once a minute, so an idle ilo stays asleep.",
       "On Linux, Battery Saver turns on by itself: ilo reads the battery from UPower.",
+      "A site search lists only the search for what you typed, under Search….",
+      "The tab you're on slides in under its closed folders, rather than appearing there at once.",
     ],
   },
   {
