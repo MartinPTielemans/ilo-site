@@ -17,6 +17,20 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.12",
+    date: "8 November 2026",
+    summary:
+      "On the Mac, a page in another language can be translated on the device from the URL field. The command bar finds the tabs open on your other computers, an Arc split view comes in from the import as a split view, and on Linux and Windows a Bluetooth device's PIN is asked in the page's card. Battery Saver turns on by itself on Linux now.",
+    notes: [
+      "Type in the command bar to find the tabs open on your other computers that sync. Each row names its computer.",
+      "An Arc split view comes in from the import as a split view, with its name, icon and orientation.",
+      "On the Mac, a page in a language you don't read shows a mark in the URL field. Click it to translate the page on your Mac, with Use Original to go back. Translate Page and Use Original are in the command bar too. It needs macOS 26, and macOS's model for the language, which Settings… opens System Settings to add.",
+      "On Linux and Windows, when a Bluetooth device asks for a PIN, or to confirm a passkey, the page's card asks you. An agent's tab is never asked: its pairing is cancelled.",
+      "On Windows, Battery Saver reads the battery when Windows says it changed, not once a minute, so an idle ilo stays asleep.",
+      "On Linux, Battery Saver turns on by itself: ilo reads the battery from UPower.",
+    ],
+  },
+  {
     version: "0.1.11",
     date: "8 November 2026",
     summary:
