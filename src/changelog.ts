@@ -17,6 +17,30 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.11",
+    date: "8 November 2026",
+    summary:
+      "Sync can now carry your ilo settings and your extensions, and a Space can be exported into a folder in another Space. Tabs restored from the archive go back to their Space, and old downloads leave the Library's list on their own. On Windows, sign-ins outlive a quit, and ilo follows a display's new scale.",
+    notes: [
+      "Sync can carry your ilo settings and the extensions you added from the Chrome Web Store. Each device chooses with the switches in Settings › Sync › Also sync.",
+      "A Space's menu has Export into Folder. It moves the Space's pinned tabs into a new folder in the Space you pick, and its Today tabs into that Space's Today. ⌘Z brings the Space back.",
+      "A tab restored from the Library's Archived Tabs opens in the Space it closed in.",
+      "Downloads leave the Library's list after the profile's archive time, as tabs do. Their files stay where they are.",
+      "Type an extension's name in the command bar to run it on the tab you're on.",
+      "While you drag a tab or a link over the page, the page draws a little smaller, and one split target slides in at the edge nearest the pointer.",
+      "The tab you're on stays listed when its folder is closed, under the outermost closed folder, whose icon shows three dots. It goes when you close the folder over it.",
+      "Leaving a site search in the command bar puts back what was there before.",
+      "⌘Z after Separate All Tabs on a favorite split makes it the favorite split again, and keeps the tab you were on shown.",
+      "A Little ilo window's page turns Developer Mode on and off.",
+      "On the Mac, a name field that a menu choice opens stays open as the menu closes.",
+      "On Windows, sites that keep a sign-in in a session cookie keep you signed in after you quit ilo.",
+      "On Windows, ilo and its pages follow a display's new scale, and a move to a display with another scale.",
+      "On Windows, closing a Little ilo window over another app leaves that app's window in front.",
+      "On Windows and Linux, ilo's windows draw at the full rate while ilo is the active app, so closing Peek is smooth.",
+      "On Wayland, a page loses its focus while the command bar is open and gets it back when the bar closes, so a page that pauses when it loses focus does.",
+    ],
+  },
+  {
     version: "0.1.10",
     date: "7 November 2026",
     summary:
