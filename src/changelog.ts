@@ -30,6 +30,7 @@ export const RELEASES: Release[] = [
       "On Linux, Battery Saver turns on by itself: ilo reads the battery from UPower.",
       "A site search lists only the search for what you typed, under Search….",
       "The tab you're on slides in under its closed folders, rather than appearing there at once.",
+      "On the Mac, Share on the Copied Current URL toast, from ⇧⌘C or the URL field's copy button, opens the share sheet again.",
     ],
   },
   {
