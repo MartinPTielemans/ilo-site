@@ -17,6 +17,27 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.14",
+    date: "10 November 2026",
+    summary:
+      "A Space's Today tabs follow your account to your other computers. Boosts can be made and edited without code, from a Boost's card, the sidebar's + menu and a tab's menu. The Mini Player has a new look, and a tab kept from an archived tab's preview goes back to its own Space.",
+    notes: [
+      "A Space's Today tabs follow your account to your other computers, almost as you open and close them.",
+      "A computer whose ilo is older than the one that last changed your Spaces stops syncing them, rather than undo what it doesn't know, and Settings says to update it.",
+      "Customize… on a Boost's card opens an editor beside the sidebar, for a Boost made without code.",
+      "The sidebar's + menu and a Today tab's menu start the page's Boost, or edit it if it has one. Window › View Boosts… opens Library › Boosts.",
+      "The Mini Player has rounded corners and a rim. Its controls fade in under one even shade, and its buttons sit further in.",
+      "A tab kept from an archived tab's preview, by ⌘↩ or Open as Tab, goes back to the Space it closed in, as one restored from the Library does.",
+      "An agent's click on a link that shows only once it's focused, such as a page's skip link, focuses it and presses it, instead of pressing above the page.",
+      "A page's picture in a window it left no longer comes up empty right after it loads.",
+      "A hidden tab's hover card picture is taken at the screen's own scale.",
+      "On the Mac, Show All brings a Little ilo window left on another desktop over the main window when it's full screen.",
+      "On Linux, under Wayland, quitting with a toast or another overlay on screen no longer crashes.",
+      "On Linux, under Wayland, a link from another app for a Little ilo window that's open already brings that window forward.",
+      "On Linux, a picker shown again while it fades out after Esc stays open.",
+    ],
+  },
+  {
     version: "0.1.13",
     date: "10 November 2026",
     summary:
