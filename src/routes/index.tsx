@@ -95,7 +95,10 @@ function Home() {
           </div>
           <div className="tile where">
             <p className="figure">3</p>
-            <p>Mac, Windows and Linux, on Chromium, so your sites and extensions work.</p>
+            <p>
+              Mac and Linux in beta, Windows in alpha, all on Chromium, so your sites and extensions
+              work.
+            </p>
           </div>
         </section>
 
@@ -118,7 +121,9 @@ function Home() {
               <h3>How it pays</h3>
               <p>
                 It doesn't, for now. ilo is free and GPL-3.0, with no paid features and no licence
-                checks, and you can host the services that hold your data, such as sync, yourself.{" "}
+                checks, and you can host the services that hold your data, such as sync, yourself.
+                If it ever charges for something, it'll most likely be for hosting one of those for
+                you, which you could still host yourself.{" "}
                 <mark>If I ever stop, anyone can carry on from the code.</mark>
               </p>
             </div>

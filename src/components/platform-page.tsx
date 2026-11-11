@@ -6,9 +6,8 @@ import { TextPage } from "./text-page";
 type Id = Platform["id"];
 
 /** What each platform's page says beyond what every one does: how to install, and what differs. */
-const COPY: Record<Id, { install: ReactNode; differs: ReactNode; stage: string }> = {
+const COPY: Record<Id, { install: ReactNode; differs: ReactNode }> = {
   mac: {
-    stage: "in beta",
     install: <p>Open the download and drag ilo into Applications.</p>,
     differs: (
       <p>
@@ -18,7 +17,6 @@ const COPY: Record<Id, { install: ReactNode; differs: ReactNode; stage: string }
     ),
   },
   windows: {
-    stage: "in alpha",
     install: (
       <p>
         Run the installer, which installs ilo for you alone and asks for no administrator. The
@@ -34,7 +32,6 @@ const COPY: Record<Id, { install: ReactNode; differs: ReactNode; stage: string }
     ),
   },
   linux: {
-    stage: "in beta",
     install: (
       <>
         <p>
@@ -79,7 +76,7 @@ export function PlatformPage({ id }: { id: Id }) {
       title={`ilo for ${one.name}`}
       lead={
         <>
-          A free, open-source browser, {copy.stage} for {one.name}: every part of your life in its
+          A free, open-source browser, {one.stage} for {one.name}: every part of your life in its
           own Space, a sidebar that tidies itself and one bar for every command, on Chromium, so
           your sites and Chrome's extensions work.
         </>

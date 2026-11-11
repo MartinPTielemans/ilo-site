@@ -12,7 +12,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: "Is ilo free?",
     answer:
-      "Yes. The whole browser is free on every computer it runs on, with no ads, no licence checks and no paid features. It's GPL-3.0, and it makes no money for now.",
+      "Yes. The whole browser is free on every computer it runs on, with no ads, no licence checks and no paid features. It's GPL-3.0, and it makes no money for now. If it ever charges for something, it will most likely be for hosting a service you can also host yourself, such as sync.",
   },
   {
     question: "Is ilo open source?",
@@ -26,7 +26,7 @@ export const FAQ: { question: string; answer: string }[] = [
   },
   {
     question: "Which computers does ilo run on?",
-    answer: `${PLATFORMS.map((platform) => `${platform.name}: ${platform.needs.charAt(0).toLowerCase()}${platform.needs.slice(1)}`).join(". ")}.`,
+    answer: `${PLATFORMS.map((platform) => `${platform.name}, ${platform.stage}: ${platform.needs.charAt(0).toLowerCase()}${platform.needs.slice(1)}`).join(". ")}.`,
   },
   {
     question: "Does ilo work with Chrome extensions?",

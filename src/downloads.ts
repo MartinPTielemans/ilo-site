@@ -1,8 +1,8 @@
 // What ilo is offered for, in the order the site names them. Each platform's file has one name in
 // every release (the browser repo's release.yml names them), so GitHub always serves the newest
 // release's at the same address. Taking a platform out of this list takes it out of the buttons and
-// the copy. `note` is the short word the list of computers gives it, and `needs` what the line
-// under the download button says it takes.
+// the copy. `note` is the short word the list of computers gives it, `needs` what the line
+// under the download button says it takes, and `stage` how far along ilo is there.
 export const PLATFORMS = [
   {
     id: "mac",
@@ -10,6 +10,7 @@ export const PLATFORMS = [
     file: "ilo-mac-arm64.dmg",
     note: "Apple silicon",
     needs: "macOS 15 Sequoia or later, on Apple silicon",
+    stage: "in beta",
   },
   {
     id: "windows",
@@ -17,6 +18,7 @@ export const PLATFORMS = [
     file: "ilo-windows-x64-setup.exe",
     note: "64-bit",
     needs: "64-bit Windows 10 or later",
+    stage: "in alpha",
   },
   {
     id: "linux",
@@ -24,6 +26,7 @@ export const PLATFORMS = [
     file: "ilo-linux-x86_64.flatpak",
     note: "x64",
     needs: "A Flatpak, for x64",
+    stage: "in beta",
   },
 ] as const;
 
