@@ -20,7 +20,7 @@ export const RELEASES: Release[] = [
     version: "0.1.15",
     date: "11 November 2026",
     summary:
-      "Sync takes your bookmarks, passwords and other encrypted data only when they arrive encrypted with your key, and drops anything else.",
+      "Sync takes only what arrives encrypted with your key, and the Mac and Windows can get nightly builds.",
     notes: [
       "On the Mac and Windows, Settings › About has Get nightly builds, for a copy that updates itself to each night's build from main.",
       "Sync takes your bookmarks, passwords and other encrypted data only when they arrive encrypted with your key, and drops anything else.",

@@ -5,6 +5,7 @@ import { CommandBar } from "../components/command-bar";
 import { Download, GetIlo } from "../components/download";
 import { Foot } from "../components/foot";
 import { Habits } from "../components/habits";
+import { Moving } from "../components/moving";
 import { Spaces } from "../components/spaces";
 import { Wordmark } from "../components/wordmark";
 import { SOURCE as GITHUB } from "../downloads";
@@ -14,16 +15,15 @@ import { pageHead, structuredData } from "../seo";
 const description = `ilo is a free, open-source browser: every part of your life in its own Space, a sidebar that tidies itself and one bar for every command, on Chromium. In beta for Mac and Linux, alpha on Windows.`;
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    ...pageHead({
+  head: () =>
+    pageHead({
       path: "/",
       title: "ilo: the free, open-source browser that keeps going",
       description,
+      data: structuredData(description),
     }),
-    scripts: [
-      { type: "application/ld+json", children: JSON.stringify(structuredData(description)) },
-    ],
-  }),
+  // The one page whose interactions need React in the browser (src/routes/__root.tsx).
+  staticData: { hydrates: true },
   component: Home,
 });
 
@@ -71,7 +71,7 @@ function Home() {
             </svg>
             <span>GitHub</span>
           </a>
-          <Download className="button" />
+          <Download className="button" brief />
         </nav>
       </header>
 
@@ -79,6 +79,7 @@ function Home() {
         <Spaces />
         <CommandBar />
         <Habits />
+        <Moving />
 
         {/* What it costs, what's open and where it runs, on tiles that step down. */}
         <section className="figures" aria-labelledby="figures-title">

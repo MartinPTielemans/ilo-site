@@ -1,8 +1,11 @@
-import { PLATFORMS, SOURCE, downloadUrl } from "./downloads";
+import { PLATFORMS, type Platform, SOURCE, downloadUrl } from "./downloads";
 
 // What search engines and link previews read. Scrapers (Facebook, LinkedIn, Slack, iMessage…)
 // take only absolute URLs, so everything here names the site's origin.
 export const SITE = "https://ilobrowser.com";
+
+/** Where the changelog's feed is served (src/feed.ts). */
+export const FEED = "/changelog.xml";
 
 /** The picture every shared link shows: a real capture of ilo, 1200 × 630. */
 export const SHARE_IMAGE = {
@@ -14,17 +17,20 @@ export const SHARE_IMAGE = {
 
 /**
  * A page's own head: its title and description for search results, the same for link previews,
- * and its one canonical address. The root route gives what every page shares.
+ * its one canonical address, and `data`, what it is as structured data for search engines. The
+ * root route gives what every page shares.
  */
 export function pageHead({
   path,
   title,
   description,
+  data,
 }: {
   /** The page's path, as "/help"; "/" for home. */
   path: string;
   title: string;
   description: string;
+  data?: object;
 }) {
   const url = path === "/" ? `${SITE}/` : `${SITE}${path}`;
   return {
@@ -36,10 +42,26 @@ export function pageHead({
       { property: "og:url", content: url },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
+      // In the head with the rest, so it's there on a page with no script of the framework's.
+      ...(data ? [{ "script:ld+json": data }] : []),
     ],
     links: [{ rel: "canonical", href: url }],
   };
 }
+
+/**
+ * The head of a platform's page, named for what people search: ilo for Linux. It's here, not with
+ * the page, because the router loads every page's head with the home page's script, and the page
+ * itself brings the changelog.
+ */
+export const platformHead = (id: Platform["id"]) => {
+  const { name, needs } = PLATFORMS.find((one) => one.id === id)!;
+  return pageHead({
+    path: `/${id}`,
+    title: `ilo for ${name}: a free, open-source browser`,
+    description: `Download ilo for ${name}, a free, open-source browser on Chromium (${needs.charAt(0).toLowerCase() + needs.slice(1)}): every part of your life in its own Space, a sidebar that tidies itself, one bar for every command and uBlock Origin built in.`,
+  });
+};
 
 /** The meta every page shares, whatever it's about. */
 export const SITE_META = [

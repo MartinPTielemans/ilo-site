@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PlatformPage, platformHead } from "../components/platform-page";
+import { PlatformPage } from "../components/platform-page";
+import { platformHead } from "../seo";
 
 export const Route = createFileRoute("/mac")({
   head: () => platformHead("mac"),

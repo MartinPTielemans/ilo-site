@@ -16,6 +16,7 @@ The name is written lowercase, "ilo", and is Esperanto for "a tool".
 - [ilo for Linux](https://ilobrowser.com/linux): a Flatpak, for x64
 - [Help](https://ilobrowser.com/help): how ilo works, and answers to common questions
 - [Changelog](https://ilobrowser.com/changelog): what changed in each version, with clips of the new features
+- [Changelog feed](https://ilobrowser.com/changelog.xml): the changelog as an Atom feed
 - [Privacy](https://ilobrowser.com/privacy): every service ilo talks to, and what it sends
 
 ## Source

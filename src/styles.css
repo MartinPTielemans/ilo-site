@@ -1289,6 +1289,61 @@ html:has(.meaning) {
   }
 }
 
+/* Moving in: a panel of the Reading Space's colour, the heading on one side and what a visitor
+   brings down the other, a line under each. */
+.moving {
+  margin-top: var(--gap);
+  padding: 0 var(--inset);
+}
+.crate {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas:
+    "say brings"
+    "more brings";
+  column-gap: clamp(40px, 5vw, 80px);
+  padding: clamp(40px, 5vw, 72px);
+  background: var(--reading);
+  color: var(--ink);
+}
+.moving h2 {
+  grid-area: say;
+  font-size: var(--s4);
+}
+.brings {
+  grid-area: brings;
+  display: grid;
+  list-style: none;
+  padding: 0;
+}
+.brings li {
+  display: grid;
+  gap: 6px;
+  padding: 22px 0;
+  border-top: 1.5px solid rgb(22 20 15 / 0.22);
+}
+.brings li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.brings li:last-child {
+  padding-bottom: 0;
+}
+.brings strong {
+  font-size: var(--s3);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.brings span {
+  max-width: 30em;
+}
+.more {
+  grid-area: more;
+  align-self: end;
+  font-size: var(--s1);
+}
+
 /* Yours to keep: three figures on tiles that step down, each with a quarter of the dot for a corner. */
 .figures {
   display: grid;
@@ -1613,6 +1668,30 @@ mark {
 .text section {
   margin-top: 64px;
 }
+/* A platform's download, and beside it the version it fetches, which leads to what's new in it. */
+.text .fetch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 32px;
+}
+.text .fetch a:not(.button) {
+  color: var(--soft);
+  text-decoration-color: rgb(243 240 232 / 0.3);
+}
+.text .fetch a:not(.button):hover {
+  color: var(--paper);
+}
+/* ilo itself on that platform, at the column's width, as the changelog's clips are. */
+.capture {
+  margin-top: 40px;
+}
+.capture img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--edge);
+}
 .text h2 {
   font-size: var(--s3);
   line-height: 1.1;
@@ -1881,6 +1960,13 @@ mark {
     transform: none;
   }
 
+  .crate {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "say" "brings" "more";
+    row-gap: 40px;
+    padding: 40px 28px 32px;
+  }
+
   .figures {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: auto;
@@ -1965,5 +2051,16 @@ mark {
   }
   .tile.free .figure {
     font-size: 15vw;
+  }
+}
+
+/* The narrowest phones: the header's button, at its longest when it sends ilo to a computer, keeps
+   clear of the wordmark. */
+@media (max-width: 359px) {
+  .links {
+    gap: 8px;
+  }
+  .top .button:not(.quiet) {
+    padding: 0 14px;
   }
 }

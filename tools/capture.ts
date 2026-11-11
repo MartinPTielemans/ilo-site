@@ -3,10 +3,14 @@
 //
 // It runs a dev build of ilo (app/build/Browser.app in the browser repo) with a throwaway profile,
 // on the Mac's built-in display, and drives it from inside with BROWSER_DRIVE=1, so no click or key
-// reaches another app. The stills come from screencapture, of ilo's window alone. ilo is on screen
-// for a few minutes, so run it on a Mac nobody is using. Its screen has to be retina: a VM's 1x
+// reaches another app. The stills come from screencapture, of ilo's window alone. ilo has to be the
+// app in front each of the two times it opens: only then does its command bar take an address, and
+// its window look like the one in use. So it runs where nobody is working, a Mac VM or a Mac left
+// alone, never under someone at theirs. With another app in front it waits two minutes for ilo to
+// come forward, which macOS lets no script do, and stops. The screen has to be retina: a 1x
 // screen gives half-size stills. The Work Space shows this site's /ilo page, served from dist/client
-// at a made-up host, so build the site first. Retake them whenever the app's look changes:
+// at a made-up host, so build the site first. Retake them whenever the app's look changes, and
+// tools/stills.sh makes the hero's pictures of what this leaves in the out folder:
 //
 //     vp build && node tools/capture.ts path/to/Browser.app path/to/out [--again]
 import { type ChildProcess, execFileSync, spawn } from "node:child_process";
@@ -34,22 +38,24 @@ const SITE = new URL("../dist/client/", import.meta.url).pathname;
 const WIDTH = 1280;
 const HEIGHT = 800;
 
+// How long the app may take to start, in seconds: a dev build's first launch after it's built loads
+// its engine's libraries cold, which alone can pass a minute.
+const LAUNCH = 180;
+
 // The site's own pages, at a host reserved for examples, so the shot names no one's real site.
 const HOST = "ilo.example";
 
 type Space = { name: string; color: number; pinned: string[]; today: string[] };
 
-// Each Space: its name, its colour, its pinned pages and its Today pages, the shown one first.
+// Each Space: its name, its colour, its pinned pages and its Today pages, the shown one first. They
+// are the Spaces the live interface opens over the stills (src/components/spaces.tsx), tab for
+// tab, so nothing in the sidebar changes when it takes their place.
 const SPACES: Space[] = [
   {
     name: "Work",
     color: 0x0e9f55,
     pinned: ["https://github.com/MartinPTielemans/ilo"],
-    today: [
-      `http://${HOST}/ilo`,
-      "https://doc.rust-lang.org/book/",
-      "https://github.com/zed-industries/zed",
-    ],
+    today: [`http://${HOST}/ilo`, "https://doc.rust-lang.org/book/", "https://lobste.rs/"],
   },
   {
     name: "Lisbon",
@@ -66,20 +72,20 @@ const SPACES: Space[] = [
     color: 0x5583bf,
     pinned: [],
     today: [
-      "https://publicdomainreview.org/",
-      "https://news.ycombinator.com/",
+      "https://www.gutenberg.org/",
       "https://en.wikipedia.org/wiki/Bauhaus",
+      "https://en.wikisource.org/wiki/Main_Page",
     ],
   },
 ];
 const FAVORITES = [
   "https://en.wikipedia.org/wiki/Main_Page",
-  "https://github.com/",
-  "https://www.openstreetmap.org/",
+  "https://archive.org/",
+  "https://commons.wikimedia.org/wiki/Main_Page",
 ];
-// A click, in points from the window's corner, once the page has loaded: its cookie dialog's
-// Decline, so the dialog stays away when the Space is shot.
-const CLICKS: Record<string, [number, number]> = { "https://publicdomainreview.org/": [347, 701] };
+// A click, in points from the window's corner, once the page has loaded: a cookie dialog's Decline,
+// so the dialog stays away when the Space is shot. None of today's pages opens one.
+const CLICKS: Record<string, [number, number]> = {};
 
 const PAGES = [...SPACES.flatMap((space) => [...space.pinned, ...space.today]), ...FAVORITES];
 
@@ -129,6 +135,8 @@ class App {
       BROWSER_PROFILE_DIR: PROFILE,
       BROWSER_DISPLAY: "builtin",
       BROWSER_DRIVE: "1",
+      // A new profile would play the onboarding first.
+      BROWSER_ONBOARDING: "skip",
     };
     delete env.BROWSER_URL;
     if (url) env.BROWSER_URL = url;
@@ -172,6 +180,19 @@ class App {
       throw new Error(`the driver can't do ${command}`);
     }
     return mark;
+  }
+
+  /** Waits until the app is the one in front, which takes a click on its window. */
+  async front(timeout = 120) {
+    const end = Date.now() + timeout * 1000;
+    for (let asked = false; ; asked = true) {
+      const mark = await this.send("state");
+      if (/^browser: drive \d+ done.* active 1/m.test(this.log.slice(mark))) return;
+      if (Date.now() > end) throw new Error("ilo wasn't brought in front, so nothing was captured");
+      if (!asked)
+        console.error("Click ilo's window, on the Mac's own screen, and leave it in front.");
+      await sleep(500);
+    }
   }
 
   async openTab(url: string) {
@@ -220,7 +241,8 @@ async function populate(binary: string, switches: string[]) {
   mkdirSync(PROFILE, { recursive: true });
   const app = new App(binary, switches, PAGES[0]);
   try {
-    await app.wait("^browser: loaded \\d+ ", 0, 60);
+    await app.wait("^browser: loaded \\d+ ", 0, LAUNCH);
+    await app.front();
     await app.send(`resize ${WIDTH} ${HEIGHT}`);
     for (const url of PAGES.slice(1)) {
       await app.openTab(url);
@@ -344,8 +366,9 @@ async function shoot(binary: string, switches: string[], out: string) {
     for (const [index, space] of SPACES.entries()) {
       if (index) mark = await app.send(`key ${index + 1} ctrl`);
       // A Space's tabs come back unloaded; the one it shows loads as it's shown.
-      const [, tab] = await app.wait("^browser: selected (\\d+)$", mark);
+      const [, tab] = await app.wait("^browser: selected (\\d+)$", mark, index ? 30 : LAUNCH);
       await app.wait(`^browser: loaded ${tab} `, mark, 60);
+      if (!index) await app.front();
       await app.send("move 1270 790");
       screenshot(app, join(out, `space-${space.name.toLowerCase()}.png`));
     }

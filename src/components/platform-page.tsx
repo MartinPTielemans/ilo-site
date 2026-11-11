@@ -1,14 +1,30 @@
 import type { ReactNode } from "react";
-import { PLATFORMS, type Platform, downloadUrl } from "../downloads";
-import { pageHead } from "../seo";
+import { RELEASES } from "../changelog";
+import { PLATFORMS, type Platform } from "../downloads";
+import { DownloadLink } from "./download";
 import { TextPage } from "./text-page";
 
 type Id = Platform["id"];
 
-/** What each platform's page says beyond what every one does: how to install, and what differs. */
-const COPY: Record<Id, { install: ReactNode; differs: ReactNode; stage: string }> = {
+/** A real capture of ilo on a platform: its picture at 1× and 2×, what it shows, and whose pages. */
+type Capture = { name: string; alt: string; credit: string };
+
+/**
+ * What each platform's page says beyond what every one does: how to install, what differs, and
+ * `capture`, ilo on that platform. A platform with no capture of its own shows none: another
+ * platform's window isn't what a visitor there would get.
+ */
+const COPY: Record<
+  Id,
+  { install: ReactNode; differs: ReactNode; stage: string; capture?: Capture }
+> = {
   mac: {
     stage: "in beta",
+    capture: {
+      name: "space-lisbon",
+      alt: "ilo on a Mac, in a Space called Lisbon: a warm brown sidebar with a map pinned, three tabs for the trip, and Wikivoyage's guide to Lisbon open.",
+      credit: "The capture shows Wikivoyage (CC BY-SA).",
+    },
     install: <p>Open the download and drag ilo into Applications.</p>,
     differs: (
       <p>
@@ -56,20 +72,12 @@ const COPY: Record<Id, { install: ReactNode; differs: ReactNode; stage: string }
 
 const platform = (id: Id) => PLATFORMS.find((one) => one.id === id)!;
 
-/** The head of `id`'s page, named for what people search: ilo for Linux. */
-export const platformHead = (id: Id) => {
-  const { name, needs } = platform(id);
-  return pageHead({
-    path: `/${id}`,
-    title: `ilo for ${name}: a free, open-source browser`,
-    description: `Download ilo for ${name}, a free, open-source browser on Chromium (${needs.charAt(0).toLowerCase() + needs.slice(1)}): every part of your life in its own Space, a sidebar that tidies itself, one bar for every command and uBlock Origin built in.`,
-  });
-};
-
 /** A platform's page: what ilo needs there, its download, and how to install and update it. */
 export function PlatformPage({ id }: { id: Id }) {
   const one = platform(id);
   const copy = COPY[id];
+  // The newest version the changelog has, with the day it came out.
+  const newest = RELEASES.find((release) => release.date);
   const updates =
     id === "linux"
       ? "Flatpak updates ilo with your other Flatpak apps."
@@ -84,12 +92,28 @@ export function PlatformPage({ id }: { id: Id }) {
           your sites and Chrome's extensions work.
         </>
       }
+      fine={copy.capture?.credit}
     >
-      <p>
-        <a className="button" href={downloadUrl(one)}>
-          Download for {one.name}
-        </a>
+      <p className="fetch">
+        <DownloadLink className="button" platform={one} />
+        {newest && (
+          <a href="/changelog">
+            ilo {newest.version}, {newest.date}
+          </a>
+        )}
       </p>
+
+      {copy.capture && (
+        <figure className="capture">
+          <img
+            src={`/media/${copy.capture.name}-1x.webp`}
+            srcSet={`/media/${copy.capture.name}-1x.webp 1x, /media/${copy.capture.name}.webp 2x`}
+            width={1280}
+            height={800}
+            alt={copy.capture.alt}
+          />
+        </figure>
+      )}
 
       <section>
         <h2>What it needs</h2>

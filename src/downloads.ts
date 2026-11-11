@@ -41,11 +41,21 @@ export const PLATFORM_LIST = PLATFORMS.map((platform) => platform.name)
   .replace(/, ([^,]*)$/, " and $1");
 
 /**
- * The platform a visitor's browser runs on, from its user agent; the first one for a phone or
- * anything else ilo isn't made for, since the prerendered page offers that one too.
+ * Whether ilo runs on a visitor's device, from its user agent: not on a phone, a tablet or a
+ * Chromebook. An iPad says it's a Mac, so its touch screen (`touches`, navigator.maxTouchPoints)
+ * tells it from one. The reading pages' script carries this function's source (src/reading.ts), so
+ * it uses nothing outside itself.
  */
-export function platformFor(agent: string): Platform {
-  const id = /Android|iPhone|iPad|CrOS/.test(agent)
+export function runsIlo(agent: string, touches = 0) {
+  return !/Android|iPhone|iPad|CrOS/.test(agent) && !(/Macintosh/.test(agent) && touches > 1);
+}
+
+/**
+ * The platform a visitor's computer runs, from its user agent, or none for a phone or anything else
+ * ilo isn't made for. It uses nothing outside itself either, for the same reason.
+ */
+export function platformIdFor(agent: string): Platform["id"] | undefined {
+  return /Android|iPhone|iPad|CrOS/.test(agent)
     ? undefined
     : /Windows/.test(agent)
       ? "windows"
@@ -54,5 +64,10 @@ export function platformFor(agent: string): Platform {
         : /Mac/.test(agent)
           ? "mac"
           : undefined;
+}
+
+/** The platform to offer a visitor: their computer's, or the first, as the prerendered page does. */
+export function platformFor(agent: string): Platform {
+  const id = platformIdFor(agent);
   return PLATFORMS.find((platform) => platform.id === id) ?? PLATFORMS[0];
 }

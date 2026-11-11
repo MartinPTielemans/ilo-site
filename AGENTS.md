@@ -31,6 +31,19 @@ serve.
   queries in effects and handlers only.
 - `src/entrances.ts` adds its classes outside React, which keeps them only on elements whose
   `className` React never changes. Listing one whose class follows state loses its entrance.
+- Only the home page runs React in the browser: a route does when it sets
+  `staticData: { hydrates: true }`. Every other page ships as its HTML and one inline script,
+  `src/reading.ts`, so state, effects and handlers in its components never run, and what such a page
+  does goes in that script. The script reaches the page as its own source: `reading` and the
+  functions handed to it use only their arguments and the browser.
+- A route file's `component` loads with its page; its `head`, and everything the file imports
+  outside the component, loads with the home page's script. Data as large as the changelog is
+  imported by components only.
+- The build's crawler takes every link that starts with `/` as a page to render and list in the
+  sitemap, `/help#part` as one of its own. Link to the page alone, and give a file the build writes
+  an entry in `pages` in `vite.config.ts` that turns both off, as the feed has.
+- `/changelog.xml` is an Atom feed the build writes from `src/changelog.ts` (`src/feed.ts`). A
+  release's `date` reads "29 October 2026", and the build fails on any other shape.
 - `src/routeTree.gen.ts` is written by the router plugin on every `vp dev` and `vp build`.
   Commit it, or a fresh clone fails the type check before its first build.
 - Files in `public/` are served from the root, so they're referenced as `/media/…`.

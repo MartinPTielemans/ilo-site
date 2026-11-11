@@ -1,7 +1,13 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
+import {
+  Asset,
+  HeadContent,
+  Scripts,
+  createRootRoute,
+  useMatches,
+  useTags,
+} from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { NotFound } from "../components/not-found";
-import { SITE_META } from "../seo";
+import { FEED, SITE_META } from "../seo";
 import css from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -26,22 +32,42 @@ export const Route = createRootRoute({
         crossOrigin: "anonymous",
       },
       { rel: "stylesheet", href: css },
+      // The changelog as a feed, which a feed reader finds from any page.
+      { rel: "alternate", type: "application/atom+xml", title: "ilo's changelog", href: FEED },
     ],
   }),
   shellComponent: Document,
-  notFoundComponent: NotFound,
 });
 
+// A page gets React in the browser only if its route says it needs it (staticData.hydrates), as the
+// home page does. Any other is finished as HTML: it gets no script of the framework's and no
+// preload of one, and what little it does is its own few lines (src/reading.ts).
 function Document({ children }: { children: ReactNode }) {
+  const hydrates = useMatches({
+    select: (matches) => matches.some((match) => match.staticData.hydrates),
+  });
   return (
     <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
+      <head>{hydrates ? <HeadContent /> : <Head />}</head>
       <body>
         {children}
-        <Scripts />
+        {hydrates && <Scripts />}
+        {!hydrates && import.meta.env.DEV && (
+          <script type="module" dangerouslySetInnerHTML={{ __html: RELOAD }} />
+        )}
       </body>
     </html>
   );
+}
+
+// While developing, a page without React still reloads when the site's source changes: the dev
+// server says so (vite.config.ts).
+const RELOAD = `import { createHotContext } from "/@vite/client";
+createHotContext("/reading").on("ilo:changed", () => location.reload());`;
+
+/** HeadContent without the scripts it would have the browser fetch ahead. */
+function Head() {
+  return useTags()
+    .filter((tag) => !(tag.tag === "link" && tag.attrs?.rel === "modulepreload"))
+    .map((tag) => <Asset {...tag} key={JSON.stringify(tag)} />);
 }
