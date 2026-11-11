@@ -17,6 +17,18 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.1.15",
+    date: "11 November 2026",
+    summary:
+      "Sync takes your bookmarks, passwords and other encrypted data only when they arrive encrypted with your key, and drops anything else.",
+    notes: [
+      "On the Mac and Windows, Settings › About has Get nightly builds, for a copy that updates itself to each night's build from main.",
+      "Sync takes your bookmarks, passwords and other encrypted data only when they arrive encrypted with your key, and drops anything else.",
+      "Sync no longer takes two kinds of data that Chromium never encrypts: another person's invitations to share a password, and Chromium's own priority preferences.",
+      "On Windows, a tab that an agent's page opens no longer takes your keyboard from where you were typing.",
+    ],
+  },
+  {
     version: "0.1.14",
     date: "10 November 2026",
     summary:
