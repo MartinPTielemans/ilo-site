@@ -305,11 +305,17 @@ export const RELEASES: Release[] = [
       "Hand a task to Claude or Codex from ⌘T, a reworked sidebar, text fields that move by words, and a crash fix for pages that ask for a device.",
     notes: [
       "⇥ in ⌘T hands Claude or Codex a task. Its card sits at the foot of the sidebar while it works.",
-      "The Space's name row lights like a tab row. Pressing it folds the pinned tabs, and its menu is reordered.",
+      {
+        text: "The Space's name row lights like a tab row. Pressing it folds the pinned tabs, and its menu is reordered.",
+        clip: "sidebar",
+      },
       "Favorites are larger tiles, at most four to a row.",
       "With more Spaces than fit, they share the switcher, and the Library's Space cards scroll sideways.",
       "The sidebar's list ends with room to spare and a foot line, and glides to the row you go to.",
-      "Split view: drag a tab to either side, ⌥ on a pane's ✕, add a favorite to a split, and a split's row has its own menu. ⌘W closes a pinned split whole, and ⌘Z brings a closed split back.",
+      {
+        text: "Split view: drag a tab to either side, ⌥ on a pane's ✕, add a favorite to a split, and a split's row has its own menu. ⌘W closes a pinned split whole, and ⌘Z brings a closed split back.",
+        clip: "split-view",
+      },
       "Text fields move, select and delete by words, and a double- or triple-click selects a word or the line.",
       "Tooltips show after the pointer rests, and name a button's keyboard shortcut, in the find bar, the command bar and the save-password offer.",
       "Removing a pinned tab offers Undo, and deleting a Space says its tabs go with it and that ⌘Z brings them back.",
