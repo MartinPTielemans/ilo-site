@@ -18,9 +18,8 @@ export const CLIPS = "/media/changelog";
 export const RELEASES: Release[] = [
   {
     version: "0.1.16",
-    date: "11 November 2026",
-    summary:
-      "Importing your open tabs from another browser at the first launch no longer closes ilo.",
+    date: "12 November 2026",
+    summary: "A fix for importing from another browser at the first launch.",
     notes: [
       "Importing your open tabs from another browser at the first launch no longer closes ilo.",
     ],
