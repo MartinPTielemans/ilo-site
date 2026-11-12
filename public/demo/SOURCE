@@ -1,6 +1,6 @@
 ilo_demo.js and ilo_demo_bg.wasm are ilo's interface built for the web from the browser repo,
-under the GPL in LICENSE, at this commit (branch spike/web-demo-8):
+under the GPL in LICENSE, at this commit (branch main):
 
-https://github.com/MartinPTielemans/ilo/tree/5b8fad1ec486b8a319a7a9888984af452bdbb5bd
+https://github.com/MartinPTielemans/ilo/tree/d93f257bb11b08c43b5ac4105353a9933dfb6b03
 
 The fonts in it are Outfit (OFL.txt) and Inter (Inter-OFL.txt), under the SIL Open Font License.
