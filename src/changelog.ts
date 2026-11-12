@@ -19,8 +19,11 @@ export const RELEASES: Release[] = [
   {
     version: "0.1.16",
     date: "11 November 2026",
-    summary: "Importing your open tabs from another browser at the first launch no longer closes ilo.",
-    notes: ["Importing your open tabs from another browser at the first launch no longer closes ilo."],
+    summary:
+      "Importing your open tabs from another browser at the first launch no longer closes ilo.",
+    notes: [
+      "Importing your open tabs from another browser at the first launch no longer closes ilo.",
+    ],
   },
   {
     version: "0.1.15",
