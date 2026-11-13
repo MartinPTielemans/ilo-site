@@ -3,9 +3,10 @@
 # check every half hour finds the newest release with a demo the site doesn't have yet. By hand,
 # `gh workflow run release.yml -f tag=v…`.
 # The release's ilo-demo.tar.gz, when it has one, replaces the demo in public/demo, and SOURCE
-# names the tag's commit, which the hero's caption links to as the GPL's offer of source. That's
-# committed to main by github-actions, without a sign-off, as the build is the browser repo's, and
-# the site is deployed. The download buttons need no change: they link the newest release.
+# names the tag's commit, which the home page's fine print links to as the GPL's offer of source.
+# That's committed to main by github-actions, without a sign-off, as the build is the browser
+# repo's, and the site is deployed. The download buttons need no change: they link the newest
+# release.
 name: Release
 
 on:

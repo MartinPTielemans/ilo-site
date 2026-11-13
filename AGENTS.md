@@ -31,6 +31,13 @@ serve.
   queries in effects and handlers only.
 - `src/entrances.ts` adds its classes outside React, which keeps them only on elements whose
   `className` React never changes. Listing one whose class follows state loses its entrance.
+- On a wide screen with a mouse the home page opens inside ilo: its head script (`WILL_LIVE` in
+  `src/live.ts`) marks `<html>` `will-live` before the first paint, the body stops scrolling, ilo's
+  interface draws around the page, and `.pitch` is the scroller. Whatever watches or sets the scroll
+  asks `scroller()` for it (null is the window), and sizes inside `.pitch` are the container's
+  (`cqw`), not the viewport's. `src/live.ts` adds its canvas, its frames, `data-live` and
+  `--px`, `--pw`, `--ph` outside React, so React renders none of them and never sets `style` or
+  those attributes on `.stage` or `.pages`.
 - Only the home page runs React in the browser: a route does when it sets
   `staticData: { hydrates: true }`. Every other page ships as its HTML and one inline script,
   `src/reading.ts`, so state, effects and handlers in its components never run, and what such a page
@@ -57,8 +64,8 @@ serve.
 - `public/demo` is the browser repo's build of the live interface (GPL), committed as built and
   left out of fmt and lint. Publishing a release in the browser repo replaces it:
   `.github/workflows/release.yml` takes the release's `ilo-demo.tar.gz`, points
-  `public/demo/SOURCE` at the tag's commit, which the hero's caption links to as the GPL's offer of
-  source, commits that to main as github-actions and deploys. Swap it by hand only in the same
+  `public/demo/SOURCE` at the tag's commit, which the home page's fine print links to as the GPL's
+  offer of source, commits that to main as github-actions and deploys. Swap it by hand only in the same
   shape: the files, the licences and SOURCE's commit in one commit.
 - Every push to main deploys to Cloudflare (`.github/workflows/deploy.yml`, `wrangler.jsonc`) once
   `vp check`, `vp test` and `vp build` pass, so main is always what ilobrowser.com serves.

@@ -47,7 +47,9 @@ function Document({ children }: { children: ReactNode }) {
     select: (matches) => matches.some((match) => match.staticData.hydrates),
   });
   return (
-    <html lang="en">
+    // The home page's script in the head marks the document before React takes it over
+    // (WILL_LIVE in src/live.ts), which is no mismatch to report.
+    <html lang="en" suppressHydrationWarning>
       <head>{hydrates ? <HeadContent /> : <Head />}</head>
       <body>
         {children}
