@@ -12,7 +12,7 @@ export const Route = createFileRoute("/ilo")({
   component: Meaning,
 });
 
-// The word's entry, as a dictionary gives it. It's also the page the hero's window has open.
+// The word's entry, as a dictionary gives it.
 function Meaning() {
   return (
     <main className="meaning">
