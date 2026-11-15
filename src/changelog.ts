@@ -44,7 +44,7 @@ export const RELEASES: Release[] = [
       "Agents see more of a page: a table's rows, a list's items, the options of a select or a picker, choice tiles whose buttons the page hid, and read-only fields, and they're told what changed in an element.",
       "An agent's screenshot covers whatever you or a password manager put in a field. Agents can't act on an extension's controls in a page, and an extension doesn't hear their input.",
       "An agent types as keys a page reads like yours, and a line break never sends a message. Its scroll to an element leaves room around it, so a sticky header doesn't hide it. Handing a tab to you, or moving it out of the agent's Space, stops the agent's action at once.",
-      "A click, key or typed text that comes while ilo is busy lands, in order, instead of being lost or closing ilo. Turning agents off, sharing a Today tab and ⌘T after Set Up no longer close ilo.",
+      "A click, key or typed text that comes while ilo is busy lands, in order, instead of being lost or closing ilo. Turning agents off, sharing a Today tab, ⌘T after Set Up and Copy Link Address in a page's right-click menu no longer close ilo.",
       "ilo's shortcuts, such as ⌘T and ⌘W, keep working while a tab shows one of the browser's dialogs. ⇧⌘W right after ⌘N closes the new window, not the one behind it, and an ⌥-click on a link still clicks it when your hand moves a little.",
       "On the Mac and Windows, a Mini Player thrown toward a corner settles there, and one let go near an edge settles along it.",
       "On the Mac, pages in Safari's engine no longer look up each address with Apple's site-safety service.",
