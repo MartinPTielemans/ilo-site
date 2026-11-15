@@ -65,7 +65,7 @@ const GLANCE = [
   {
     id: "daily-count",
     what: "A daily count",
-    when: "Once a day, unless you turn it off",
+    when: "Once a day, only if you turn it on",
     to: "ilo's server",
   },
   {
@@ -87,9 +87,9 @@ function Privacy() {
       title="Privacy"
       lead={
         <>
-          ilo needs no account, has no ads, and sells nothing about you. Once a day it sends one
-          anonymous count, which you can turn off. What leaves your computer is the pages you open,
-          that count and the few checks below, each with where it goes.
+          ilo needs no account, has no ads, and sells nothing about you. If you turn it on, it sends
+          one anonymous count a day. What leaves your computer is the pages you open, that count and
+          the few checks below, each with where it goes.
         </>
       }
     >
@@ -232,16 +232,16 @@ function Privacy() {
             </p>
           </dd>
 
-          <dt id="daily-count">A daily count, which you can turn off</dt>
+          <dt id="daily-count">A daily count, only if you turn it on</dt>
           <dd>
             <p>
               Once a day, about 30 seconds after ilo opens, or when you come back to it on a new
               day, ilo sends one count to ilo's server, so its makers know how many copies are in
               use. It says which version of ilo you have and whether it's a release or a nightly
               build, your operating system and its major version, and your chip. With it go four
-              yes-or-no answers: whether this is the copy's first run, and whether it's its first
-              count today, this week and this month. ilo works those out from the date of its last
-              count, the only thing it keeps for it.
+              yes-or-no answers: whether it's the copy's first count since you turned it on, and
+              whether it's its first today, this week and this month. ilo works those out from the
+              date of its last count, which it keeps with the fact that you turned it on.
             </p>
             <p>
               The count has no ID, so no two counts can be tied together or to you. It carries no
@@ -252,9 +252,11 @@ function Privacy() {
               count comes from; ilo-server doesn't keep or log it, but a proxy in front of it could.
             </p>
             <p>
-              Settings › Privacy › Send a daily usage count, on unless you turn it off, stops it at
-              once. The count goes to ilo's server whichever sync server you use, and a build of ilo
-              that names no server sends none.
+              It's off until you turn it on: the first switch of the last step when ilo first opens,
+              or Settings › Privacy › Send a daily usage count, which also turns it off again at
+              once. A copy that sent counts before it was off by default stops with the update that
+              made it so, and isn't asked again. The count goes to ilo's server whichever sync
+              server you use, and a build of ilo that names no server sends none.
             </p>
             <p className="hosts">
               <code className="path">sync.ilobrowser.com/v1/daily</code>
