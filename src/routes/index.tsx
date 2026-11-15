@@ -413,8 +413,8 @@ function Home() {
                 </dd>
                 <dt>Private</dt>
                 <dd>
-                  It needs no account. It sends one anonymous count a day, with no ID, and you can
-                  turn that off.
+                  It needs no account. It sends one anonymous count a day, with no ID, only if you
+                  turn that on.
                 </dd>
                 <dt>Compatible</dt>
                 <dd>
