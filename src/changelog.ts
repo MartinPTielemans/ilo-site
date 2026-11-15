@@ -55,7 +55,7 @@ export const RELEASES: Release[] = [
       "On Windows and Linux, Peek grows from the link and shrinks back into it, in the page's own colour, with no white flash. Report a Problem and Copy Build Info say how ilo is installed, with Windows' edition and processor, or Linux's session and desktop.",
       "On Linux, Shift+Alt-click does what ⌥-click does, for window managers that keep Alt-click for themselves. In the Flatpak, a crash now leaves a crash report, sent only with Send Crash Reports on.",
       "On Linux, under Wayland, ilo's fields paste what another app or a page copied, Korean keeps composing in the command bar, a shortcut that closes a tab or window from the page runs once, and the recovery words leave the clipboard on time even with ilo in the background.",
-      "On Linux, under X11, the command bar and other overlays hide with their window and come back with it, a click in the sidebar or the find bar keeps the keyboard there, and a drag onto the page widens the sidebar.",
+      "On Linux, under X11, the command bar and other overlays hide with their window and come back with it, a click in the sidebar or the find bar keeps the keyboard there, a drag onto the page widens the sidebar, and under KWin, Peek, a tab's dialog and the toast no longer draw over another app's window.",
     ],
   },
   {
