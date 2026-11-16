@@ -18,6 +18,7 @@ export const CLIPS = "/media/changelog";
 export const RELEASES: Release[] = [
   {
     version: "0.2.0",
+    date: "16 November 2026",
     summary:
       "Your browsing history now lives in the Library beside your closed tabs, a Boost can rearrange the pieces of a site's pages, and the sidebar can move to the right. Ad blocking gets its own Settings section, and agents read pages more fully while keeping your typing out of their screenshots.",
     notes: [
