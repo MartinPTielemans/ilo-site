@@ -17,11 +17,11 @@ export const Route = createFileRoute("/privacy")({
 // The services, each with the hosts it reaches, as the browser's code on main names them: the
 // branding files (app/branding/update-feed, app/branding/crash-reports, app/branding/daily-count),
 // core/crash_reports.cc's and core/daily_count.cc's traffic annotations, core/search.cc and
-// core/suggest.h, engine/README.md › What reaches Google, core/widevine.cc, tools/flatpak-repo.sh's
-// runtime repository, and uBlock Origin's own assets.json for the lists, and for sync core/sync.cc,
-// core/sync_guard.h, app/src/account.rs and ilo-server's README › What the server can see. It says
-// no more than the code does. Every host it names is in the browser's app/check/hosts.txt, whose
-// hosts run fails on any other the browser asks (#684).
+// core/suggest.h, core/link_card.cc, engine/README.md › What reaches Google, core/widevine.cc,
+// tools/flatpak-repo.sh's runtime repository, and uBlock Origin's own assets.json for the lists,
+// and for sync core/sync.cc, core/sync_guard.h, app/src/account.rs and ilo-server's README › What
+// the server can see. It says no more than the code does. Every host it names is in the browser's
+// app/check/hosts.txt, whose hosts run fails on any other the browser asks (#684).
 
 // The services below in a line each, as the page tells them: what, when and to whom. A change to a
 // service changes its row too.
@@ -29,7 +29,7 @@ const GLANCE = [
   {
     id: "pages",
     what: "The pages you open",
-    when: "As you browse and search",
+    when: "As you browse and search, and with ⇧ on a link",
     to: "Each site, and your search engine",
   },
   {
@@ -123,6 +123,12 @@ function Privacy() {
           A page you open, or preview with Peek, gets what any browser sends it: your IP address,
           the page you asked for and the cookies it set before. ilo blocks ads and trackers on every
           site unless you turn that off.
+        </p>
+        <p>
+          When you hold Shift (⇧) on a link, ilo asks that link's page for its title, description
+          and picture and shows them in a card. It sends no cookies with the request. The picture
+          can be on another site. Both sites see your IP address and the address they're asked for,
+          before you click. Settings › Links › Link cards turns this off.
         </p>
         <p>
           A search goes to your search engine when you press return: DuckDuckGo (
@@ -385,7 +391,7 @@ function Privacy() {
           <a href="https://github.com/MartinPTielemans/ilo-site/commits/main/src/routes/privacy.tsx">
             the site's history
           </a>
-          . Last changed 7 November 2026.
+          . Last changed 18 November 2026.
         </p>
       </section>
     </TextPage>
