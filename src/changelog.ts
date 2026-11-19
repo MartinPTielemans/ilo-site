@@ -17,6 +17,22 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.2.3",
+    summary:
+      "The keyboard and a screen reader now reach a Board's cards, and a Library row's menu opens by key. Agents are told at once when a page's own dialog stops them, and can close its tab.",
+    notes: [
+      "Boards: Tab reaches a Board's cards, in reading order from top to bottom, and goes from card to card, panning to one out of view. A screen reader names each card: a note by its first line, a picture, a drawing, a link by its text. The arrows move what's selected, with ⇧ for bigger steps, and each move is undone with ⌘Z. Delete puts the keyboard on the next card, Esc from a note's text puts it on the note, and ↩ on a link card opens it. A screen reader hears when a card is moved or deleted.",
+      "In the Library, with a row picked by ↓ and ↑, ⇧F10 or the menu key opens that row's menu under it, with the keyboard on its first item, so a Board's Duplicate and Delete are in reach of the keyboard. Esc closes it and leaves the row picked.",
+      "Agents: when a page in an agent's tab shows its own alert or other dialog, the agent is told at once, rather than left waiting, and can close the tab and the dialog with it. A tab in its Space it didn't open closes only once you say yes. An action whose page stops answering ends and says so. The activity log says when an agent's page paused at a dialog. A press in any of a watched agent's tabs takes that tab over, not only in the one it acted in last. A watched agent page that crashed shows the crash card in its place, and a press on it takes the tab over. A click on another picture in Pages while the watched page shrinks back watches that page.",
+      "⌘W pressed just as the tab you're on closes now closes the tab shown next, rather than nothing, so closing tabs fast never skips a press. While a page's dialog asks, ilo's shortcuts work from another page of the same site, such as one it opened in another window. A window showing no page, such as one on an empty Space, comes back where it was after a quit.",
+      "Each first-launch step puts the keyboard on its main button or first control, so a screen reader says each step as you go on to it, and a stray Space on the opt-ins can't turn a switch on. The search engine list shows the keyboard's ring.",
+      "Ad blocking's malware and phishing lists no longer update from a copy that stopped being updated, and a list older than the one ilo holds is passed over for the next. A Board's picture in Library › Boards takes the window's light or dark look, not the one it was saved in.",
+      "On the Mac, Go to Pane 1 to 4 (⌃⇧1 to ⌃⇧4) works on keyboard layouts where ⇧ and a digit type another character, such as Danish and German, from a page and from ilo's own controls.",
+      "On Windows and Linux, a screen reader names the command bar as it opens.",
+      "On Linux, Go to Pane 1 to 4 (Alt+Shift+1 to 4) works from ilo's own controls, such as the sidebar after F6, on keyboard layouts where Shift and a digit type another character. Orca names the Space, rather than an unnamed frame, as the command bar closes, and no longer says \"Matches\" as ilo launches. Under Wayland, after a shortcut shows another tab while Ctrl+L's command bar is open, the bar keeps your input method, so Japanese and other composed text can be typed into it, and a Board made from the sidebar's + keeps the keyboard on its name, so what you type names it.",
+    ],
+  },
+  {
     version: "0.2.1",
     summary:
       "Live Folders bring the GitHub pull requests waiting on you into your sidebar, a pinned GitHub tab previews them, Boards give you a canvas to collect things on, and ⇧ on a link shows what's behind it. The keyboard lands where you expect around dialogs, agents and screen readers on every platform.",
