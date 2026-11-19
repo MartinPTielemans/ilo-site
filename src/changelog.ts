@@ -18,6 +18,7 @@ export const CLIPS = "/media/changelog";
 export const RELEASES: Release[] = [
   {
     version: "0.2.3",
+    date: "20 November 2026",
     summary:
       "The keyboard and a screen reader now reach a Board's cards, and a Library row's menu opens by key. Agents are told at once when a page's own dialog stops them, and can close its tab.",
     notes: [
