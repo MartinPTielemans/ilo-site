@@ -18,6 +18,7 @@ export const CLIPS = "/media/changelog";
 export const RELEASES: Release[] = [
   {
     version: "0.2.1",
+    date: "19 November 2026",
     summary:
       "Live Folders bring the GitHub pull requests waiting on you into your sidebar, a pinned GitHub tab previews them, Boards give you a canvas to collect things on, and ⇧ on a link shows what's behind it. The keyboard lands where you expect around dialogs, agents and screen readers on every platform.",
     notes: [
