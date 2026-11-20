@@ -12,7 +12,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: "Is ilo free?",
     answer:
-      "Yes. The whole browser is free on every computer it runs on, with no ads, no licence checks and no paid features. It's GPL-3.0, and it makes no money for now. If it ever charges for something, it will most likely be for hosting a service you can also host yourself, such as sync.",
+      "Yes. The whole browser is free on every computer it runs on, with no ads, no licence checks and no paid features. It's GPL-3.0, and it makes no money. If it ever does, the browser itself stays free; any charge would probably be for hosting a service you can also run yourself, such as sync.",
   },
   {
     question: "Is ilo open source?",
