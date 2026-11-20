@@ -199,7 +199,7 @@ function Privacy() {
               from the first page, and fetches new ones about once a week from the hosts the lists
               come from. uBlock Origin may also add a list for your language. Those hosts see your
               IP address and that the lists were fetched; the blocking itself happens on your
-              computer, so nothing about the pages you visit goes with it. Settings › Privacy ›
+              computer, so nothing about the pages you visit goes with it. Settings › Ad Blocking ›
               Block ads and trackers turns it off, and a site's own controls turn it off there.
             </p>
             <p className="hosts">
