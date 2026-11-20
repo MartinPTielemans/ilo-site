@@ -28,14 +28,14 @@ function Changelog() {
         </>
       }
     >
-      {RELEASES.map((release) => {
+      {/* A release without its date isn't out, so the page doesn't name it yet. */}
+      {RELEASES.filter((release) => release.date).map((release) => {
         const shown = release.notes.filter((note) => typeof note !== "string");
         const listed = release.notes.filter((note) => typeof note === "string");
         return (
           <section key={release.version} className="release" id={release.version}>
             <h2>
-              <a href={`#${release.version}`}>{release.version}</a>{" "}
-              <span>{release.date ?? "Coming soon"}</span>
+              <a href={`#${release.version}`}>{release.version}</a> <span>{release.date}</span>
             </h2>
             <p>{release.summary}</p>
             {shown.map((note) => (
