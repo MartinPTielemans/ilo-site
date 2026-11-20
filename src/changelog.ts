@@ -3,7 +3,8 @@ export type Note = string | { text: string; clip: string };
 
 export type Release = {
   version: string;
-  /** The day it was published, as "29 October 2026"; none while it's still to come. */
+  /** The day it was published, as "29 October 2026"; none while it's still to come, which leaves it
+   * off the page and the feed. */
   date?: string;
   summary: string;
   notes: Note[];
@@ -32,6 +33,12 @@ export const RELEASES: Release[] = [
       "On Windows and Linux, a screen reader names the command bar as it opens.",
       "On Linux, Go to Pane 1 to 4 (Alt+Shift+1 to 4) works from ilo's own controls, such as the sidebar after F6, on keyboard layouts where Shift and a digit type another character. Orca names the Space, rather than an unnamed frame, as the command bar closes, and no longer says \"Matches\" as ilo launches. Under Wayland, after a shortcut shows another tab while Ctrl+L's command bar is open, the bar keeps your input method, so Japanese and other composed text can be typed into it, and a Board made from the sidebar's + keeps the keyboard on its name, so what you type names it.",
     ],
+  },
+  {
+    version: "0.2.2",
+    date: "19 November 2026",
+    summary: "A fix to when agents ask you first.",
+    notes: ["Agents: a request that may change something always asks first."],
   },
   {
     version: "0.2.1",
