@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead } from "../seo";
+import { FEED, pageHead } from "../seo";
 import { TextPage } from "../components/text-page";
 import { Clip } from "../components/clip";
 import { SOURCE } from "../downloads";
@@ -23,7 +23,8 @@ function Changelog() {
       lead={
         <>
           What changed in each version of ilo. Every change is in{" "}
-          <a href={`${SOURCE}/releases`}>the releases on GitHub</a>.
+          <a href={`${SOURCE}/releases`}>the releases on GitHub</a>, and a feed reader can follow
+          this page by <a href={FEED}>its feed</a>.
         </>
       }
     >

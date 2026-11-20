@@ -41,7 +41,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: "Does ilo collect my data?",
     answer:
-      "No. ilo needs no account, and has no analytics and no ads, and sends no record of how you use it. Crash reports leave your computer only if you choose to send them. ilobrowser.com/privacy lists every service ilo talks to.",
+      "Only one anonymous count a day, which you can turn off in Settings › Privacy. It says which version of ilo you have, your operating system and chip, and whether it's the copy's first run or its first count this week or month. It has no ID and nothing about the pages you visit or what you do in ilo. ilo needs no account and has no ads. Crash reports leave your computer only if you choose to send them. ilobrowser.com/privacy lists every service ilo talks to.",
   },
   {
     question: "Can I move my tabs and bookmarks to ilo?",

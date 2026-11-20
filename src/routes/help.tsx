@@ -6,15 +6,14 @@ import { SOURCE } from "../downloads";
 import { FAQ, faqData } from "../faq";
 
 export const Route = createFileRoute("/help")({
-  head: () => ({
-    ...pageHead({
+  head: () =>
+    pageHead({
       path: "/help",
       title: "Help · ilo",
       description:
         "How to use ilo: installing it on Mac, Windows and Linux, Spaces and profiles, tabs, the command bar, split view, extensions, ad blocking and updates, and answers to common questions.",
+      data: faqData(),
     }),
-    scripts: [{ type: "application/ld+json", children: JSON.stringify(faqData()) }],
-  }),
   component: Help,
 });
 
