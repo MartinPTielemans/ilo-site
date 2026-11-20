@@ -134,7 +134,7 @@ export function PlatformPage({ id }: { id: Id }) {
         <h2>Privacy</h2>
         <p>
           ilo blocks ads and trackers with uBlock Origin, built in, and needs no account. It sends
-          one anonymous count a day, which you can turn off, and crash reports only if you say so.{" "}
+          one anonymous count a day only if you turn that on, and crash reports only if you say so.{" "}
           <a href="/privacy">Privacy</a> lists every service it talks to.
         </p>
         {copy.differs}
