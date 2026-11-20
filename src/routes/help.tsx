@@ -119,7 +119,7 @@ function Help() {
           Chrome's extensions work in ilo: install them from the Chrome Web Store, and find them in
           the Extensions menu. ilo blocks ads and trackers from the start. If a site breaks, turn
           blocking off for that site in Site Controls, the button in the address field, or
-          everywhere in Settings › General.
+          everywhere in Settings › Ad Blocking.
         </p>
       </section>
 
