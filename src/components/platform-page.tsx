@@ -14,12 +14,8 @@ type Capture = { name: string; alt: string; credit: string };
  * `capture`, ilo on that platform. A platform with no capture of its own shows none: another
  * platform's window isn't what a visitor there would get.
  */
-const COPY: Record<
-  Id,
-  { install: ReactNode; differs: ReactNode; stage: string; capture?: Capture }
-> = {
+const COPY: Record<Id, { install: ReactNode; differs: ReactNode; capture?: Capture }> = {
   mac: {
-    stage: "in beta",
     capture: {
       name: "space-lisbon",
       alt: "ilo on a Mac, in a Space called Lisbon: a warm brown sidebar with a map pinned, three tabs for the trip, and Wikivoyage's guide to Lisbon open.",
@@ -34,7 +30,6 @@ const COPY: Record<
     ),
   },
   windows: {
-    stage: "in alpha",
     install: (
       <p>
         Run the installer, which installs ilo for you alone and asks for no administrator. The
@@ -50,7 +45,6 @@ const COPY: Record<
     ),
   },
   linux: {
-    stage: "in beta",
     install: (
       <>
         <p>
@@ -87,7 +81,7 @@ export function PlatformPage({ id }: { id: Id }) {
       title={`ilo for ${one.name}`}
       lead={
         <>
-          A free, open-source browser, {copy.stage} for {one.name}: every part of your life in its
+          A free, open-source browser, {one.stage} for {one.name}: every part of your life in its
           own Space, a sidebar that tidies itself and one bar for every command, on Chromium, so
           your sites and Chrome's extensions work.
         </>
