@@ -18,6 +18,15 @@ export const CLIPS = "/media/changelog";
 // tools/clip.sh makes from a recording and its name here, on the note it shows.
 export const RELEASES: Release[] = [
   {
+    version: "0.2.5",
+    date: "21 November 2026",
+    summary: "A privacy fix on Linux, and a newer ad blocker.",
+    notes: [
+      "Linux: ilo no longer writes URLs you open to standard error, which GNOME keeps in the system journal. Earlier versions did, in Incognito too; nothing left your computer. Existing entries stay until the journal drops them or you clear it, and ilo’s Clear Browsing Data doesn’t remove them.",
+      "Ad blocking: uBlock Origin is now 1.76.6, which has its latest security fixes.",
+    ],
+  },
+  {
     version: "0.2.3",
     date: "20 November 2026",
     summary:
